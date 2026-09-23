@@ -1,0 +1,42 @@
+input_graph: minimizer Jaccard kNN rebuilt from assembly contigs
+graph_construction_method: canonical 4-mer cosine, symmetrized top-k; 21-mer Jaccard
+  between disjoint contigs fell below min_sim
+k: 4
+assembler: contigs already present in the dataset bundle
+tca_method: kraken2 k-mer counts rolled to species, aggregation=probability_sum
+taxonomic_database: kraken2 report shipped with the dataset
+taxonomy_database_version: samovar10/kraken2/whole_contig.report
+classifier: kraken2
+resolver: initial_colouring
+resolver_parameters:
+  source: kraken2 classified taxid
+  rollup: S
+  assignment: hard
+profiling_method: length-weighted posterior; assigned_reads is 0 because no read-to-graph
+  map is in the bundle
+software_version: 0.1.0
+random_seed: 0
+graph_note: samovar10/graph/graph_meta.txt records top_k=8 and min_sim=0.15
+tocumg:
+  cfa: /mnt/tank/scratch/partition-metagenomics/smuteam/vaegbin_improved/intermediate/samovar10/tocumg/cfa
+  cdbg: /mnt/tank/scratch/partition-metagenomics/smuteam/vaegbin_improved/intermediate/samovar10/tocumg/cdbg
+  n_nodes: 399
+  n_edges: 4450
+  n_colours: 17
+  topology_unchanged: true
+metrics:
+  dataset: samovar10
+  hypothesis: initial_colouring
+  l1: 0.15859986355201924
+  bray_curtis: 0.07929993177600958
+  pearson: 0.9478865537284721
+  spearman: 0.9193957067029038
+  precision: 0.9607843137254901
+  recall: 0.9051840599009437
+  f1: 0.913028941859366
+  accuracy: 0.9147869674185464
+  path_consistency: 0.8835955056179775
+  unclassified_fraction: 0.015402659329863374
+  unclassified_bases: 605111.0
+  n_nodes: 399.0
+unclassified_reads: 0
