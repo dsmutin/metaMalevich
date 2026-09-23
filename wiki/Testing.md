@@ -7,7 +7,7 @@
 | `examples/toy/data/` | toy CLI output |
 | `tests/test_colouring.py` | taxonomy, multi-label colours, toy L1 |
 | `samovar10/` | closed community, 10 genomes, whole-contig Kraken2, 399 contigs |
-| `samovar10_ont1b/` | same community layout with the ONT Kraken2 table |
+| `samovar10_ont1b/` | byte-identical inputs to `samovar10`; not a scored dataset |
 | `intermediate/{dataset}/` | Kraken counts, kNN edges, CFA, CDBG (not committed) |
 | `benchmark/{hypothesis}/{dataset}/` | profile, node assignments, metrics |
 

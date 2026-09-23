@@ -19,7 +19,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--version", action="store_true", help="print version and exit")
     parser.add_argument("-o", "--output", default="-", help="output path or - for stdout")
     parser.add_argument("command", nargs="?", choices=["bench", "pipeline"], help="run the dataset benchmark")
-    parser.add_argument("--data-root", default=".", help="directory that contains samovar10 and samovar10_ont1b")
+    parser.add_argument("--data-root", default=".", help="directory that contains samovar10")
     parser.add_argument("--dataset", action="append", dest="datasets", help="dataset name; repeat to run several")
     parser.add_argument("--benchmark", default="benchmark", help="directory for hypothesis outputs")
     parser.add_argument(

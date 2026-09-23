@@ -5,7 +5,8 @@ Check a box only after mandatory tests pass.
 - [x] Taxonomy, TCA colour layers, and explicit aggregations
 - [x] Deterministic and edge-aware resolvers, length-weighted reprofile
 - [x] MetaMetro CFA to ToCUMG export
-- [x] Benchmark hypotheses on samovar10 and samovar10_ont1b
+- [x] Benchmark hypotheses on samovar10
+- [x] Skip samovar10_ont1b; its inputs duplicate samovar10
 - [x] Count unpredicted truth species as F1 0
 - [x] Record 4-mer graph provenance without machine paths
 - [x] Rebuild cached graphs and Kraken counts when inputs change

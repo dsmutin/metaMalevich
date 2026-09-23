@@ -36,16 +36,6 @@ DATASETS = {
         "min_sim": 0.15,
         "graph_note": "samovar10/graph/graph_meta.txt records top_k=8 and min_sim=0.15",
     },
-    "samovar10_ont1b": {
-        "fasta": "samovar10_ont1b/assembly/assembly.fasta",
-        "kraken": "samovar10_ont1b/kraken2/whole_contig.output",
-        "report": "samovar10_ont1b/kraken2/whole_contig.report",
-        "truth": "samovar10_ont1b/ground_truth/ground_truth.csv",
-        "abundance": "samovar10_ont1b/ground_truth/genome_to_taxonomy.csv",
-        "top_k": 8,
-        "min_sim": 0.15,
-        "graph_note": "samovar10_ont1b/graph/graph_meta.txt records top_k=8 and min_sim=0.15",
-    },
 }
 
 INPUT_GRAPH = "canonical 4-mer cosine kNN rebuilt from assembly contigs"

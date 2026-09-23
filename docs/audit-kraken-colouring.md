@@ -31,7 +31,7 @@ The kNN edge list that `graph_meta.txt` describes was not stored, and `mean_weig
 
 `strong100` is not in the scored benchmark. Its assembly-graph nodes and its ground-truth contig ids are different sequences (lengths do not match), and this tree has no path map between them.
 
-`samovar10_ont1b` assembly FASTA, whole-contig Kraken2 output, and ground truth are byte-identical to `samovar10`. The second benchmark folder repeats the same run.
+`samovar10_ont1b` assembly FASTA, whole-contig Kraken2 output, and ground truth are byte-identical to `samovar10`. It is not a default dataset.
 
 ## Measured profiles
 

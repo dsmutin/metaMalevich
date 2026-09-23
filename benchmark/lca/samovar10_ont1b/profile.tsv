@@ -1,5 +1,0 @@
-taxon_id	rank	name	estimated_abundance	relative_abundance	assigned_bases	assigned_reads	unique_bases	shared_bases	ambiguous_bases	confidence
-584	S	Proteus mirabilis	3295082.0	0.08387390992721147	3295082.0	0	3295082.0	0.0	0.0	1.0
-99807	S	Corynebacterium auriscanis	2500000.0	0.06363567729665869	2500000.0	0	2500000.0	0.0	0.0	1.0
-2058762	S	Flagellimonas sp.	100000.0	0.0025454270918663473	100000.0	0	100000.0	0.0	0.0	1.0
-2917965	S	Roseateles chitinivorans	1800000.0	0.04581768765359425	1800000.0	0	1800000.0	0.0	0.0	1.0

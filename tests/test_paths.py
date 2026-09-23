@@ -12,6 +12,13 @@ from metamalevich.native import tool_source
 pytestmark = pytest.mark.mandatory
 
 
+def test_default_dataset_is_samovar10_only() -> None:
+    """samovar10_ont1b repeats samovar10 and is not scored again."""
+    from metamalevich.bench import DATASETS
+
+    assert list(DATASETS) == ["samovar10"]
+
+
 def test_tool_source_finds_the_repository_sources() -> None:
     """C++ sources ship with the repository, not only with one checkout path."""
     source = tool_source("kraken_count")
