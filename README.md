@@ -1,8 +1,8 @@
 # metamalevich
 
-[![version](https://img.shields.io/badge/dynamic/file?url=https%3A%2F%2Fraw.githubusercontent.com%2Fdsmutin%2FmetaMalevich%2Fmain%2FVERSION&label=version&color=blue)](VERSION)
-[![required tests](https://img.shields.io/github/actions/workflow/status/dsmutin/metaMalevich/required-tests.yml?branch=main&label=required%20tests)](https://github.com/dsmutin/metaMalevich/actions/workflows/required-tests.yml)
-[![full tests](https://img.shields.io/github/actions/workflow/status/dsmutin/metaMalevich/full-tests.yml?branch=main&label=full%20tests)](https://github.com/dsmutin/metaMalevich/actions/workflows/full-tests.yml)
+[![version](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2Fdsmutin%2FmetaMalevich%2Fmaster%2FVERSION&query=%24&label=version&color=blue)](VERSION)
+[![required tests](https://img.shields.io/github/actions/workflow/status/dsmutin/metaMalevich/required-tests.yml?branch=master&label=required%20tests)](https://github.com/dsmutin/metaMalevich/actions/workflows/required-tests.yml)
+[![full tests](https://img.shields.io/github/actions/workflow/status/dsmutin/metaMalevich/full-tests.yml?branch=master&label=full%20tests)](https://github.com/dsmutin/metaMalevich/actions/workflows/full-tests.yml)
 [![warning](https://img.shields.io/badge/warning-in%20development-yellow)](https://shields.io/badges/static-badge)
 
 Improve metagenomic taxonomic re-profiling with coloured assembly graphs

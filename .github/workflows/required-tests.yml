@@ -1,10 +1,12 @@
 name: required tests
 
+# Default branch of this repository is master. A filter that names only
+# main never matches a push, so Actions does not start the workflow.
 on:
   push:
-    branches: [main]
+    branches: [master, main]
   pull_request:
-    branches: [main]
+    branches: [master, main]
   workflow_dispatch:
 
 jobs:
