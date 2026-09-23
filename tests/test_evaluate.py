@@ -6,9 +6,16 @@ from pathlib import Path
 
 import pytest
 
-from metamalevich.evaluate import abundance_scores, classification_scores
+from metamalevich.evaluate import abundance_scores, classification_scores, neighbour_agreement
 
 pytestmark = pytest.mark.mandatory
+
+
+def test_neighbour_agreement_counts_matching_endpoints() -> None:
+    """Agreement is the share of edges whose classified endpoints match."""
+    edges = [{"source": "a", "target": "b"}, {"source": "b", "target": "c"}]
+    predicted = {"a": {1: 1.0}, "b": {1: 1.0}, "c": {2: 1.0}}
+    assert neighbour_agreement(edges, predicted) == pytest.approx(0.5)
 
 
 def test_unpredicted_truth_taxon_scores_zero() -> None:

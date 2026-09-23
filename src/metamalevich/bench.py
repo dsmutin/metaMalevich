@@ -15,7 +15,7 @@ import yaml
 from metamalevich import __version__
 from metamalevich.aggregate import aggregate, normalize, roll_counts
 from metamalevich.bridge import export_tocumg
-from metamalevich.evaluate import abundance_scores, classification_scores, path_consistency
+from metamalevich.evaluate import abundance_scores, classification_scores, neighbour_agreement
 from metamalevich.evidence import colours_from_weights, make_layer
 from metamalevich.evidence import EvidenceGraph
 from metamalevich.native import kmer_graph, kraken_counts, tool_source
@@ -434,7 +434,7 @@ def _write_hypothesis(
         "recall": classification["recall"],
         "f1": classification["f1"],
         "accuracy": classification["accuracy"],
-        "path_consistency": path_consistency(edges, distributions),
+        "neighbour_agreement": neighbour_agreement(edges, distributions),
         "unclassified_fraction": summary["unclassified_fraction"],
         "unclassified_bases": summary["unclassified_bases"],
         "n_nodes": classification["n_nodes"],
@@ -521,7 +521,7 @@ def run_benchmark(
         "recall",
         "f1",
         "accuracy",
-        "path_consistency",
+        "neighbour_agreement",
         "unclassified_fraction",
     ]
     write_tsv(summary / "metrics.tsv", rows, columns)

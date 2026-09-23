@@ -130,8 +130,13 @@ def abundance_scores(predicted: dict[int, float], truth: dict[int, float]) -> di
     }
 
 
-def path_consistency(edges: list[dict], predicted: dict[str, dict[int, float]]) -> float | None:
-    """Fraction of edges whose endpoint argmax taxa are equal and not unclassified."""
+def neighbour_agreement(edges: list[dict], predicted: dict[str, dict[int, float]]) -> float | None:
+    """Fraction of edges whose endpoint argmax taxa are equal and not unclassified.
+
+    These edges are composition neighbours. A smoother that mixes a node with
+    its neighbours raises this number by construction, so it is not an
+    independent measure of taxonomic correctness.
+    """
     if not edges:
         return None
     same = 0
