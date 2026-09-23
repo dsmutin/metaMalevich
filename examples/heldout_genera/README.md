@@ -36,7 +36,7 @@ python examples/heldout_genera/run_example.py
 
 Stages resume. `--stage download` only fetches and validates assemblies. Samovar `generate` writes the InSilicoSeq pipeline; the script then runs `work/iss/.generate/generate.sh`. Samovar `build --type kraken2 --no-example-omit` indexes the database half. Its snakemake preprocess is given `mutation_rate: 0`; the Kraken2 index is built from the unmodified FASTA directory. `samovar build --type kaiju` downloads the latest RefSeq proteome for each taxid, which is not the pinned assembly, so Kaiju is built with Samovar's `add_database_kaiju(..., fetch_missing=False)` on those FASTA files (6-frame translation only).
 
-MEGAHIT uses the documented `--presets meta-sensitive` and `--keep-tmp-files`. The assembly graph is `megahit_toolkit contig2fastg` on the highest intermediate `k*.contigs.fa`. If that file is absent, the script says so and falls back to the canonical 4-mer cosine graph, labelled `canonical_4mer_knn` rather than as an assembly graph.
+Measured scores and the error breakdown are in `RESULTS.md`. MEGAHIT uses the documented `--presets meta-sensitive` and `--keep-tmp-files`. The assembly graph is `megahit_toolkit contig2fastg` on the highest `k<int>.contigs.fa` (not `k<int>.final.contigs.fa`, which the toolkit writes as an empty FASTG). Reverse-complement FASTG records are dropped. The example does not replace a missing assembly graph with a 4-mer kNN. When MetaMetro imports, the same graph is written as a coloured CFA and CDBG under `work/reprofile/tocumg/`. The CFA metadata field `graph_type` is the library's fixed label; the example records the graph as `megahit_fastg`.
 
 ## Scores
 

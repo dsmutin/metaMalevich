@@ -55,7 +55,18 @@ def test_fastg_links_and_megahit_coverage() -> None:
     assert edges[0]["target"] == "NODE_2" and edges[0]["orientation"] == "++"
     assert edges[1]["target"] == "NODE_3" and edges[1]["orientation"] == "+-"
     assert community.megahit_coverage(">k141_1 flag=1 multi=2.5 len=9") == pytest.approx(2.5)
+    assert community.megahit_coverage(">NODE_1_length_342_cov_2.0000_ID_1;") == pytest.approx(2.0)
     assert community.megahit_coverage(">plain") is None
+    names = ["k99.final.contigs.fa", "k141.contigs.fa", "k21.contigs.fa", "k99.contigs.fa"]
+    assert community.highest_megahit_contigs(names).endswith("k141.contigs.fa")
+    edges, sequences = community.assembly_graph_from_fastg(
+        ">NODE_1_length_4_cov_2.0_ID_1:NODE_2_length_4_cov_1.0_ID_2';\nACGT\n"
+        ">NODE_1_length_4_cov_2.0_ID_1';\nACGT\n"
+        ">NODE_2_length_4_cov_1.0_ID_2;\nTTTT\n"
+    )
+    assert set(sequences) == {"NODE_1_length_4_cov_2.0_ID_1", "NODE_2_length_4_cov_1.0_ID_2"}
+    assert len(edges) == 1
+    assert edges[0]["target"] == "NODE_2_length_4_cov_1.0_ID_2"
 
 
 def test_species_walk_skips_strain_ranks() -> None:

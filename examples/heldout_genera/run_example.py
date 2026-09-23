@@ -21,11 +21,12 @@ from pathlib import Path
 import yaml
 
 from community import (
+    assembly_graph_from_fastg,
+    highest_megahit_contigs,
     iss_key,
     load_pairs,
     lognormal_read_counts,
     megahit_coverage,
-    parse_fastg,
     presence_f1,
     r_squared,
     sequence_digest,
@@ -614,21 +615,20 @@ def stage_assemble() -> None:
         )
     toolkit = shutil.which("megahit_toolkit")
     fastg = out / "assembly.fastg"
-    if toolkit and not fastg.is_file():
+    if toolkit and (not fastg.is_file() or fastg.stat().st_size == 0):
         usage = _help_text(toolkit)
         (out / "toolkit_help.txt").write_text(usage, encoding="utf-8")
         if "contig2fastg" not in usage:
             _log(log_path, "megahit_toolkit help does not mention contig2fastg; assembly graph was not exported")
             return
         k_dir = out / "intermediate_contigs"
-        candidates = sorted(k_dir.glob("k*.contigs.fa")) if k_dir.is_dir() else []
-        if not candidates:
-            _log(log_path, "MEGAHIT kept no intermediate contigs; assembly graph was not exported")
+        names = [path.name for path in k_dir.iterdir()] if k_dir.is_dir() else []
+        chosen = highest_megahit_contigs(names)
+        if chosen is None:
+            _log(log_path, "MEGAHIT kept no k<int>.contigs.fa; assembly graph was not exported")
             return
-        source = candidates[-1]
+        source = k_dir / Path(chosen).name
         k_value = source.name.split(".", 1)[0][1:]
-        if not k_value.isdigit():
-            raise SystemExit(f"cannot read k from {source.name}")
         completed = subprocess.run(
             [toolkit, "contig2fastg", k_value, str(source)],
             capture_output=True,
@@ -797,31 +797,53 @@ def _append_comparison(lines, method, predicted, truth, names) -> None:
 
 
 def _graph_inputs() -> tuple[Path, list[dict], str] | None:
-    """Prefer the MEGAHIT FASTG. Otherwise build the labelled 4-mer kNN on final contigs."""
+    """Use the MEGAHIT assembly graph. Do not substitute a 4-mer kNN."""
     fastg = WORK / "megahit" / "assembly.fastg"
-    if fastg.is_file() and fastg.stat().st_size > 0:
-        edges, sequences = parse_fastg(fastg.read_text(encoding="utf-8", errors="replace"))
-        fasta = WORK / "megahit" / "graph_nodes.fa"
-        chunks = []
-        for node_id, sequence in sequences.items():
-            chunks.append(f">{node_id}\n")
-            for start in range(0, len(sequence), 80):
-                chunks.append(sequence[start : start + 80] + "\n")
-        fasta.write_text("".join(chunks), encoding="utf-8")
-        known = set(sequences)
-        edges = [edge for edge in edges if edge["source"] in known and edge["target"] in known]
-        return fasta, edges, "megahit_fastg"
-    contigs = WORK / "megahit" / "final.contigs.fa"
-    if not contigs.is_file() or contigs.stat().st_size == 0:
+    if not fastg.is_file() or fastg.stat().st_size == 0:
         return None
-    sys.path.insert(0, str(ROOT / "src"))
-    from metamalevich.bench import _load_edges
-    from metamalevich.native import kmer_graph
+    edges, sequences = assembly_graph_from_fastg(fastg.read_text(encoding="utf-8", errors="replace"))
+    fasta = WORK / "megahit" / "graph_nodes.fa"
+    chunks = []
+    for node_id, sequence in sequences.items():
+        chunks.append(f">{node_id}\n")
+        for start in range(0, len(sequence), 80):
+            chunks.append(sequence[start : start + 80] + "\n")
+    fasta.write_text("".join(chunks), encoding="utf-8")
+    _log(WORK / "commands.log", f"megahit_fastg nodes={len(sequences)} edges={len(edges)}")
+    return fasta, edges, "megahit_fastg"
 
-    edges_path = WORK / "reprofile" / "knn_edges.tsv"
-    edges_path.parent.mkdir(parents=True, exist_ok=True)
-    kmer_graph(contigs, edges_path, top_k=8, min_sim=0.15)
-    return contigs, _load_edges(edges_path), "canonical_4mer_knn"
+
+def _export_assembly_tocumg(sequences, edges, evidence, edge_dist, scientific) -> None:
+    """Write a coloured CFA and CDBG for the assembly graph when MetaMetro imports."""
+    destination = WORK / "reprofile" / "tocumg"
+    marker = destination / "export.json"
+    if marker.is_file():
+        return
+    sys.path.insert(0, str(ROOT / "src"))
+    from metamalevich.bridge import export_tocumg
+
+    node_taxa = {node_id: [taxon_id for taxon_id in dist if taxon_id != 0] for node_id, dist in evidence.items()}
+    edge_taxa = {edge_id: [taxon_id for taxon_id in dist if taxon_id != 0] for edge_id, dist in edge_dist.items()}
+    names = {taxon_id: scientific.get(taxon_id, str(taxon_id)) for taxon_id in {taxon for taxa in node_taxa.values() for taxon in taxa}}
+    try:
+        record = export_tocumg(
+            root=ROOT,
+            graph_id="heldout_genera",
+            sequences=sequences,
+            edges=edges,
+            node_taxa=node_taxa,
+            edge_taxa=edge_taxa,
+            taxonomy_names=names,
+            destination=destination,
+            relative_to=ROOT,
+        )
+    except Exception as exc:
+        _log(WORK / "commands.log", f"ToCUMG export failed: {exc}")
+        return
+    # export_tocumg labels every graph as knn in CFA metadata. This graph is the FASTG.
+    record["example_graph"] = "megahit_fastg"
+    marker.write_text(json.dumps(record, indent=2) + "\n", encoding="utf-8")
+    _log(WORK / "commands.log", f"ToCUMG export {record}")
 
 
 def _assembly_profiles(parents, ranks, scientific, truth) -> list[tuple[str, list[str]]]:
@@ -837,7 +859,7 @@ def _assembly_profiles(parents, ranks, scientific, truth) -> list[tuple[str, lis
 
     found = _graph_inputs()
     if found is None:
-        raise SystemExit("MEGAHIT produced no contigs and no FASTG")
+        raise SystemExit("MEGAHIT assembly graph is missing; the example does not substitute a 4-mer kNN")
     fasta, edges, graph_name = found
     classify = WORK / "reprofile"
     classify.mkdir(parents=True, exist_ok=True)
@@ -869,6 +891,8 @@ def _assembly_profiles(parents, ranks, scientific, truth) -> list[tuple[str, lis
     evidence, _raw = _evidence_distributions(counts, taxonomy, calls)
     calls_dist = {node_id: _one_hot_call(calls.get(node_id, 0), taxonomy) for node_id in evidence}
     edge_dist = edge_distributions(edges, evidence) if edges else {}
+    sequences = dict(read_fasta(fasta))
+    _export_assembly_tocumg(sequences, edges, evidence, edge_dist, scientific)
     resolved = {
         "initial_colouring": hard_assignment(calls_dist),
         "probability_sum": evidence,
@@ -877,7 +901,6 @@ def _assembly_profiles(parents, ranks, scientific, truth) -> list[tuple[str, lis
     if edges:
         resolved["gated_neighbour"] = resolve(evidence, edges, "gated_neighbour", edge_dist)
         resolved["bayesian_edge"] = resolve(evidence, edges, "bayesian_edge", edge_dist)
-    sequences = dict(read_fasta(fasta))
     lengths = {node_id: len(sequence) for node_id, sequence in sequences.items()}
     coverages = {}
     for node_id, sequence in sequences.items():

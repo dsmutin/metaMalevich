@@ -167,12 +167,65 @@ def parse_fastg(text: str) -> tuple[list[dict[str, str]], dict[str, str]]:
     return edges, sequences
 
 
+def highest_megahit_contigs(names: list[str]) -> str | None:
+    """Pick ``k<int>.contigs.fa``, not ``k<int>.final.contigs.fa``.
+
+    ``contig2fastg`` reads the plain ``k*.contigs.fa`` file. A lexical sort of
+    every ``k*.contigs.fa`` name selects ``k99.final.contigs.fa`` ahead of
+    ``k141.contigs.fa`` and the toolkit then writes an empty FASTG.
+    """
+    pattern = re.compile(r"k(\d+)\.contigs\.fa$")
+    hits = []
+    for name in names:
+        match = pattern.search(Path(name).name)
+        if match:
+            hits.append((int(match.group(1)), name))
+    if not hits:
+        return None
+    return max(hits)[1]
+
+
 def megahit_coverage(header: str) -> float | None:
-    """Return the ``multi=`` coverage MEGAHIT writes on contig headers, if present."""
-    match = re.search(r"\bmulti=([0-9]+(?:\.[0-9]+)?)", header)
+    """Return MEGAHIT coverage from ``multi=`` or from a FASTG ``_cov_`` field."""
+    match = re.search(r"(?:\bmulti=|_cov_)([0-9]+(?:\.[0-9]+)?)", header)
     if not match:
         return None
     return float(match.group(1))
+
+
+def assembly_graph_from_fastg(text: str) -> tuple[list[dict[str, str]], dict[str, str]]:
+    """Keep forward FASTG records and the overlap links among them.
+
+    MEGAHIT writes the reverse record as the same name with a trailing quote.
+    Those sequences repeat the forward contig, so they are not extra nodes.
+    """
+    edges, sequences = parse_fastg(text)
+
+    def forward_id(node_id: str) -> str:
+        return node_id[:-1] if node_id.endswith("'") else node_id
+
+    forward = {node_id: sequence for node_id, sequence in sequences.items() if not node_id.endswith("'")}
+    kept = []
+    seen = set()
+    for edge in edges:
+        source = forward_id(edge["source"])
+        target = forward_id(edge["target"])
+        if source not in forward or target not in forward or source == target:
+            continue
+        key = (source, target)
+        if key in seen:
+            continue
+        seen.add(key)
+        kept.append(
+            {
+                "edge_id": f"{source}->{target}",
+                "source": source,
+                "target": target,
+                "orientation": edge["orientation"],
+                "weight": "1",
+            }
+        )
+    return kept, forward
 
 
 COARSE_RANKS = frozenset(

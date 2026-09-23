@@ -1,0 +1,1982 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+  "config": {
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-411296f75194e875392330567986199d"
+  },
+  "datasets": {
+    "data-411296f75194e875392330567986199d": [
+      {
+        "error": 0.31262,
+        "estimated": 0.31262,
+        "method": "kraken2",
+        "name": "unclassified",
+        "taxon_id": "0",
+        "truth": 0.0
+      },
+      {
+        "error": 0.0038000000000000117,
+        "estimated": 0.08779,
+        "method": "kraken2",
+        "name": "Pseudomonas aeruginosa",
+        "taxon_id": "287",
+        "truth": 0.08399
+      },
+      {
+        "error": -0.19184,
+        "estimated": 0.09015,
+        "method": "kraken2",
+        "name": "Pseudomonas fluorescens",
+        "taxon_id": "294",
+        "truth": 0.28199
+      },
+      {
+        "error": -0.047060000000000005,
+        "estimated": 0.11671,
+        "method": "kraken2",
+        "name": "Pseudomonas putida",
+        "taxon_id": "303",
+        "truth": 0.16377
+      },
+      {
+        "error": 0.00867,
+        "estimated": 0.01305,
+        "method": "kraken2",
+        "name": "Pseudomonas syringae",
+        "taxon_id": "317",
+        "truth": 0.00438
+      },
+      {
+        "error": 0.0009699999999999999,
+        "estimated": 0.003,
+        "method": "kraken2",
+        "name": "Escherichia coli",
+        "taxon_id": "562",
+        "truth": 0.00203
+      },
+      {
+        "error": 0.0007200000000000002,
+        "estimated": 0.00489,
+        "method": "kraken2",
+        "name": "Escherichia fergusonii",
+        "taxon_id": "564",
+        "truth": 0.00417
+      },
+      {
+        "error": -0.07691999999999999,
+        "estimated": 0.04233,
+        "method": "kraken2",
+        "name": "Shigella boydii",
+        "taxon_id": "621",
+        "truth": 0.11925
+      },
+      {
+        "error": -0.00019000000000000006,
+        "estimated": 0.00522,
+        "method": "kraken2",
+        "name": "Shigella dysenteriae",
+        "taxon_id": "622",
+        "truth": 0.00541
+      },
+      {
+        "error": -0.023189999999999995,
+        "estimated": 0.04916,
+        "method": "kraken2",
+        "name": "Shigella flexneri",
+        "taxon_id": "623",
+        "truth": 0.07235
+      },
+      {
+        "error": 0.006359999999999999,
+        "estimated": 0.00789,
+        "method": "kraken2",
+        "name": "Shigella sonnei",
+        "taxon_id": "624",
+        "truth": 0.00153
+      },
+      {
+        "error": -0.00011999999999999988,
+        "estimated": 0.002,
+        "method": "kraken2",
+        "name": "Streptococcus thermophilus",
+        "taxon_id": "1308",
+        "truth": 0.00212
+      },
+      {
+        "error": 5.000000000000013e-05,
+        "estimated": 0.0022,
+        "method": "kraken2",
+        "name": "Streptococcus mutans",
+        "taxon_id": "1309",
+        "truth": 0.00215
+      },
+      {
+        "error": -0.00030999999999999995,
+        "estimated": 0.00297,
+        "method": "kraken2",
+        "name": "Streptococcus agalactiae",
+        "taxon_id": "1311",
+        "truth": 0.00328
+      },
+      {
+        "error": -0.004129999999999995,
+        "estimated": 0.07542,
+        "method": "kraken2",
+        "name": "Streptococcus pneumoniae",
+        "taxon_id": "1313",
+        "truth": 0.07955
+      },
+      {
+        "error": -0.0009300000000000003,
+        "estimated": 0.01434,
+        "method": "kraken2",
+        "name": "Streptococcus pyogenes",
+        "taxon_id": "1314",
+        "truth": 0.01527
+      },
+      {
+        "error": 0.0008499999999999983,
+        "estimated": 0.01356,
+        "method": "kraken2",
+        "name": "Escherichia albertii",
+        "taxon_id": "208962",
+        "truth": 0.01271
+      },
+      {
+        "error": 0.01795999999999999,
+        "estimated": 0.0991,
+        "method": "kraken2",
+        "name": "Pseudomonas protegens",
+        "taxon_id": "380021",
+        "truth": 0.08114
+      },
+      {
+        "error": -0.008210000000000002,
+        "estimated": 0.04955,
+        "method": "kraken2",
+        "name": "Escherichia marmotae",
+        "taxon_id": "1499973",
+        "truth": 0.05776
+      },
+      {
+        "error": 0.0008999999999999998,
+        "estimated": 0.00805,
+        "method": "kraken2",
+        "name": "Escherichia ruysiae",
+        "taxon_id": "2608867",
+        "truth": 0.00715
+      },
+      {
+        "error": 0.31611,
+        "estimated": 0.31611,
+        "method": "kaiju",
+        "name": "unclassified",
+        "taxon_id": "0",
+        "truth": 0.0
+      },
+      {
+        "error": 0.0025200000000000083,
+        "estimated": 0.08651,
+        "method": "kaiju",
+        "name": "Pseudomonas aeruginosa",
+        "taxon_id": "287",
+        "truth": 0.08399
+      },
+      {
+        "error": -0.14709000000000003,
+        "estimated": 0.1349,
+        "method": "kaiju",
+        "name": "Pseudomonas fluorescens",
+        "taxon_id": "294",
+        "truth": 0.28199
+      },
+      {
+        "error": -0.03176000000000001,
+        "estimated": 0.13201,
+        "method": "kaiju",
+        "name": "Pseudomonas putida",
+        "taxon_id": "303",
+        "truth": 0.16377
+      },
+      {
+        "error": 0.01123,
+        "estimated": 0.01561,
+        "method": "kaiju",
+        "name": "Pseudomonas syringae",
+        "taxon_id": "317",
+        "truth": 0.00438
+      },
+      {
+        "error": 1.0000000000000026e-05,
+        "estimated": 0.00204,
+        "method": "kaiju",
+        "name": "Escherichia coli",
+        "taxon_id": "562",
+        "truth": 0.00203
+      },
+      {
+        "error": -0.0007800000000000003,
+        "estimated": 0.00339,
+        "method": "kaiju",
+        "name": "Escherichia fergusonii",
+        "taxon_id": "564",
+        "truth": 0.00417
+      },
+      {
+        "error": -0.09794,
+        "estimated": 0.02131,
+        "method": "kaiju",
+        "name": "Shigella boydii",
+        "taxon_id": "621",
+        "truth": 0.11925
+      },
+      {
+        "error": -0.0013800000000000002,
+        "estimated": 0.00403,
+        "method": "kaiju",
+        "name": "Shigella dysenteriae",
+        "taxon_id": "622",
+        "truth": 0.00541
+      },
+      {
+        "error": -0.04461,
+        "estimated": 0.02774,
+        "method": "kaiju",
+        "name": "Shigella flexneri",
+        "taxon_id": "623",
+        "truth": 0.07235
+      },
+      {
+        "error": 0.0031199999999999995,
+        "estimated": 0.00465,
+        "method": "kaiju",
+        "name": "Shigella sonnei",
+        "taxon_id": "624",
+        "truth": 0.00153
+      },
+      {
+        "error": -8.99999999999998e-05,
+        "estimated": 0.00203,
+        "method": "kaiju",
+        "name": "Streptococcus thermophilus",
+        "taxon_id": "1308",
+        "truth": 0.00212
+      },
+      {
+        "error": 0.0003700000000000001,
+        "estimated": 0.00252,
+        "method": "kaiju",
+        "name": "Streptococcus mutans",
+        "taxon_id": "1309",
+        "truth": 0.00215
+      },
+      {
+        "error": -0.00023999999999999976,
+        "estimated": 0.00304,
+        "method": "kaiju",
+        "name": "Streptococcus agalactiae",
+        "taxon_id": "1311",
+        "truth": 0.00328
+      },
+      {
+        "error": -0.0049899999999999944,
+        "estimated": 0.07456,
+        "method": "kaiju",
+        "name": "Streptococcus pneumoniae",
+        "taxon_id": "1313",
+        "truth": 0.07955
+      },
+      {
+        "error": -0.0013900000000000006,
+        "estimated": 0.01388,
+        "method": "kaiju",
+        "name": "Streptococcus pyogenes",
+        "taxon_id": "1314",
+        "truth": 0.01527
+      },
+      {
+        "error": -0.0025000000000000005,
+        "estimated": 0.01021,
+        "method": "kaiju",
+        "name": "Escherichia albertii",
+        "taxon_id": "208962",
+        "truth": 0.01271
+      },
+      {
+        "error": 0.022940000000000002,
+        "estimated": 0.10408,
+        "method": "kaiju",
+        "name": "Pseudomonas protegens",
+        "taxon_id": "380021",
+        "truth": 0.08114
+      },
+      {
+        "error": -0.02155,
+        "estimated": 0.03621,
+        "method": "kaiju",
+        "name": "Escherichia marmotae",
+        "taxon_id": "1499973",
+        "truth": 0.05776
+      },
+      {
+        "error": -0.00198,
+        "estimated": 0.00517,
+        "method": "kaiju",
+        "name": "Escherichia ruysiae",
+        "taxon_id": "2608867",
+        "truth": 0.00715
+      },
+      {
+        "error": 0.26950954,
+        "estimated": 0.26950954,
+        "method": "initial_colouring",
+        "name": "unclassified",
+        "taxon_id": "0",
+        "truth": 0.0
+      },
+      {
+        "error": -0.044917555,
+        "estimated": 0.039072445,
+        "method": "initial_colouring",
+        "name": "Pseudomonas aeruginosa",
+        "taxon_id": "287",
+        "truth": 0.08399
+      },
+      {
+        "error": -0.12661195000000003,
+        "estimated": 0.15537805,
+        "method": "initial_colouring",
+        "name": "Pseudomonas fluorescens",
+        "taxon_id": "294",
+        "truth": 0.28199
+      },
+      {
+        "error": -0.05275816999999999,
+        "estimated": 0.11101183,
+        "method": "initial_colouring",
+        "name": "Pseudomonas putida",
+        "taxon_id": "303",
+        "truth": 0.16377
+      },
+      {
+        "error": 0.006685815999999999,
+        "estimated": 0.011065816,
+        "method": "initial_colouring",
+        "name": "Pseudomonas syringae",
+        "taxon_id": "317",
+        "truth": 0.00438
+      },
+      {
+        "error": 0.0008222141,
+        "estimated": 0.0028522141,
+        "method": "initial_colouring",
+        "name": "Escherichia coli",
+        "taxon_id": "562",
+        "truth": 0.00203
+      },
+      {
+        "error": -0.0019271295000000003,
+        "estimated": 0.0022428705,
+        "method": "initial_colouring",
+        "name": "Escherichia fergusonii",
+        "taxon_id": "564",
+        "truth": 0.00417
+      },
+      {
+        "error": -0.06348101,
+        "estimated": 0.05576899,
+        "method": "initial_colouring",
+        "name": "Shigella boydii",
+        "taxon_id": "621",
+        "truth": 0.11925
+      },
+      {
+        "error": 0.0010716830000000004,
+        "estimated": 0.006481683,
+        "method": "initial_colouring",
+        "name": "Shigella dysenteriae",
+        "taxon_id": "622",
+        "truth": 0.00541
+      },
+      {
+        "error": -0.0037684600000000013,
+        "estimated": 0.06858154,
+        "method": "initial_colouring",
+        "name": "Shigella flexneri",
+        "taxon_id": "623",
+        "truth": 0.07235
+      },
+      {
+        "error": 0.0047397044,
+        "estimated": 0.0062697044,
+        "method": "initial_colouring",
+        "name": "Shigella sonnei",
+        "taxon_id": "624",
+        "truth": 0.00153
+      },
+      {
+        "error": -0.00212,
+        "estimated": 0.0,
+        "method": "initial_colouring",
+        "name": "Streptococcus thermophilus",
+        "taxon_id": "1308",
+        "truth": 0.00212
+      },
+      {
+        "error": -0.00201285971,
+        "estimated": 0.00013714029,
+        "method": "initial_colouring",
+        "name": "Streptococcus mutans",
+        "taxon_id": "1309",
+        "truth": 0.00215
+      },
+      {
+        "error": -0.00299660207,
+        "estimated": 0.00028339793,
+        "method": "initial_colouring",
+        "name": "Streptococcus agalactiae",
+        "taxon_id": "1311",
+        "truth": 0.00328
+      },
+      {
+        "error": 0.01887949700000001,
+        "estimated": 0.098429497,
+        "method": "initial_colouring",
+        "name": "Streptococcus pneumoniae",
+        "taxon_id": "1313",
+        "truth": 0.07955
+      },
+      {
+        "error": -0.013429433000000001,
+        "estimated": 0.001840567,
+        "method": "initial_colouring",
+        "name": "Streptococcus pyogenes",
+        "taxon_id": "1314",
+        "truth": 0.01527
+      },
+      {
+        "error": -0.0008638900000000008,
+        "estimated": 0.01184611,
+        "method": "initial_colouring",
+        "name": "Escherichia albertii",
+        "taxon_id": "208962",
+        "truth": 0.01271
+      },
+      {
+        "error": 0.007361831999999999,
+        "estimated": 0.088501832,
+        "method": "initial_colouring",
+        "name": "Pseudomonas protegens",
+        "taxon_id": "380021",
+        "truth": 0.08114
+      },
+      {
+        "error": 0.0033339080000000035,
+        "estimated": 0.061093908,
+        "method": "initial_colouring",
+        "name": "Escherichia marmotae",
+        "taxon_id": "1499973",
+        "truth": 0.05776
+      },
+      {
+        "error": 0.0024828704999999996,
+        "estimated": 0.0096328705,
+        "method": "initial_colouring",
+        "name": "Escherichia ruysiae",
+        "taxon_id": "2608867",
+        "truth": 0.00715
+      },
+      {
+        "error": 0.25595611,
+        "estimated": 0.25595611,
+        "method": "initial_colouring_coverage",
+        "name": "unclassified",
+        "taxon_id": "0",
+        "truth": 0.0
+      },
+      {
+        "error": -0.05178601299999999,
+        "estimated": 0.032203987,
+        "method": "initial_colouring_coverage",
+        "name": "Pseudomonas aeruginosa",
+        "taxon_id": "287",
+        "truth": 0.08399
+      },
+      {
+        "error": -0.12723876,
+        "estimated": 0.15475124,
+        "method": "initial_colouring_coverage",
+        "name": "Pseudomonas fluorescens",
+        "taxon_id": "294",
+        "truth": 0.28199
+      },
+      {
+        "error": -0.064718922,
+        "estimated": 0.099051078,
+        "method": "initial_colouring_coverage",
+        "name": "Pseudomonas putida",
+        "taxon_id": "303",
+        "truth": 0.16377
+      },
+      {
+        "error": 0.006590275,
+        "estimated": 0.010970275,
+        "method": "initial_colouring_coverage",
+        "name": "Pseudomonas syringae",
+        "taxon_id": "317",
+        "truth": 0.00438
+      },
+      {
+        "error": 0.0005545520999999999,
+        "estimated": 0.0025845521,
+        "method": "initial_colouring_coverage",
+        "name": "Escherichia coli",
+        "taxon_id": "562",
+        "truth": 0.00203
+      },
+      {
+        "error": -0.0026464248,
+        "estimated": 0.0015235752,
+        "method": "initial_colouring_coverage",
+        "name": "Escherichia fergusonii",
+        "taxon_id": "564",
+        "truth": 0.00417
+      },
+      {
+        "error": -0.043000784,
+        "estimated": 0.076249216,
+        "method": "initial_colouring_coverage",
+        "name": "Shigella boydii",
+        "taxon_id": "621",
+        "truth": 0.11925
+      },
+      {
+        "error": 0.0016715328999999998,
+        "estimated": 0.0070815329,
+        "method": "initial_colouring_coverage",
+        "name": "Shigella dysenteriae",
+        "taxon_id": "622",
+        "truth": 0.00541
+      },
+      {
+        "error": 0.021389825,
+        "estimated": 0.093739825,
+        "method": "initial_colouring_coverage",
+        "name": "Shigella flexneri",
+        "taxon_id": "623",
+        "truth": 0.07235
+      },
+      {
+        "error": 0.017791283,
+        "estimated": 0.019321283,
+        "method": "initial_colouring_coverage",
+        "name": "Shigella sonnei",
+        "taxon_id": "624",
+        "truth": 0.00153
+      },
+      {
+        "error": -0.00212,
+        "estimated": 0.0,
+        "method": "initial_colouring_coverage",
+        "name": "Streptococcus thermophilus",
+        "taxon_id": "1308",
+        "truth": 0.00212
+      },
+      {
+        "error": -0.00200168919,
+        "estimated": 0.00014831081,
+        "method": "initial_colouring_coverage",
+        "name": "Streptococcus mutans",
+        "taxon_id": "1309",
+        "truth": 0.00215
+      },
+      {
+        "error": -0.00304603046,
+        "estimated": 0.00023396954,
+        "method": "initial_colouring_coverage",
+        "name": "Streptococcus agalactiae",
+        "taxon_id": "1311",
+        "truth": 0.00328
+      },
+      {
+        "error": 0.010388591000000003,
+        "estimated": 0.089938591,
+        "method": "initial_colouring_coverage",
+        "name": "Streptococcus pneumoniae",
+        "taxon_id": "1313",
+        "truth": 0.07955
+      },
+      {
+        "error": -0.0134522682,
+        "estimated": 0.0018177318,
+        "method": "initial_colouring_coverage",
+        "name": "Streptococcus pyogenes",
+        "taxon_id": "1314",
+        "truth": 0.01527
+      },
+      {
+        "error": -0.0020803060000000005,
+        "estimated": 0.010629694,
+        "method": "initial_colouring_coverage",
+        "name": "Escherichia albertii",
+        "taxon_id": "208962",
+        "truth": 0.01271
+      },
+      {
+        "error": 0.0020112139999999973,
+        "estimated": 0.083151214,
+        "method": "initial_colouring_coverage",
+        "name": "Pseudomonas protegens",
+        "taxon_id": "380021",
+        "truth": 0.08114
+      },
+      {
+        "error": -0.0048635739999999955,
+        "estimated": 0.052896426,
+        "method": "initial_colouring_coverage",
+        "name": "Escherichia marmotae",
+        "taxon_id": "1499973",
+        "truth": 0.05776
+      },
+      {
+        "error": 0.0006013965999999999,
+        "estimated": 0.0077513966,
+        "method": "initial_colouring_coverage",
+        "name": "Escherichia ruysiae",
+        "taxon_id": "2608867",
+        "truth": 0.00715
+      },
+      {
+        "error": 0.24674881,
+        "estimated": 0.24674881,
+        "method": "probability_sum",
+        "name": "unclassified",
+        "taxon_id": "0",
+        "truth": 0.0
+      },
+      {
+        "error": -0.041222950999999994,
+        "estimated": 0.042767049,
+        "method": "probability_sum",
+        "name": "Pseudomonas aeruginosa",
+        "taxon_id": "287",
+        "truth": 0.08399
+      },
+      {
+        "error": -0.13555036,
+        "estimated": 0.14643964,
+        "method": "probability_sum",
+        "name": "Pseudomonas fluorescens",
+        "taxon_id": "294",
+        "truth": 0.28199
+      },
+      {
+        "error": -0.053355059999999996,
+        "estimated": 0.11041494,
+        "method": "probability_sum",
+        "name": "Pseudomonas putida",
+        "taxon_id": "303",
+        "truth": 0.16377
+      },
+      {
+        "error": 0.014484761,
+        "estimated": 0.018864761,
+        "method": "probability_sum",
+        "name": "Pseudomonas syringae",
+        "taxon_id": "317",
+        "truth": 0.00438
+      },
+      {
+        "error": 0.0033647157,
+        "estimated": 0.0053947157,
+        "method": "probability_sum",
+        "name": "Escherichia coli",
+        "taxon_id": "562",
+        "truth": 0.00203
+      },
+      {
+        "error": -0.0001821351000000004,
+        "estimated": 0.0039878649,
+        "method": "probability_sum",
+        "name": "Escherichia fergusonii",
+        "taxon_id": "564",
+        "truth": 0.00417
+      },
+      {
+        "error": -0.06450240299999999,
+        "estimated": 0.054747597,
+        "method": "probability_sum",
+        "name": "Shigella boydii",
+        "taxon_id": "621",
+        "truth": 0.11925
+      },
+      {
+        "error": 0.0013382158000000005,
+        "estimated": 0.0067482158,
+        "method": "probability_sum",
+        "name": "Shigella dysenteriae",
+        "taxon_id": "622",
+        "truth": 0.00541
+      },
+      {
+        "error": -0.006950050999999999,
+        "estimated": 0.065399949,
+        "method": "probability_sum",
+        "name": "Shigella flexneri",
+        "taxon_id": "623",
+        "truth": 0.07235
+      },
+      {
+        "error": 0.0046877244,
+        "estimated": 0.0062177244,
+        "method": "probability_sum",
+        "name": "Shigella sonnei",
+        "taxon_id": "624",
+        "truth": 0.00153
+      },
+      {
+        "error": -0.00212,
+        "estimated": 0.0,
+        "method": "probability_sum",
+        "name": "Streptococcus thermophilus",
+        "taxon_id": "1308",
+        "truth": 0.00212
+      },
+      {
+        "error": -0.00207928704,
+        "estimated": 7.071296e-05,
+        "method": "probability_sum",
+        "name": "Streptococcus mutans",
+        "taxon_id": "1309",
+        "truth": 0.00215
+      },
+      {
+        "error": -0.00288942494,
+        "estimated": 0.00039057506,
+        "method": "probability_sum",
+        "name": "Streptococcus agalactiae",
+        "taxon_id": "1311",
+        "truth": 0.00328
+      },
+      {
+        "error": 0.018859528,
+        "estimated": 0.098409528,
+        "method": "probability_sum",
+        "name": "Streptococcus pneumoniae",
+        "taxon_id": "1313",
+        "truth": 0.07955
+      },
+      {
+        "error": -0.0130422121,
+        "estimated": 0.0022277879,
+        "method": "probability_sum",
+        "name": "Streptococcus pyogenes",
+        "taxon_id": "1314",
+        "truth": 0.01527
+      },
+      {
+        "error": 0.0032294019999999975,
+        "estimated": 0.015939402,
+        "method": "probability_sum",
+        "name": "Escherichia albertii",
+        "taxon_id": "208962",
+        "truth": 0.01271
+      },
+      {
+        "error": 0.015142203999999992,
+        "estimated": 0.096282204,
+        "method": "probability_sum",
+        "name": "Pseudomonas protegens",
+        "taxon_id": "380021",
+        "truth": 0.08114
+      },
+      {
+        "error": 0.008690563000000005,
+        "estimated": 0.066450563,
+        "method": "probability_sum",
+        "name": "Escherichia marmotae",
+        "taxon_id": "1499973",
+        "truth": 0.05776
+      },
+      {
+        "error": 0.005347971,
+        "estimated": 0.012497971,
+        "method": "probability_sum",
+        "name": "Escherichia ruysiae",
+        "taxon_id": "2608867",
+        "truth": 0.00715
+      },
+      {
+        "error": 0.2345139,
+        "estimated": 0.2345139,
+        "method": "probability_sum_coverage",
+        "name": "unclassified",
+        "taxon_id": "0",
+        "truth": 0.0
+      },
+      {
+        "error": -0.047443930999999995,
+        "estimated": 0.036546069,
+        "method": "probability_sum_coverage",
+        "name": "Pseudomonas aeruginosa",
+        "taxon_id": "287",
+        "truth": 0.08399
+      },
+      {
+        "error": -0.13688929000000002,
+        "estimated": 0.14510071,
+        "method": "probability_sum_coverage",
+        "name": "Pseudomonas fluorescens",
+        "taxon_id": "294",
+        "truth": 0.28199
+      },
+      {
+        "error": -0.064414757,
+        "estimated": 0.099355243,
+        "method": "probability_sum_coverage",
+        "name": "Pseudomonas putida",
+        "taxon_id": "303",
+        "truth": 0.16377
+      },
+      {
+        "error": 0.014320230000000001,
+        "estimated": 0.01870023,
+        "method": "probability_sum_coverage",
+        "name": "Pseudomonas syringae",
+        "taxon_id": "317",
+        "truth": 0.00438
+      },
+      {
+        "error": 0.0032393717,
+        "estimated": 0.0052693717,
+        "method": "probability_sum_coverage",
+        "name": "Escherichia coli",
+        "taxon_id": "562",
+        "truth": 0.00203
+      },
+      {
+        "error": -0.0009187793999999999,
+        "estimated": 0.0032512206,
+        "method": "probability_sum_coverage",
+        "name": "Escherichia fergusonii",
+        "taxon_id": "564",
+        "truth": 0.00417
+      },
+      {
+        "error": -0.04278777099999999,
+        "estimated": 0.076462229,
+        "method": "probability_sum_coverage",
+        "name": "Shigella boydii",
+        "taxon_id": "621",
+        "truth": 0.11925
+      },
+      {
+        "error": 0.0018894176000000002,
+        "estimated": 0.0072994176,
+        "method": "probability_sum_coverage",
+        "name": "Shigella dysenteriae",
+        "taxon_id": "622",
+        "truth": 0.00541
+      },
+      {
+        "error": 0.013701600000000008,
+        "estimated": 0.0860516,
+        "method": "probability_sum_coverage",
+        "name": "Shigella flexneri",
+        "taxon_id": "623",
+        "truth": 0.07235
+      },
+      {
+        "error": 0.01439681,
+        "estimated": 0.01592681,
+        "method": "probability_sum_coverage",
+        "name": "Shigella sonnei",
+        "taxon_id": "624",
+        "truth": 0.00153
+      },
+      {
+        "error": -0.00212,
+        "estimated": 0.0,
+        "method": "probability_sum_coverage",
+        "name": "Streptococcus thermophilus",
+        "taxon_id": "1308",
+        "truth": 0.00212
+      },
+      {
+        "error": -0.00207352724,
+        "estimated": 7.647276e-05,
+        "method": "probability_sum_coverage",
+        "name": "Streptococcus mutans",
+        "taxon_id": "1309",
+        "truth": 0.00215
+      },
+      {
+        "error": -0.00295355495,
+        "estimated": 0.00032644505,
+        "method": "probability_sum_coverage",
+        "name": "Streptococcus agalactiae",
+        "taxon_id": "1311",
+        "truth": 0.00328
+      },
+      {
+        "error": 0.010521178000000006,
+        "estimated": 0.090071178,
+        "method": "probability_sum_coverage",
+        "name": "Streptococcus pneumoniae",
+        "taxon_id": "1313",
+        "truth": 0.07955
+      },
+      {
+        "error": -0.013164258500000001,
+        "estimated": 0.0021057415,
+        "method": "probability_sum_coverage",
+        "name": "Streptococcus pyogenes",
+        "taxon_id": "1314",
+        "truth": 0.01527
+      },
+      {
+        "error": 0.006765016,
+        "estimated": 0.019475016,
+        "method": "probability_sum_coverage",
+        "name": "Escherichia albertii",
+        "taxon_id": "208962",
+        "truth": 0.01271
+      },
+      {
+        "error": 0.008929199999999998,
+        "estimated": 0.0900692,
+        "method": "probability_sum_coverage",
+        "name": "Pseudomonas protegens",
+        "taxon_id": "380021",
+        "truth": 0.08114
+      },
+      {
+        "error": 0.0011081720000000045,
+        "estimated": 0.058868172,
+        "method": "probability_sum_coverage",
+        "name": "Escherichia marmotae",
+        "taxon_id": "1499973",
+        "truth": 0.05776
+      },
+      {
+        "error": 0.003380974,
+        "estimated": 0.010530974,
+        "method": "probability_sum_coverage",
+        "name": "Escherichia ruysiae",
+        "taxon_id": "2608867",
+        "truth": 0.00715
+      },
+      {
+        "error": 0.76340033,
+        "estimated": 0.76340033,
+        "method": "lca",
+        "name": "unclassified",
+        "taxon_id": "0",
+        "truth": 0.0
+      },
+      {
+        "error": -0.067155935,
+        "estimated": 0.016834065,
+        "method": "lca",
+        "name": "Pseudomonas aeruginosa",
+        "taxon_id": "287",
+        "truth": 0.08399
+      },
+      {
+        "error": -0.238684061,
+        "estimated": 0.043305939,
+        "method": "lca",
+        "name": "Pseudomonas fluorescens",
+        "taxon_id": "294",
+        "truth": 0.28199
+      },
+      {
+        "error": -0.11097023,
+        "estimated": 0.05279977,
+        "method": "lca",
+        "name": "Pseudomonas putida",
+        "taxon_id": "303",
+        "truth": 0.16377
+      },
+      {
+        "error": -0.00374672338,
+        "estimated": 0.00063327662,
+        "method": "lca",
+        "name": "Pseudomonas syringae",
+        "taxon_id": "317",
+        "truth": 0.00438
+      },
+      {
+        "error": -0.00203,
+        "estimated": 0.0,
+        "method": "lca",
+        "name": "Escherichia coli",
+        "taxon_id": "562",
+        "truth": 0.00203
+      },
+      {
+        "error": -0.00405071454,
+        "estimated": 0.00011928546,
+        "method": "lca",
+        "name": "Escherichia fergusonii",
+        "taxon_id": "564",
+        "truth": 0.00417
+      },
+      {
+        "error": -0.118072341,
+        "estimated": 0.001177659,
+        "method": "lca",
+        "name": "Shigella boydii",
+        "taxon_id": "621",
+        "truth": 0.11925
+      },
+      {
+        "error": -0.0043333918,
+        "estimated": 0.0010766082,
+        "method": "lca",
+        "name": "Shigella dysenteriae",
+        "taxon_id": "622",
+        "truth": 0.00541
+      },
+      {
+        "error": -0.0682224952,
+        "estimated": 0.0041275048,
+        "method": "lca",
+        "name": "Shigella flexneri",
+        "taxon_id": "623",
+        "truth": 0.07235
+      },
+      {
+        "error": -0.00127281448,
+        "estimated": 0.00025718552,
+        "method": "lca",
+        "name": "Shigella sonnei",
+        "taxon_id": "624",
+        "truth": 0.00153
+      },
+      {
+        "error": -0.00212,
+        "estimated": 0.0,
+        "method": "lca",
+        "name": "Streptococcus thermophilus",
+        "taxon_id": "1308",
+        "truth": 0.00212
+      },
+      {
+        "error": -0.00215,
+        "estimated": 0.0,
+        "method": "lca",
+        "name": "Streptococcus mutans",
+        "taxon_id": "1309",
+        "truth": 0.00215
+      },
+      {
+        "error": -0.00328,
+        "estimated": 0.0,
+        "method": "lca",
+        "name": "Streptococcus agalactiae",
+        "taxon_id": "1311",
+        "truth": 0.00328
+      },
+      {
+        "error": 0.01325522500000001,
+        "estimated": 0.092805225,
+        "method": "lca",
+        "name": "Streptococcus pneumoniae",
+        "taxon_id": "1313",
+        "truth": 0.07955
+      },
+      {
+        "error": -0.0142944425,
+        "estimated": 0.0009755575,
+        "method": "lca",
+        "name": "Streptococcus pyogenes",
+        "taxon_id": "1314",
+        "truth": 0.01527
+      },
+      {
+        "error": -0.01259489333,
+        "estimated": 0.00011510667,
+        "method": "lca",
+        "name": "Escherichia albertii",
+        "taxon_id": "208962",
+        "truth": 0.01271
+      },
+      {
+        "error": -0.060159056,
+        "estimated": 0.020980944,
+        "method": "lca",
+        "name": "Pseudomonas protegens",
+        "taxon_id": "380021",
+        "truth": 0.08114
+      },
+      {
+        "error": -0.05722283555,
+        "estimated": 0.00053716445,
+        "method": "lca",
+        "name": "Escherichia marmotae",
+        "taxon_id": "1499973",
+        "truth": 0.05776
+      },
+      {
+        "error": -0.00629562741,
+        "estimated": 0.00085437259,
+        "method": "lca",
+        "name": "Escherichia ruysiae",
+        "taxon_id": "2608867",
+        "truth": 0.00715
+      },
+      {
+        "error": 0.78658157,
+        "estimated": 0.78658157,
+        "method": "lca_coverage",
+        "name": "unclassified",
+        "taxon_id": "0",
+        "truth": 0.0
+      },
+      {
+        "error": -0.07106723999999999,
+        "estimated": 0.01292276,
+        "method": "lca_coverage",
+        "name": "Pseudomonas aeruginosa",
+        "taxon_id": "287",
+        "truth": 0.08399
+      },
+      {
+        "error": -0.24056013600000004,
+        "estimated": 0.041429864,
+        "method": "lca_coverage",
+        "name": "Pseudomonas fluorescens",
+        "taxon_id": "294",
+        "truth": 0.28199
+      },
+      {
+        "error": -0.11780474199999999,
+        "estimated": 0.045965258,
+        "method": "lca_coverage",
+        "name": "Pseudomonas putida",
+        "taxon_id": "303",
+        "truth": 0.16377
+      },
+      {
+        "error": -0.0038921355000000003,
+        "estimated": 0.0004878645,
+        "method": "lca_coverage",
+        "name": "Pseudomonas syringae",
+        "taxon_id": "317",
+        "truth": 0.00438
+      },
+      {
+        "error": -0.00203,
+        "estimated": 0.0,
+        "method": "lca_coverage",
+        "name": "Escherichia coli",
+        "taxon_id": "562",
+        "truth": 0.00203
+      },
+      {
+        "error": -0.0041054991780000005,
+        "estimated": 6.4500822e-05,
+        "method": "lca_coverage",
+        "name": "Escherichia fergusonii",
+        "taxon_id": "564",
+        "truth": 0.00417
+      },
+      {
+        "error": -0.11833774474,
+        "estimated": 0.00091225526,
+        "method": "lca_coverage",
+        "name": "Shigella boydii",
+        "taxon_id": "621",
+        "truth": 0.11925
+      },
+      {
+        "error": -0.0042773327,
+        "estimated": 0.0011326673,
+        "method": "lca_coverage",
+        "name": "Shigella dysenteriae",
+        "taxon_id": "622",
+        "truth": 0.00541
+      },
+      {
+        "error": -0.0689573389,
+        "estimated": 0.0033926611,
+        "method": "lca_coverage",
+        "name": "Shigella flexneri",
+        "taxon_id": "623",
+        "truth": 0.07235
+      },
+      {
+        "error": -0.0013909329399999998,
+        "estimated": 0.00013906706,
+        "method": "lca_coverage",
+        "name": "Shigella sonnei",
+        "taxon_id": "624",
+        "truth": 0.00153
+      },
+      {
+        "error": -0.00212,
+        "estimated": 0.0,
+        "method": "lca_coverage",
+        "name": "Streptococcus thermophilus",
+        "taxon_id": "1308",
+        "truth": 0.00212
+      },
+      {
+        "error": -0.00215,
+        "estimated": 0.0,
+        "method": "lca_coverage",
+        "name": "Streptococcus mutans",
+        "taxon_id": "1309",
+        "truth": 0.00215
+      },
+      {
+        "error": -0.00328,
+        "estimated": 0.0,
+        "method": "lca_coverage",
+        "name": "Streptococcus agalactiae",
+        "taxon_id": "1311",
+        "truth": 0.00328
+      },
+      {
+        "error": 0.0055742410000000076,
+        "estimated": 0.085124241,
+        "method": "lca_coverage",
+        "name": "Streptococcus pneumoniae",
+        "taxon_id": "1313",
+        "truth": 0.07955
+      },
+      {
+        "error": -0.01454549554,
+        "estimated": 0.00072450446,
+        "method": "lca_coverage",
+        "name": "Streptococcus pyogenes",
+        "taxon_id": "1314",
+        "truth": 0.01527
+      },
+      {
+        "error": -0.01252327628,
+        "estimated": 0.00018672372,
+        "method": "lca_coverage",
+        "name": "Escherichia albertii",
+        "taxon_id": "208962",
+        "truth": 0.01271
+      },
+      {
+        "error": -0.061657260000000005,
+        "estimated": 0.01948274,
+        "method": "lca_coverage",
+        "name": "Pseudomonas protegens",
+        "taxon_id": "380021",
+        "truth": 0.08114
+      },
+      {
+        "error": -0.05714991261,
+        "estimated": 0.00061008739,
+        "method": "lca_coverage",
+        "name": "Escherichia marmotae",
+        "taxon_id": "1499973",
+        "truth": 0.05776
+      },
+      {
+        "error": -0.00630676473,
+        "estimated": 0.00084323527,
+        "method": "lca_coverage",
+        "name": "Escherichia ruysiae",
+        "taxon_id": "2608867",
+        "truth": 0.00715
+      },
+      {
+        "error": 0.24674881,
+        "estimated": 0.24674881,
+        "method": "gated_neighbour",
+        "name": "unclassified",
+        "taxon_id": "0",
+        "truth": 0.0
+      },
+      {
+        "error": -0.041505842999999994,
+        "estimated": 0.042484157,
+        "method": "gated_neighbour",
+        "name": "Pseudomonas aeruginosa",
+        "taxon_id": "287",
+        "truth": 0.08399
+      },
+      {
+        "error": -0.1342433,
+        "estimated": 0.1477467,
+        "method": "gated_neighbour",
+        "name": "Pseudomonas fluorescens",
+        "taxon_id": "294",
+        "truth": 0.28199
+      },
+      {
+        "error": -0.05403540999999999,
+        "estimated": 0.10973459,
+        "method": "gated_neighbour",
+        "name": "Pseudomonas putida",
+        "taxon_id": "303",
+        "truth": 0.16377
+      },
+      {
+        "error": 0.014358396,
+        "estimated": 0.018738396,
+        "method": "gated_neighbour",
+        "name": "Pseudomonas syringae",
+        "taxon_id": "317",
+        "truth": 0.00438
+      },
+      {
+        "error": 0.0032995857999999997,
+        "estimated": 0.0053295858,
+        "method": "gated_neighbour",
+        "name": "Escherichia coli",
+        "taxon_id": "562",
+        "truth": 0.00203
+      },
+      {
+        "error": -0.0001821351000000004,
+        "estimated": 0.0039878649,
+        "method": "gated_neighbour",
+        "name": "Escherichia fergusonii",
+        "taxon_id": "564",
+        "truth": 0.00417
+      },
+      {
+        "error": -0.064599243,
+        "estimated": 0.054650757,
+        "method": "gated_neighbour",
+        "name": "Shigella boydii",
+        "taxon_id": "621",
+        "truth": 0.11925
+      },
+      {
+        "error": 0.0013557823000000004,
+        "estimated": 0.0067657823,
+        "method": "gated_neighbour",
+        "name": "Shigella dysenteriae",
+        "taxon_id": "622",
+        "truth": 0.00541
+      },
+      {
+        "error": -0.006424398999999997,
+        "estimated": 0.065925601,
+        "method": "gated_neighbour",
+        "name": "Shigella flexneri",
+        "taxon_id": "623",
+        "truth": 0.07235
+      },
+      {
+        "error": 0.0046027823,
+        "estimated": 0.0061327823,
+        "method": "gated_neighbour",
+        "name": "Shigella sonnei",
+        "taxon_id": "624",
+        "truth": 0.00153
+      },
+      {
+        "error": -0.00212,
+        "estimated": 0.0,
+        "method": "gated_neighbour",
+        "name": "Streptococcus thermophilus",
+        "taxon_id": "1308",
+        "truth": 0.00212
+      },
+      {
+        "error": -0.00207928704,
+        "estimated": 7.071296e-05,
+        "method": "gated_neighbour",
+        "name": "Streptococcus mutans",
+        "taxon_id": "1309",
+        "truth": 0.00215
+      },
+      {
+        "error": -0.00288942494,
+        "estimated": 0.00039057506,
+        "method": "gated_neighbour",
+        "name": "Streptococcus agalactiae",
+        "taxon_id": "1311",
+        "truth": 0.00328
+      },
+      {
+        "error": 0.018859528,
+        "estimated": 0.098409528,
+        "method": "gated_neighbour",
+        "name": "Streptococcus pneumoniae",
+        "taxon_id": "1313",
+        "truth": 0.07955
+      },
+      {
+        "error": -0.0130422121,
+        "estimated": 0.0022277879,
+        "method": "gated_neighbour",
+        "name": "Streptococcus pyogenes",
+        "taxon_id": "1314",
+        "truth": 0.01527
+      },
+      {
+        "error": 0.0029396199999999987,
+        "estimated": 0.01564962,
+        "method": "gated_neighbour",
+        "name": "Escherichia albertii",
+        "taxon_id": "208962",
+        "truth": 0.01271
+      },
+      {
+        "error": 0.01492474399999999,
+        "estimated": 0.096064744,
+        "method": "gated_neighbour",
+        "name": "Pseudomonas protegens",
+        "taxon_id": "380021",
+        "truth": 0.08114
+      },
+      {
+        "error": 0.008684037999999998,
+        "estimated": 0.066444038,
+        "method": "gated_neighbour",
+        "name": "Escherichia marmotae",
+        "taxon_id": "1499973",
+        "truth": 0.05776
+      },
+      {
+        "error": 0.005347971,
+        "estimated": 0.012497971,
+        "method": "gated_neighbour",
+        "name": "Escherichia ruysiae",
+        "taxon_id": "2608867",
+        "truth": 0.00715
+      },
+      {
+        "error": 0.2345139,
+        "estimated": 0.2345139,
+        "method": "gated_neighbour_coverage",
+        "name": "unclassified",
+        "taxon_id": "0",
+        "truth": 0.0
+      },
+      {
+        "error": -0.047926444,
+        "estimated": 0.036063556,
+        "method": "gated_neighbour_coverage",
+        "name": "Pseudomonas aeruginosa",
+        "taxon_id": "287",
+        "truth": 0.08399
+      },
+      {
+        "error": -0.13473718,
+        "estimated": 0.14725282,
+        "method": "gated_neighbour_coverage",
+        "name": "Pseudomonas fluorescens",
+        "taxon_id": "294",
+        "truth": 0.28199
+      },
+      {
+        "error": -0.06549490399999999,
+        "estimated": 0.098275096,
+        "method": "gated_neighbour_coverage",
+        "name": "Pseudomonas putida",
+        "taxon_id": "303",
+        "truth": 0.16377
+      },
+      {
+        "error": 0.014104925999999999,
+        "estimated": 0.018484926,
+        "method": "gated_neighbour_coverage",
+        "name": "Pseudomonas syringae",
+        "taxon_id": "317",
+        "truth": 0.00438
+      },
+      {
+        "error": 0.0027463273999999995,
+        "estimated": 0.0047763274,
+        "method": "gated_neighbour_coverage",
+        "name": "Escherichia coli",
+        "taxon_id": "562",
+        "truth": 0.00203
+      },
+      {
+        "error": -0.0009187793999999999,
+        "estimated": 0.0032512206,
+        "method": "gated_neighbour_coverage",
+        "name": "Escherichia fergusonii",
+        "taxon_id": "564",
+        "truth": 0.00417
+      },
+      {
+        "error": -0.043292047,
+        "estimated": 0.075957953,
+        "method": "gated_neighbour_coverage",
+        "name": "Shigella boydii",
+        "taxon_id": "621",
+        "truth": 0.11925
+      },
+      {
+        "error": 0.002239934,
+        "estimated": 0.007649934,
+        "method": "gated_neighbour_coverage",
+        "name": "Shigella dysenteriae",
+        "taxon_id": "622",
+        "truth": 0.00541
+      },
+      {
+        "error": 0.01740572800000001,
+        "estimated": 0.089755728,
+        "method": "gated_neighbour_coverage",
+        "name": "Shigella flexneri",
+        "taxon_id": "623",
+        "truth": 0.07235
+      },
+      {
+        "error": 0.013753784,
+        "estimated": 0.015283784,
+        "method": "gated_neighbour_coverage",
+        "name": "Shigella sonnei",
+        "taxon_id": "624",
+        "truth": 0.00153
+      },
+      {
+        "error": -0.00212,
+        "estimated": 0.0,
+        "method": "gated_neighbour_coverage",
+        "name": "Streptococcus thermophilus",
+        "taxon_id": "1308",
+        "truth": 0.00212
+      },
+      {
+        "error": -0.00207352724,
+        "estimated": 7.647276e-05,
+        "method": "gated_neighbour_coverage",
+        "name": "Streptococcus mutans",
+        "taxon_id": "1309",
+        "truth": 0.00215
+      },
+      {
+        "error": -0.00295355495,
+        "estimated": 0.00032644505,
+        "method": "gated_neighbour_coverage",
+        "name": "Streptococcus agalactiae",
+        "taxon_id": "1311",
+        "truth": 0.00328
+      },
+      {
+        "error": 0.010521178000000006,
+        "estimated": 0.090071178,
+        "method": "gated_neighbour_coverage",
+        "name": "Streptococcus pneumoniae",
+        "taxon_id": "1313",
+        "truth": 0.07955
+      },
+      {
+        "error": -0.013164258500000001,
+        "estimated": 0.0021057415,
+        "method": "gated_neighbour_coverage",
+        "name": "Streptococcus pyogenes",
+        "taxon_id": "1314",
+        "truth": 0.01527
+      },
+      {
+        "error": 0.004276779,
+        "estimated": 0.016986779,
+        "method": "gated_neighbour_coverage",
+        "name": "Escherichia albertii",
+        "taxon_id": "208962",
+        "truth": 0.01271
+      },
+      {
+        "error": 0.008555055999999991,
+        "estimated": 0.089695056,
+        "method": "gated_neighbour_coverage",
+        "name": "Pseudomonas protegens",
+        "taxon_id": "380021",
+        "truth": 0.08114
+      },
+      {
+        "error": 0.001182111999999999,
+        "estimated": 0.058942112,
+        "method": "gated_neighbour_coverage",
+        "name": "Escherichia marmotae",
+        "taxon_id": "1499973",
+        "truth": 0.05776
+      },
+      {
+        "error": 0.003380974,
+        "estimated": 0.010530974,
+        "method": "gated_neighbour_coverage",
+        "name": "Escherichia ruysiae",
+        "taxon_id": "2608867",
+        "truth": 0.00715
+      },
+      {
+        "error": 0.24674881,
+        "estimated": 0.24674881,
+        "method": "bayesian_edge",
+        "name": "unclassified",
+        "taxon_id": "0",
+        "truth": 0.0
+      },
+      {
+        "error": -0.041535608999999994,
+        "estimated": 0.042454391,
+        "method": "bayesian_edge",
+        "name": "Pseudomonas aeruginosa",
+        "taxon_id": "287",
+        "truth": 0.08399
+      },
+      {
+        "error": -0.13371515,
+        "estimated": 0.14827485,
+        "method": "bayesian_edge",
+        "name": "Pseudomonas fluorescens",
+        "taxon_id": "294",
+        "truth": 0.28199
+      },
+      {
+        "error": -0.05427021,
+        "estimated": 0.10949979,
+        "method": "bayesian_edge",
+        "name": "Pseudomonas putida",
+        "taxon_id": "303",
+        "truth": 0.16377
+      },
+      {
+        "error": 0.014288417,
+        "estimated": 0.018668417,
+        "method": "bayesian_edge",
+        "name": "Pseudomonas syringae",
+        "taxon_id": "317",
+        "truth": 0.00438
+      },
+      {
+        "error": 0.0032931444,
+        "estimated": 0.0053231444,
+        "method": "bayesian_edge",
+        "name": "Escherichia coli",
+        "taxon_id": "562",
+        "truth": 0.00203
+      },
+      {
+        "error": -0.0001821351000000004,
+        "estimated": 0.0039878649,
+        "method": "bayesian_edge",
+        "name": "Escherichia fergusonii",
+        "taxon_id": "564",
+        "truth": 0.00417
+      },
+      {
+        "error": -0.064058039,
+        "estimated": 0.055191961,
+        "method": "bayesian_edge",
+        "name": "Shigella boydii",
+        "taxon_id": "621",
+        "truth": 0.11925
+      },
+      {
+        "error": 0.0012461386000000001,
+        "estimated": 0.0066561386,
+        "method": "bayesian_edge",
+        "name": "Shigella dysenteriae",
+        "taxon_id": "622",
+        "truth": 0.00541
+      },
+      {
+        "error": -0.007504985999999991,
+        "estimated": 0.064845014,
+        "method": "bayesian_edge",
+        "name": "Shigella flexneri",
+        "taxon_id": "623",
+        "truth": 0.07235
+      },
+      {
+        "error": 0.0055878404,
+        "estimated": 0.0071178404,
+        "method": "bayesian_edge",
+        "name": "Shigella sonnei",
+        "taxon_id": "624",
+        "truth": 0.00153
+      },
+      {
+        "error": -0.00212,
+        "estimated": 0.0,
+        "method": "bayesian_edge",
+        "name": "Streptococcus thermophilus",
+        "taxon_id": "1308",
+        "truth": 0.00212
+      },
+      {
+        "error": -0.00207928704,
+        "estimated": 7.071296e-05,
+        "method": "bayesian_edge",
+        "name": "Streptococcus mutans",
+        "taxon_id": "1309",
+        "truth": 0.00215
+      },
+      {
+        "error": -0.00288942494,
+        "estimated": 0.00039057506,
+        "method": "bayesian_edge",
+        "name": "Streptococcus agalactiae",
+        "taxon_id": "1311",
+        "truth": 0.00328
+      },
+      {
+        "error": 0.018859528,
+        "estimated": 0.098409528,
+        "method": "bayesian_edge",
+        "name": "Streptococcus pneumoniae",
+        "taxon_id": "1313",
+        "truth": 0.07955
+      },
+      {
+        "error": -0.0130422121,
+        "estimated": 0.0022277879,
+        "method": "bayesian_edge",
+        "name": "Streptococcus pyogenes",
+        "taxon_id": "1314",
+        "truth": 0.01527
+      },
+      {
+        "error": 0.0026269749999999984,
+        "estimated": 0.015336975,
+        "method": "bayesian_edge",
+        "name": "Escherichia albertii",
+        "taxon_id": "208962",
+        "truth": 0.01271
+      },
+      {
+        "error": 0.014731142000000003,
+        "estimated": 0.095871142,
+        "method": "bayesian_edge",
+        "name": "Pseudomonas protegens",
+        "taxon_id": "380021",
+        "truth": 0.08114
+      },
+      {
+        "error": 0.008667094000000007,
+        "estimated": 0.066427094,
+        "method": "bayesian_edge",
+        "name": "Escherichia marmotae",
+        "taxon_id": "1499973",
+        "truth": 0.05776
+      },
+      {
+        "error": 0.005347971,
+        "estimated": 0.012497971,
+        "method": "bayesian_edge",
+        "name": "Escherichia ruysiae",
+        "taxon_id": "2608867",
+        "truth": 0.00715
+      },
+      {
+        "error": 0.2345139,
+        "estimated": 0.2345139,
+        "method": "bayesian_edge_coverage",
+        "name": "unclassified",
+        "taxon_id": "0",
+        "truth": 0.0
+      },
+      {
+        "error": -0.047977965,
+        "estimated": 0.036012035,
+        "method": "bayesian_edge_coverage",
+        "name": "Pseudomonas aeruginosa",
+        "taxon_id": "287",
+        "truth": 0.08399
+      },
+      {
+        "error": -0.13395383000000002,
+        "estimated": 0.14803617,
+        "method": "bayesian_edge_coverage",
+        "name": "Pseudomonas fluorescens",
+        "taxon_id": "294",
+        "truth": 0.28199
+      },
+      {
+        "error": -0.065888129,
+        "estimated": 0.097881871,
+        "method": "bayesian_edge_coverage",
+        "name": "Pseudomonas putida",
+        "taxon_id": "303",
+        "truth": 0.16377
+      },
+      {
+        "error": 0.014029848999999999,
+        "estimated": 0.018409849,
+        "method": "bayesian_edge_coverage",
+        "name": "Pseudomonas syringae",
+        "taxon_id": "317",
+        "truth": 0.00438
+      },
+      {
+        "error": 0.0026975648000000002,
+        "estimated": 0.0047275648,
+        "method": "bayesian_edge_coverage",
+        "name": "Escherichia coli",
+        "taxon_id": "562",
+        "truth": 0.00203
+      },
+      {
+        "error": -0.0009187793999999999,
+        "estimated": 0.0032512206,
+        "method": "bayesian_edge_coverage",
+        "name": "Escherichia fergusonii",
+        "taxon_id": "564",
+        "truth": 0.00417
+      },
+      {
+        "error": -0.040569414,
+        "estimated": 0.078680586,
+        "method": "bayesian_edge_coverage",
+        "name": "Shigella boydii",
+        "taxon_id": "621",
+        "truth": 0.11925
+      },
+      {
+        "error": 0.0014443241,
+        "estimated": 0.0068543241,
+        "method": "bayesian_edge_coverage",
+        "name": "Shigella dysenteriae",
+        "taxon_id": "622",
+        "truth": 0.00541
+      },
+      {
+        "error": 0.010385473000000006,
+        "estimated": 0.082735473,
+        "method": "bayesian_edge_coverage",
+        "name": "Shigella flexneri",
+        "taxon_id": "623",
+        "truth": 0.07235
+      },
+      {
+        "error": 0.021177341,
+        "estimated": 0.022707341,
+        "method": "bayesian_edge_coverage",
+        "name": "Shigella sonnei",
+        "taxon_id": "624",
+        "truth": 0.00153
+      },
+      {
+        "error": -0.00212,
+        "estimated": 0.0,
+        "method": "bayesian_edge_coverage",
+        "name": "Streptococcus thermophilus",
+        "taxon_id": "1308",
+        "truth": 0.00212
+      },
+      {
+        "error": -0.00207352724,
+        "estimated": 7.647276e-05,
+        "method": "bayesian_edge_coverage",
+        "name": "Streptococcus mutans",
+        "taxon_id": "1309",
+        "truth": 0.00215
+      },
+      {
+        "error": -0.00295355495,
+        "estimated": 0.00032644505,
+        "method": "bayesian_edge_coverage",
+        "name": "Streptococcus agalactiae",
+        "taxon_id": "1311",
+        "truth": 0.00328
+      },
+      {
+        "error": 0.010521178000000006,
+        "estimated": 0.090071178,
+        "method": "bayesian_edge_coverage",
+        "name": "Streptococcus pneumoniae",
+        "taxon_id": "1313",
+        "truth": 0.07955
+      },
+      {
+        "error": -0.013164258500000001,
+        "estimated": 0.0021057415,
+        "method": "bayesian_edge_coverage",
+        "name": "Streptococcus pyogenes",
+        "taxon_id": "1314",
+        "truth": 0.01527
+      },
+      {
+        "error": 0.0021069289999999987,
+        "estimated": 0.014816929,
+        "method": "bayesian_edge_coverage",
+        "name": "Escherichia albertii",
+        "taxon_id": "208962",
+        "truth": 0.01271
+      },
+      {
+        "error": 0.00829153199999999,
+        "estimated": 0.089431532,
+        "method": "bayesian_edge_coverage",
+        "name": "Pseudomonas protegens",
+        "taxon_id": "380021",
+        "truth": 0.08114
+      },
+      {
+        "error": 0.0010703989999999997,
+        "estimated": 0.058830399,
+        "method": "bayesian_edge_coverage",
+        "name": "Escherichia marmotae",
+        "taxon_id": "1499973",
+        "truth": 0.05776
+      },
+      {
+        "error": 0.003380974,
+        "estimated": 0.010530974,
+        "method": "bayesian_edge_coverage",
+        "name": "Escherichia ruysiae",
+        "taxon_id": "2608867",
+        "truth": 0.00715
+      }
+    ]
+  },
+  "encoding": {
+    "color": {
+      "field": "method",
+      "title": "Method",
+      "type": "nominal"
+    },
+    "tooltip": [
+      {
+        "field": "method",
+        "type": "nominal"
+      },
+      {
+        "field": "name",
+        "type": "nominal"
+      },
+      {
+        "field": "truth",
+        "type": "quantitative"
+      },
+      {
+        "field": "estimated",
+        "type": "quantitative"
+      },
+      {
+        "field": "error",
+        "type": "quantitative"
+      }
+    ],
+    "x": {
+      "field": "truth",
+      "title": "True read fraction",
+      "type": "quantitative"
+    },
+    "y": {
+      "field": "estimated",
+      "title": "Estimated fraction",
+      "type": "quantitative"
+    }
+  },
+  "height": 320,
+  "mark": {
+    "filled": true,
+    "type": "point"
+  },
+  "title": "Held-out genera: estimated versus true read fraction",
+  "width": 420
+}
