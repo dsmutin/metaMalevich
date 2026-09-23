@@ -23,10 +23,10 @@ conda activate metamalevich
 ## Usage
 
 ```bash
-metamalevich --version
-metamalevich
+python -m metamalevich --version
+python -m metamalevich
 python examples/toy/run.py
-metamalevich bench --data-root . --benchmark benchmark
+python -m metamalevich bench --data-root . --benchmark benchmark
 ```
 
 `bench` reads Kraken2 whole-contig output already stored for `samovar10` and `samovar10_ont1b`, rebuilds the recorded k-nearest-neighbour graph (`top_k=8`, `min_sim=0.15`) with `cpp/kmer_knn`, colours nodes and edges, and writes each hypothesis under `benchmark/{hypothesis}/{dataset}/`. MetaMetro performs the CFA to ToCUMG step. Set `METAMETRO_SRC` if the checkout is not at `external/MetaMetro` or the default tools path.
