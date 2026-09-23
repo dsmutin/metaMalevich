@@ -14,3 +14,4 @@ Check a box only after mandatory tests pass.
 - [x] Treat a hypothesis as better only when L1 and macro F1 both improve
 - [x] Record resolver parameters from the functions that use them
 - [x] Report composition-neighbour agreement instead of path consistency
+- [x] Test reprofiling, the k-mer graph, and ToCUMG topology
