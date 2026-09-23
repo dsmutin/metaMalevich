@@ -11,6 +11,7 @@ Check a box only after mandatory tests pass.
 - [x] Roll chart truth abundances to species
 - [x] Choose the LCA by tree depth rather than rank code
 - [x] Refuse an all-pairs 4-mer graph above a few hundred contigs
+- [x] State that profiles weight contig bases and do not use coverage
 - [x] Count unpredicted truth species as F1 0
 - [x] Record 4-mer graph provenance without machine paths
 - [x] Rebuild cached graphs and Kraken counts when inputs change

@@ -29,7 +29,7 @@ python examples/toy/run.py
 python -m metamalevich bench --data-root . --benchmark benchmark
 ```
 
-`bench` reads Kraken2 whole-contig output already stored for `samovar10`, builds a canonical 4-mer cosine k-nearest-neighbour graph (`top_k=8`, `min_sim=0.15`) with `cpp/kmer_knn`, colours nodes and edges, and writes each hypothesis under `benchmark/{hypothesis}/{dataset}/`. `samovar10_ont1b` repeats the same FASTA, Kraken2 output, and ground truth, so it is not a second dataset. Reusable counts and edges go to `./intermediate`. MetaMetro performs the CFA to ToCUMG step. Set `METAMETRO_SRC`, or clone MetaMetro to `external/MetaMetro`.
+`bench` reads Kraken2 whole-contig output already stored for `samovar10`, builds a canonical 4-mer cosine k-nearest-neighbour graph (`top_k=8`, `min_sim=0.15`) with `cpp/kmer_knn`, colours nodes and edges, and writes each hypothesis under `benchmark/{hypothesis}/{dataset}/`. `samovar10_ont1b` repeats the same FASTA, Kraken2 output, and ground truth, so it is not a second dataset. Relative abundance is the share of contig bases. Coverage is not used. On `samovar10`, `genome_abundance` matches that base share, so the benchmark scores how bases are classified. Reusable counts and edges go to `./intermediate`. MetaMetro performs the CFA to ToCUMG step. Set `METAMETRO_SRC`, or clone MetaMetro to `external/MetaMetro`.
 
 ## Tests
 

@@ -501,6 +501,8 @@ def _write_hypothesis(
         "resolver": hypothesis,
         "resolver_parameters": resolver_parameters(hypothesis),
         "profiling_method": "length-weighted posterior; assigned_reads is 0 because no read-to-graph map is in the bundle",
+        "abundance_weight": "node_length",
+        "coverage": "unused; relative abundance is the share of contig bases",
         "software_version": __version__,
         "graph_note": spec["graph_note"],
         "tocumg": tocumg,

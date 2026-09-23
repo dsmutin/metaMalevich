@@ -35,7 +35,7 @@ The kNN edge list that `graph_meta.txt` describes was not stored, and `mean_weig
 
 ## Measured profiles
 
-Species-rank scores on `samovar10` (399 contigs, 10 genomes). Lower L1 is better.
+Species-rank scores on `samovar10` (399 contigs, 10 genomes). Lower L1 is better. On this dataset each genome's `genome_abundance` equals its share of contig bases, and the profile weights nodes by length. Coverage is not used, so the scores measure how contig bases are classified.
 
 | Hypothesis | L1 | Macro F1 | Accuracy |
 |---|---:|---:|---:|
