@@ -30,6 +30,19 @@ def test_lca_and_rank_rollup() -> None:
     assert taxonomy.parent(10) == 3
 
 
+def test_colour_keeps_raw_counts_apart_from_weights() -> None:
+    """Normalized weights must not overwrite the k-mer counts they came from."""
+    rows = colours_from_weights(
+        {10: 0.25, 11: 0.75},
+        evidence_type="kmer",
+        source="kraken2",
+        counts={10: 4, 11: 12},
+    )
+    by_id = {row.taxon_id: row for row in rows}
+    assert by_id[10].weight == pytest.approx(0.25)
+    assert by_id[10].evidence_count == pytest.approx(4)
+
+
 def test_majority_is_explicit_and_multilabel_survives() -> None:
     """A tie keeps both taxa, and replace is the only way to drop a layer."""
     taxonomy = parse_kraken_report(REPORT, source="kraken2", version="unit")

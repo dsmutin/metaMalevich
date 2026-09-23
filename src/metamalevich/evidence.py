@@ -123,13 +123,20 @@ def colours_from_weights(
     source: str,
     counts: dict[int, float] | None = None,
 ) -> list[Colour]:
-    """Build colour rows. ``weight`` is the stored score for that taxon."""
+    """Build colour rows.
+
+    ``weight`` is the stored score. ``evidence_count`` is the raw count when
+    ``counts`` is given, and otherwise copies ``weight``.
+    """
     rows = []
     total = sum(max(value, 0.0) for value in weights.values())
     for taxon_id, weight in sorted(weights.items()):
         if weight < 0:
             raise ValueError(f"negative weight for taxon {taxon_id}")
-        count = float(counts.get(taxon_id, weight)) if counts else float(weight)
+        if counts is None:
+            count = float(weight)
+        else:
+            count = float(counts.get(taxon_id, 0.0))
         confidence = (weight / total) if total > 0 else 0.0
         rows.append(
             Colour(

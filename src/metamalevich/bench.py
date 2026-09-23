@@ -127,21 +127,25 @@ def _evidence_distributions(
     taxonomy: Taxonomy,
     calls: dict[str, int],
 ) -> dict[str, dict[int, float]]:
-    """Species-level k-mer distributions.
+    """Species-level k-mer distributions and the raw counts behind them.
 
     K-mers placed above species, including unclassified, are not spread across
     child species. A node with no species-level k-mers keeps the Kraken call
-    when that call itself rolls to species.
+    when that call itself rolls to species. The second map holds the un-normalized
+    species counts, which stay empty for that call fallback.
     """
     distributions = {}
+    raw_counts: dict[str, dict[int, float]] = {}
     for node_id in set(counts) | set(calls):
         rolled = roll_counts(counts.get(node_id, {}), taxonomy, "S")
         rolled.pop(0, None)
         if rolled:
+            raw_counts[node_id] = rolled
             distributions[node_id] = normalize(rolled)
         else:
+            raw_counts[node_id] = {}
             distributions[node_id] = _one_hot_call(calls.get(node_id, 0), taxonomy)
-    return distributions
+    return distributions, raw_counts
 
 
 def require_consistent_ids(
@@ -264,7 +268,7 @@ def run_dataset(data_root: Path, name: str, *, intermediate: Path, benchmark: Pa
         taxon_id = _species_truth(taxonomy, int(row["taxon_id"]))
         truth_abundance[taxon_id] = truth_abundance.get(taxon_id, 0.0) + float(row["genome_abundance"])
 
-    evidence = _evidence_distributions(counts, taxonomy, calls)
+    evidence, raw_counts = _evidence_distributions(counts, taxonomy, calls)
     calls_dist = {node_id: _one_hot_call(calls.get(node_id, 0), taxonomy) for node_id in evidence}
     lca_dist = {node_id: _lca_distribution(counts.get(node_id, {}), taxonomy) for node_id in evidence}
     edge_dist = edge_distributions(edges, evidence)
@@ -278,7 +282,7 @@ def run_dataset(data_root: Path, name: str, *, intermediate: Path, benchmark: Pa
         "lca": lca_dist,
         **graph_methods,
     }
-    _write_evidence_tables(work, evidence, edge_dist, taxonomy)
+    _write_evidence_tables(work, evidence, raw_counts, edge_dist, taxonomy)
     sequences = {node_id: sequence for node_id, sequence in read_fasta(fasta)}
     node_taxa = {node_id: [taxon_id for taxon_id in dist if taxon_id != 0] for node_id, dist in evidence.items()}
     edge_taxa = {edge_id: [taxon_id for taxon_id in dist if taxon_id != 0] for edge_id, dist in edge_dist.items()}
@@ -344,16 +348,19 @@ def _store_colour_layer(work: Path, taxonomy: Taxonomy, spec: dict) -> None:
 def _write_evidence_tables(
     work: Path,
     evidence: dict[str, dict[int, float]],
+    raw_counts: dict[str, dict[int, float]],
     edge_dist: dict[str, dict[int, float]],
     taxonomy: Taxonomy,
 ) -> None:
-    node_rows = []
     graph = EvidenceGraph()
     incoming = {}
     for node_id, weights in evidence.items():
-        incoming[node_id] = colours_from_weights(weights, evidence_type="kmer", source="kraken2", counts=weights)
-        for taxon_id, weight in sorted(weights.items()):
-            node_rows.append({"node_id": node_id, "taxon_id": taxon_id, "weight": f"{weight:.6f}", "rank": taxonomy.rank(taxon_id)})
+        incoming[node_id] = colours_from_weights(
+            weights,
+            evidence_type="kmer",
+            source="kraken2",
+            counts=raw_counts.get(node_id, {}),
+        )
     graph.apply(
         "node",
         incoming,
@@ -368,12 +375,13 @@ def _write_evidence_tables(
             operation="replace",
         ),
     )
-    edge_rows = []
     edge_incoming = {}
     for edge_id, weights in edge_dist.items():
-        edge_incoming[edge_id] = colours_from_weights(weights, evidence_type="shared_kmer_mass", source="endpoint_min", counts=weights)
-        for taxon_id, weight in sorted(weights.items()):
-            edge_rows.append({"edge_id": edge_id, "taxon_id": taxon_id, "weight": f"{weight:.6f}"})
+        edge_incoming[edge_id] = colours_from_weights(
+            weights,
+            evidence_type="shared_kmer_mass",
+            source="endpoint_min",
+        )
     graph.apply(
         "edge",
         edge_incoming,
@@ -388,8 +396,31 @@ def _write_evidence_tables(
             operation="replace",
         ),
     )
-    write_tsv(work / "node_evidence.tsv", node_rows, ["node_id", "taxon_id", "weight", "rank"])
-    write_tsv(work / "edge_evidence.tsv", edge_rows, ["edge_id", "taxon_id", "weight"])
+    node_rows = []
+    for node_id, colours in sorted(graph.node_colours.items()):
+        for colour in colours:
+            node_rows.append(
+                {
+                    "node_id": node_id,
+                    "taxon_id": colour.taxon_id,
+                    "weight": f"{colour.weight:.6f}",
+                    "evidence_count": f"{colour.evidence_count:.6f}",
+                    "rank": taxonomy.rank(colour.taxon_id),
+                }
+            )
+    edge_rows = []
+    for edge_id, colours in sorted(graph.edge_colours.items()):
+        for colour in colours:
+            edge_rows.append(
+                {
+                    "edge_id": edge_id,
+                    "taxon_id": colour.taxon_id,
+                    "weight": f"{colour.weight:.6f}",
+                    "evidence_count": f"{colour.evidence_count:.6f}",
+                }
+            )
+    write_tsv(work / "node_evidence.tsv", node_rows, ["node_id", "taxon_id", "weight", "evidence_count", "rank"])
+    write_tsv(work / "edge_evidence.tsv", edge_rows, ["edge_id", "taxon_id", "weight", "evidence_count"])
 
 
 def _write_hypothesis(
