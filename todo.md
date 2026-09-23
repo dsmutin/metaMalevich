@@ -9,6 +9,7 @@ Check a box only after mandatory tests pass.
 - [x] Skip samovar10_ont1b; its inputs duplicate samovar10
 - [x] Keep raw k-mer counts on colour rows written from the evidence graph
 - [x] Roll chart truth abundances to species
+- [x] Choose the LCA by tree depth rather than rank code
 - [x] Count unpredicted truth species as F1 0
 - [x] Record 4-mer graph provenance without machine paths
 - [x] Rebuild cached graphs and Kraken counts when inputs change

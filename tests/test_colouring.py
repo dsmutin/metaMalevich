@@ -7,7 +7,7 @@ import pytest
 from metamalevich.aggregate import aggregate
 from metamalevich.evidence import EvidenceGraph, colours_from_weights, make_layer
 from metamalevich.resolve import RESOLVER_PARAMETERS, bayesian_edge
-from metamalevich.taxonomy import parse_kraken_report
+from metamalevich.taxonomy import Taxonomy, Taxon, parse_kraken_report
 from metamalevich.toy import run_toy
 
 pytestmark = pytest.mark.mandatory
@@ -19,6 +19,20 @@ REPORT = """\
 25.00\t1\t1\tS\t10\t      speciesA
 25.00\t1\t1\tS\t11\t      speciesB
 """
+
+
+def test_lca_uses_tree_depth_when_rank_codes_disagree() -> None:
+    """A rank outside the ladder must not push the LCA up to the root."""
+    taxonomy = Taxonomy(
+        [
+            Taxon(1, None, "R", "root", "toy", "v"),
+            Taxon(2, 1, "X", "middle", "toy", "v"),
+            Taxon(3, 2, "D", "domain", "toy", "v"),
+        ],
+        source="toy",
+        version="v",
+    )
+    assert taxonomy.lca([3, 2]) == 2
 
 
 def test_lca_and_rank_rollup() -> None:

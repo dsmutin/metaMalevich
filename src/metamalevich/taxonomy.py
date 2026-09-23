@@ -71,7 +71,12 @@ class Taxonomy:
         return chain
 
     def lca(self, taxon_ids: list[int]) -> int:
-        """Lowest common ancestor of taxa that exist in this taxonomy."""
+        """Lowest common ancestor of taxa that exist in this taxonomy.
+
+        The chosen ancestor is the deepest shared node in the parent tree.
+        Rank codes are not used, so a rank outside the standard ladder cannot
+        hide a finer ancestor.
+        """
         present = [taxon_id for taxon_id in taxon_ids if taxon_id in self.by_id and taxon_id != 0]
         if not present:
             raise ValueError("LCA requires at least one known taxon")
@@ -80,7 +85,7 @@ class Taxonomy:
             shared &= set(self.ancestors(taxon_id))
         if not shared:
             raise ValueError("taxa do not share an ancestor")
-        return max(shared, key=lambda taxon_id: rank_key(self.by_id[taxon_id].rank))
+        return max(shared, key=lambda taxon_id: len(self.ancestors(taxon_id)))
 
     def ancestor_at_rank(self, taxon_id: int, rank: str) -> int | None:
         """Walk to ``rank`` (for example ``S``).
