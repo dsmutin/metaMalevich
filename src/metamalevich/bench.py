@@ -147,6 +147,28 @@ def _evidence_distributions(
     return distributions
 
 
+def require_consistent_ids(
+    *,
+    dataset: str,
+    sequences: set[str],
+    calls: set[str],
+    truth: set[str],
+    lengths: set[str],
+) -> None:
+    """Fail when contig ids disagree across FASTA, Kraken calls, truth, and lengths."""
+    problems = []
+    if sequences != calls:
+        problems.append(f"fasta/kraken symmetric difference {sorted(sequences ^ calls)[:8]}")
+    if sequences != truth:
+        problems.append(f"fasta/truth symmetric difference {sorted(sequences ^ truth)[:8]}")
+    if sequences != lengths:
+        problems.append(f"fasta/lengths symmetric difference {sorted(sequences ^ lengths)[:8]}")
+    if not sequences:
+        problems.append("FASTA has no sequences")
+    if problems:
+        raise ValueError(f"{dataset}: contig ids do not match: " + "; ".join(problems))
+
+
 def _load_edges(path: Path) -> list[dict]:
     edges = []
     for row in read_tsv(path):
@@ -173,6 +195,15 @@ def run_dataset(data_root: Path, name: str, *, intermediate: Path, benchmark: Pa
     """Colour one dataset, resolve it, and write one folder per hypothesis."""
     spec = DATASETS[name]
     fasta = data_root / spec["fasta"]
+    for label, path in (
+        ("assembly", fasta),
+        ("kraken", data_root / spec["kraken"]),
+        ("report", data_root / spec["report"]),
+        ("truth", data_root / spec["truth"]),
+        ("abundance", data_root / spec["abundance"]),
+    ):
+        if not path.is_file() or path.stat().st_size == 0:
+            raise FileNotFoundError(f"{name}: missing or empty {label} file: {path}")
     kraken = data_root / spec["kraken"]
     report_path = data_root / spec["report"]
     work = intermediate / name
@@ -218,8 +249,18 @@ def run_dataset(data_root: Path, name: str, *, intermediate: Path, benchmark: Pa
     node_truth = {}
     for row in truth_rows:
         node_truth[row["contig_id"]] = _species_truth(taxonomy, int(row["taxon_id"]))
-        if row["contig_id"] in lengths and row.get("length"):
+        if row.get("length"):
             lengths[row["contig_id"]] = int(float(row["length"]))
+    sequence_ids = {node_id for node_id, _sequence in read_fasta(fasta)}
+    require_consistent_ids(
+        dataset=name,
+        sequences=sequence_ids,
+        calls=set(calls),
+        truth=set(node_truth),
+        lengths=set(lengths),
+    )
+    if any(lengths[node_id] <= 0 for node_id in sequence_ids):
+        raise ValueError(f"{name}: every contig needs a positive length")
     abundance_rows = read_csv(data_root / spec["abundance"])
     truth_abundance: dict[int, float] = {}
     for row in abundance_rows:

@@ -51,7 +51,9 @@ int main(int argc, char** argv) {
     std::map<std::pair<std::string, std::string>, uint64_t> totals;
     std::map<std::string, std::pair<std::string, std::string>> calls;
     std::string line;
+    int line_number = 0;
     while (std::getline(in, line)) {
+        ++line_number;
         if (line.empty() || line[0] == '#') {
             continue;
         }
@@ -67,7 +69,12 @@ int main(int argc, char** argv) {
             }
         }
         if (nfields < 5 || fields[1].empty()) {
-            continue;
+            std::cerr << "kraken_count: line " << line_number << " does not have 5 columns\n";
+            return 1;
+        }
+        if (calls.count(fields[1])) {
+            std::cerr << "kraken_count: duplicate sequence id " << fields[1] << "\n";
+            return 1;
         }
         calls[fields[1]] = {fields[0], fields[2]};
         const std::string& seq = fields[1];

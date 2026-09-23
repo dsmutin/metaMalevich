@@ -10,3 +10,4 @@ Check a box only after mandatory tests pass.
 - [x] Record 4-mer graph provenance without machine paths
 - [x] Rebuild cached graphs and Kraken counts when inputs change
 - [x] Run outside this source tree: pinned deps, compiler, no machine path
+- [x] Reject mismatched contig ids and malformed Kraken rows
