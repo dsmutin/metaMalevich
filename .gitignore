@@ -43,6 +43,7 @@ conda-bld/
 # held-out genera example: genomes, reads, databases, and assembly
 /data/
 /examples/heldout_genera/work/
+/examples/half_strains/work/
 
 # third-party checkouts and large reusable intermediates
 /external/

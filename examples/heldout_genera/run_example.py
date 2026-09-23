@@ -36,6 +36,7 @@ from community import (
 ROOT = Path(__file__).resolve().parents[2]
 EXAMPLE = Path(__file__).resolve().parent
 WORK = EXAMPLE / "work"
+GRAPH_ID = "heldout_genera"
 TOTAL_READS = 100_000
 SEED = 42
 SIGMA = 1.5
@@ -828,7 +829,7 @@ def _export_assembly_tocumg(sequences, edges, evidence, edge_dist, scientific) -
     try:
         record = export_tocumg(
             root=ROOT,
-            graph_id="heldout_genera",
+            graph_id=GRAPH_ID,
             sequences=sequences,
             edges=edges,
             node_taxa=node_taxa,

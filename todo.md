@@ -23,3 +23,4 @@ Check a box only after mandatory tests pass.
 - [x] Report composition-neighbour agreement instead of path consistency
 - [x] Test reprofiling, the k-mer graph, and ToCUMG topology
 - [x] Held-out genera example: simulate, classify, assemble, and compare
+- [ ] Half-strain example: same pipeline on every other downloaded strain

@@ -53,6 +53,25 @@ def load_pairs(path: Path) -> list[dict[str, str]]:
     return rows
 
 
+def half_strains(rows: list[dict[str, str]]) -> list[dict[str, str]]:
+    """Keep every other strain in the order pairs first appear.
+
+    Twenty strains become ten. Both the sim row and the db row of a kept pair
+    are returned. An odd strain count is rejected so the half is exact.
+    """
+    order: list[str] = []
+    seen: set[str] = set()
+    for row in rows:
+        pair_id = row["pair_id"]
+        if pair_id not in seen:
+            seen.add(pair_id)
+            order.append(pair_id)
+    if len(order) % 2:
+        raise ValueError(f"half_strains needs an even strain count, got {len(order)}")
+    keep = set(order[::2])
+    return [row for row in rows if row["pair_id"] in keep]
+
+
 def lognormal_read_counts(
     n_genomes: int,
     total_reads: int,

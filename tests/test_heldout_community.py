@@ -79,6 +79,35 @@ def test_species_walk_skips_strain_ranks() -> None:
     assert community.species_taxon(561, parents, ranks) is None
 
 
+def test_half_strains_keeps_every_other_pair(repo_root: Path) -> None:
+    """Ten strains, both assemblies each, taken from the pinned table order."""
+    community = _community(repo_root)
+    full = community.load_pairs(repo_root / "examples" / "heldout_genera" / "accessions.tsv")
+    half = community.half_strains(full)
+    pinned = community.load_pairs(repo_root / "examples" / "half_strains" / "accessions.tsv")
+    assert pinned == half
+    assert len(half) == 20
+    pair_ids = []
+    for row in half:
+        if row["pair_id"] not in pair_ids:
+            pair_ids.append(row["pair_id"])
+    assert pair_ids == [
+        "eco_albertii",
+        "eco_marmotae",
+        "eco_coli",
+        "shi_sonnei",
+        "shi_dysenteriae",
+        "pse_aeruginosa",
+        "pse_fluorescens",
+        "pse_protegens",
+        "str_pyogenes",
+        "str_mutans",
+    ]
+    assert {row["genus"] for row in half} == {"Escherichia", "Shigella", "Pseudomonas", "Streptococcus"}
+    with pytest.raises(ValueError):
+        community.half_strains([{"pair_id": "only", "role": "sim"}])
+
+
 def test_presence_f1_and_r_squared() -> None:
     """A missed truth taxon lowers F1, and R² is the squared Pearson value."""
     community = _community(Path(__file__).resolve().parents[1])
