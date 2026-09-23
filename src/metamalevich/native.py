@@ -10,9 +10,17 @@ ROOT = Path(__file__).resolve().parents[2]
 CPP = ROOT / "cpp"
 
 
+def tool_source(name: str) -> Path:
+    """Return the C++ source for a native tool."""
+    source = CPP / f"{name}.cpp"
+    if not source.is_file():
+        raise FileNotFoundError(source)
+    return source
+
+
 def compile_tool(name: str) -> Path:
     """Compile ``cpp/<name>.cpp`` when the binary is missing or older than the source."""
-    source = CPP / f"{name}.cpp"
+    source = tool_source(name)
     binary = CPP / name
     if not source.is_file():
         raise FileNotFoundError(source)

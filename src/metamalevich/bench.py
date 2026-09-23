@@ -18,7 +18,7 @@ from metamalevich.bridge import export_tocumg
 from metamalevich.evaluate import abundance_scores, classification_scores, path_consistency
 from metamalevich.evidence import colours_from_weights, make_layer
 from metamalevich.evidence import EvidenceGraph
-from metamalevich.native import kmer_graph, kraken_counts
+from metamalevich.native import kmer_graph, kraken_counts, tool_source
 from metamalevich.plots import write_abundance_chart, write_summary_charts
 from metamalevich.reprofile import profile_nodes
 from metamalevich.resolve import edge_distributions, hard_assignment, resolve
@@ -72,6 +72,24 @@ PROFILE_COLUMNS = [
     "ambiguous_bases",
     "confidence",
 ]
+
+
+def cache_signature(payload: dict) -> str:
+    """Stable sidecar text for one cached table."""
+    return yaml.safe_dump(payload, sort_keys=True)
+
+
+def cache_is_fresh(path: Path, signature: str) -> bool:
+    """True when ``path`` exists and its sidecar still matches ``signature``."""
+    meta = Path(str(path) + ".meta")
+    if not path.is_file() or not meta.is_file():
+        return False
+    return meta.read_text(encoding="utf-8") == signature
+
+
+def write_cache_signature(path: Path, signature: str) -> None:
+    """Record the inputs that produced ``path``."""
+    Path(str(path) + ".meta").write_text(signature, encoding="utf-8")
 
 
 def _group_counts(rows: list[dict[str, str]]) -> dict[str, dict[int, float]]:
@@ -162,9 +180,31 @@ def run_dataset(data_root: Path, name: str, *, intermediate: Path, benchmark: Pa
     counts_path = work / "kraken_counts.tsv"
     calls_path = work / "kraken_calls.tsv"
     edges_path = work / "knn_edges.tsv"
-    kraken_counts(kraken, counts_path, calls_path)
-    if not edges_path.is_file():
+    kraken_signature = cache_signature(
+        {
+            "tool": "kraken_count",
+            "source_mtime_ns": tool_source("kraken_count").stat().st_mtime_ns,
+            "input_size": kraken.stat().st_size,
+            "input_mtime_ns": kraken.stat().st_mtime_ns,
+        }
+    )
+    if not (cache_is_fresh(counts_path, kraken_signature) and calls_path.is_file()):
+        kraken_counts(kraken, counts_path, calls_path)
+        write_cache_signature(counts_path, kraken_signature)
+    graph_signature = cache_signature(
+        {
+            "tool": "kmer_knn",
+            "source_mtime_ns": tool_source("kmer_knn").stat().st_mtime_ns,
+            "fasta_size": fasta.stat().st_size,
+            "fasta_mtime_ns": fasta.stat().st_mtime_ns,
+            "top_k": int(spec["top_k"]),
+            "min_sim": float(spec["min_sim"]),
+        }
+    )
+    lengths_path = Path(str(edges_path) + ".lengths.tsv")
+    if not (cache_is_fresh(edges_path, graph_signature) and lengths_path.is_file()):
         kmer_graph(fasta, edges_path, top_k=int(spec["top_k"]), min_sim=float(spec["min_sim"]))
+        write_cache_signature(edges_path, graph_signature)
     taxonomy = parse_kraken_report(
         report_path.read_text(encoding="utf-8"),
         source="kraken2",
