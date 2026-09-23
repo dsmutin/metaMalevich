@@ -99,6 +99,15 @@ def _group_counts(rows: list[dict[str, str]]) -> dict[str, dict[int, float]]:
     return grouped
 
 
+def species_abundance(rows: list[dict[str, str]], taxonomy: Taxonomy) -> dict[int, float]:
+    """Sum genome abundances after rolling each taxon id to species."""
+    abundance: dict[int, float] = {}
+    for row in rows:
+        taxon_id = _species_truth(taxonomy, int(row["taxon_id"]))
+        abundance[taxon_id] = abundance.get(taxon_id, 0.0) + float(row["genome_abundance"])
+    return abundance
+
+
 def _species_truth(taxonomy: Taxonomy, taxon_id: int) -> int:
     rolled = taxonomy.ancestor_at_rank(taxon_id, "S")
     return taxon_id if rolled is None else rolled
@@ -262,11 +271,7 @@ def run_dataset(data_root: Path, name: str, *, intermediate: Path, benchmark: Pa
     )
     if any(lengths[node_id] <= 0 for node_id in sequence_ids):
         raise ValueError(f"{name}: every contig needs a positive length")
-    abundance_rows = read_csv(data_root / spec["abundance"])
-    truth_abundance: dict[int, float] = {}
-    for row in abundance_rows:
-        taxon_id = _species_truth(taxonomy, int(row["taxon_id"]))
-        truth_abundance[taxon_id] = truth_abundance.get(taxon_id, 0.0) + float(row["genome_abundance"])
+    truth_abundance = species_abundance(read_csv(data_root / spec["abundance"]), taxonomy)
 
     evidence, raw_counts = _evidence_distributions(counts, taxonomy, calls)
     calls_dist = {node_id: _one_hot_call(calls.get(node_id, 0), taxonomy) for node_id in evidence}
@@ -588,10 +593,12 @@ def compare_to_initial(rows: list[dict]) -> list[dict]:
 def _abundance_compare(data_root: Path, output: Path, datasets: list[str]) -> list[dict]:
     rows = []
     for dataset in datasets:
-        abundance: dict[int, float] = {}
-        for row in read_csv(data_root / DATASETS[dataset]["abundance"]):
-            taxon_id = int(row["taxon_id"])
-            abundance[taxon_id] = abundance.get(taxon_id, 0.0) + float(row["genome_abundance"])
+        taxonomy = parse_kraken_report(
+            (data_root / DATASETS[dataset]["report"]).read_text(encoding="utf-8"),
+            source="kraken2",
+            version=DATASETS[dataset]["report"],
+        )
+        abundance = species_abundance(read_csv(data_root / DATASETS[dataset]["abundance"]), taxonomy)
         total = sum(abundance.values()) or 1.0
         abundance = {taxon_id: value / total for taxon_id, value in abundance.items()}
         for hypothesis in ABUNDANCE_CHART_HYPOTHESES:

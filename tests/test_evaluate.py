@@ -29,6 +29,23 @@ def test_unpredicted_truth_taxon_scores_zero() -> None:
     assert scores["accuracy"] == pytest.approx(0.5)
 
 
+def test_species_abundance_rolls_strains_into_the_species() -> None:
+    """Chart truth uses the same species rollup as the scored profile."""
+    from metamalevich.bench import species_abundance
+    from metamalevich.taxonomy import parse_kraken_report
+
+    report = "100.00\t2\t0\tR\t1\troot\n50.00\t1\t0\tS\t10\t  speciesA\n50.00\t1\t1\tS1\t100\t    strainA\n"
+    taxonomy = parse_kraken_report(report, source="toy", version="toy")
+    rolled = species_abundance(
+        [
+            {"taxon_id": "100", "genome_abundance": "0.2"},
+            {"taxon_id": "10", "genome_abundance": "0.3"},
+        ],
+        taxonomy,
+    )
+    assert rolled == {10: 0.5}
+
+
 def test_beats_initial_requires_both_l1_and_f1() -> None:
     """Lower L1 with a worse macro F1 does not count as beating the hard colouring."""
     from metamalevich.bench import ABUNDANCE_CHART_HYPOTHESES, compare_to_initial
