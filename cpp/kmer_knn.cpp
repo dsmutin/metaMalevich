@@ -2,6 +2,7 @@
 // Disjoint contigs from one genome share tetranucleotide composition even when
 // they share few 21-mers. Each node keeps up to --top-k neighbours whose cosine
 // is at least --min-sim. Edges are written in both directions.
+// Similarity is all-pairs, so --max-nodes (default 2000) refuses a large FASTA.
 
 #include <algorithm>
 #include <cmath>
@@ -138,19 +139,22 @@ std::vector<Sequence> read_fasta(const std::string& path) {
 
 int main(int argc, char** argv) {
     if (argc < 3) {
-        std::cerr << "usage: kmer_knn FASTA EDGES.tsv [--top-k 8] [--min-sim 0.15]\n";
+        std::cerr << "usage: kmer_knn FASTA EDGES.tsv [--top-k 8] [--min-sim 0.15] [--max-nodes 2000]\n";
         return 2;
     }
     const std::string fasta = argv[1];
     const std::string edges_path = argv[2];
     int top_k = 8;
     double min_sim = 0.15;
+    int max_nodes = 2000;
     for (int i = 3; i < argc; ++i) {
         const std::string arg = argv[i];
         if (arg == "--top-k" && i + 1 < argc) {
             top_k = std::stoi(argv[++i]);
         } else if (arg == "--min-sim" && i + 1 < argc) {
             min_sim = std::stod(argv[++i]);
+        } else if (arg == "--max-nodes" && i + 1 < argc) {
+            max_nodes = std::stoi(argv[++i]);
         } else {
             std::cerr << "unknown argument: " << arg << "\n";
             return 2;
@@ -158,6 +162,10 @@ int main(int argc, char** argv) {
     }
     if (top_k < 1) {
         std::cerr << "top-k must be >= 1\n";
+        return 2;
+    }
+    if (max_nodes < 1) {
+        std::cerr << "max-nodes must be >= 1\n";
         return 2;
     }
     std::vector<Sequence> records;
@@ -168,6 +176,11 @@ int main(int argc, char** argv) {
         return 1;
     }
     const int n = static_cast<int>(records.size());
+    if (n > max_nodes) {
+        std::cerr << "kmer_knn: " << n << " sequences exceeds --max-nodes " << max_nodes
+                  << ". The all-pairs 4-mer scan is intended for a few hundred contigs.\n";
+        return 2;
+    }
     std::map<std::pair<int, int>, double> directed;
     for (int i = 0; i < n; ++i) {
         std::vector<std::pair<double, int>> scored;
