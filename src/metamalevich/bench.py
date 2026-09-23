@@ -104,11 +104,25 @@ def _lca_distribution(counts: dict[int, float], taxonomy: Taxonomy) -> dict[int,
     return {0 if species is None else species: 1.0}
 
 
-def _evidence_distributions(counts: dict[str, dict[int, float]], taxonomy: Taxonomy) -> dict[str, dict[int, float]]:
+def _evidence_distributions(
+    counts: dict[str, dict[int, float]],
+    taxonomy: Taxonomy,
+    calls: dict[str, int],
+) -> dict[str, dict[int, float]]:
+    """Species-level k-mer distributions.
+
+    K-mers placed above species, including unclassified, are not spread across
+    child species. A node with no species-level k-mers keeps the Kraken call
+    when that call itself rolls to species.
+    """
     distributions = {}
-    for node_id, node_counts in counts.items():
-        rolled = roll_counts(node_counts, taxonomy, "S")
-        distributions[node_id] = normalize(rolled)
+    for node_id in set(counts) | set(calls):
+        rolled = roll_counts(counts.get(node_id, {}), taxonomy, "S")
+        rolled.pop(0, None)
+        if rolled:
+            distributions[node_id] = normalize(rolled)
+        else:
+            distributions[node_id] = _one_hot_call(calls.get(node_id, 0), taxonomy)
     return distributions
 
 
@@ -169,7 +183,7 @@ def run_dataset(data_root: Path, name: str, *, intermediate: Path, benchmark: Pa
         taxon_id = _species_truth(taxonomy, int(row["taxon_id"]))
         truth_abundance[taxon_id] = truth_abundance.get(taxon_id, 0.0) + float(row["genome_abundance"])
 
-    evidence = _evidence_distributions(counts, taxonomy)
+    evidence = _evidence_distributions(counts, taxonomy, calls)
     calls_dist = {node_id: _one_hot_call(calls.get(node_id, 0), taxonomy) for node_id in evidence}
     lca_dist = {node_id: _lca_distribution(counts.get(node_id, {}), taxonomy) for node_id in evidence}
     edge_dist = edge_distributions(edges, evidence)
@@ -359,8 +373,8 @@ def _write_hypothesis(
     )
     manifest = {
         "input_graph": "minimizer Jaccard kNN rebuilt from assembly contigs",
-        "graph_construction_method": "canonical 21-mer minimizers, window 11, bottom-512 Jaccard",
-        "k": 21,
+        "graph_construction_method": "canonical 4-mer cosine, symmetrized top-k; 21-mer Jaccard between disjoint contigs fell below min_sim",
+        "k": 4,
         "assembler": "contigs already present in the dataset bundle",
         "tca_method": "kraken2 k-mer counts rolled to species, aggregation=probability_sum",
         "taxonomic_database": "kraken2 report shipped with the dataset",

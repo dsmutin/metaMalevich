@@ -1,10 +1,11 @@
-// Bottom-k minimizer Jaccard graph.
-// Each node keeps up to --top-k neighbours with Jaccard >= --min-sim.
-// Edges are written in both directions so a later resolver can walk either way.
+// Symmetrized k-nearest-neighbour graph from canonical 4-mer composition.
+// Disjoint contigs from one genome share tetranucleotide composition even when
+// they share few 21-mers. Each node keeps up to --top-k neighbours whose cosine
+// is at least --min-sim. Edges are written in both directions.
 
 #include <algorithm>
+#include <cmath>
 #include <cstdint>
-#include <deque>
 #include <fstream>
 #include <iostream>
 #include <map>
@@ -15,10 +16,8 @@
 
 namespace {
 
-constexpr int kK = 21;
-constexpr int kWindow = 11;
-constexpr int kSketch = 512;
-constexpr uint64_t kMask = (kK == 32) ? ~0ULL : ((1ULL << (2 * kK)) - 1ULL);
+constexpr int kK = 4;
+constexpr int kBins = 256;
 
 int base_code(char ch) {
     switch (ch) {
@@ -39,84 +38,68 @@ int base_code(char ch) {
     }
 }
 
-uint64_t reverse_complement(uint64_t code) {
-    uint64_t out = 0;
+int reverse_complement(int code) {
+    int out = 0;
     for (int i = 0; i < kK; ++i) {
-        out = (out << 2) | ((code & 3ULL) ^ 3ULL);
+        out = (out << 2) | ((code & 3) ^ 3);
         code >>= 2;
     }
     return out;
 }
 
-std::vector<uint64_t> sketch_sequence(const std::string& sequence) {
-    std::vector<uint64_t> minimizers;
-    std::deque<std::pair<uint64_t, int>> window;
-    uint64_t code = 0;
+struct Sequence {
+    std::string name;
+    std::vector<double> composition;
+    int length = 0;
+};
+
+Sequence composition_of(std::string name, const std::string& sequence) {
+    Sequence record;
+    record.name = std::move(name);
+    record.length = static_cast<int>(sequence.size());
+    std::vector<double> counts(kBins, 0.0);
+    int code = 0;
     int filled = 0;
-    int index = 0;
+    double total = 0.0;
     for (char ch : sequence) {
         const int base = base_code(ch);
         if (base < 0) {
             filled = 0;
             code = 0;
-            window.clear();
             continue;
         }
-        code = ((code << 2) | static_cast<uint64_t>(base)) & kMask;
+        code = ((code << 2) | base) & (kBins - 1);
         ++filled;
         if (filled < kK) {
             continue;
         }
-        const uint64_t canonical = std::min(code, reverse_complement(code));
-        while (!window.empty() && window.back().first > canonical) {
-            window.pop_back();
-        }
-        window.emplace_back(canonical, index);
-        while (!window.empty() && window.front().second <= index - kWindow) {
-            window.pop_front();
-        }
-        if (index >= kWindow - 1) {
-            minimizers.push_back(window.front().first);
-        }
-        ++index;
+        const int canonical = std::min(code, reverse_complement(code));
+        counts[canonical] += 1.0;
+        total += 1.0;
     }
-    std::sort(minimizers.begin(), minimizers.end());
-    minimizers.erase(std::unique(minimizers.begin(), minimizers.end()), minimizers.end());
-    if (static_cast<int>(minimizers.size()) > kSketch) {
-        minimizers.resize(kSketch);
+    if (total > 0.0) {
+        for (double& value : counts) {
+            value /= total;
+        }
     }
-    return minimizers;
+    record.composition = std::move(counts);
+    return record;
 }
 
-double jaccard(const std::vector<uint64_t>& left, const std::vector<uint64_t>& right) {
-    if (left.empty() && right.empty()) {
+double cosine(const std::vector<double>& left, const std::vector<double>& right) {
+    double dot = 0.0;
+    double left_norm = 0.0;
+    double right_norm = 0.0;
+    for (size_t i = 0; i < left.size(); ++i) {
+        dot += left[i] * right[i];
+        left_norm += left[i] * left[i];
+        right_norm += right[i] * right[i];
+    }
+    if (left_norm <= 0.0 || right_norm <= 0.0) {
         return 0.0;
     }
-    size_t i = 0;
-    size_t j = 0;
-    size_t inter = 0;
-    while (i < left.size() && j < right.size()) {
-        if (left[i] == right[j]) {
-            ++inter;
-            ++i;
-            ++j;
-        } else if (left[i] < right[j]) {
-            ++i;
-        } else {
-            ++j;
-        }
-    }
-    const size_t uni = left.size() + right.size() - inter;
-    if (uni == 0) {
-        return 0.0;
-    }
-    return static_cast<double>(inter) / static_cast<double>(uni);
+    return dot / std::sqrt(left_norm * right_norm);
 }
-
-struct Sequence {
-    std::string name;
-    std::string bases;
-};
 
 std::vector<Sequence> read_fasta(const std::string& path) {
     std::ifstream in(path);
@@ -125,25 +108,29 @@ std::vector<Sequence> read_fasta(const std::string& path) {
     }
     std::vector<Sequence> records;
     std::string line;
-    Sequence current;
+    std::string name;
+    std::string bases;
+    auto flush = [&]() {
+        if (name.empty()) {
+            return;
+        }
+        records.push_back(composition_of(name, bases));
+        name.clear();
+        bases.clear();
+    };
     while (std::getline(in, line)) {
         if (line.empty()) {
             continue;
         }
         if (line[0] == '>') {
-            if (!current.name.empty()) {
-                records.push_back(std::move(current));
-                current = Sequence();
-            }
+            flush();
             const auto end = line.find_first_of(" \t", 1);
-            current.name = line.substr(1, end == std::string::npos ? std::string::npos : end - 1);
+            name = line.substr(1, end == std::string::npos ? std::string::npos : end - 1);
             continue;
         }
-        current.bases.append(line);
+        bases.append(line);
     }
-    if (!current.name.empty()) {
-        records.push_back(std::move(current));
-    }
+    flush();
     return records;
 }
 
@@ -181,24 +168,15 @@ int main(int argc, char** argv) {
         return 1;
     }
     const int n = static_cast<int>(records.size());
-    std::vector<std::vector<uint64_t>> sketches(n);
-    std::vector<int> lengths(n);
-    for (int i = 0; i < n; ++i) {
-        lengths[i] = static_cast<int>(records[i].bases.size());
-        sketches[i] = sketch_sequence(records[i].bases);
-        records[i].bases.clear();
-        records[i].bases.shrink_to_fit();
-    }
-
     std::map<std::pair<int, int>, double> directed;
     for (int i = 0; i < n; ++i) {
         std::vector<std::pair<double, int>> scored;
-        scored.reserve(n > 0 ? n - 1 : 0);
+        scored.reserve(n > 0 ? static_cast<size_t>(n - 1) : 0);
         for (int j = 0; j < n; ++j) {
             if (i == j) {
                 continue;
             }
-            const double sim = jaccard(sketches[i], sketches[j]);
+            const double sim = cosine(records[i].composition, records[j].composition);
             if (sim >= min_sim) {
                 scored.emplace_back(sim, j);
             }
@@ -217,13 +195,12 @@ int main(int argc, char** argv) {
                 });
         }
         for (int k = 0; k < keep; ++k) {
-            const int j = scored[k].second;
+            const int target = scored[k].second;
             const double weight = scored[k].first;
-            directed[{i, j}] = std::max(directed[{i, j}], weight);
-            directed[{j, i}] = std::max(directed[{j, i}], weight);
+            directed[{i, target}] = std::max(directed[{i, target}], weight);
+            directed[{target, i}] = std::max(directed[{target, i}], weight);
         }
     }
-
     std::ofstream out(edges_path);
     std::ofstream lengths_out(edges_path + ".lengths.tsv");
     if (!out || !lengths_out) {
@@ -232,15 +209,13 @@ int main(int argc, char** argv) {
     }
     out << "edge_id\tsource\ttarget\torientation\tweight\n";
     lengths_out << "node_id\tlength\n";
-    for (int i = 0; i < n; ++i) {
-        lengths_out << records[i].name << '\t' << lengths[i] << '\n';
+    for (const Sequence& record : records) {
+        lengths_out << record.name << '\t' << record.length << '\n';
     }
     int edge_index = 1;
     for (const auto& item : directed) {
-        const int source = item.first.first;
-        const int target = item.first.second;
-        out << "e" << edge_index++ << '\t' << records[source].name << '\t' << records[target].name
-            << "\t++\t" << item.second << '\n';
+        out << "e" << edge_index++ << '\t' << records[item.first.first].name << '\t'
+            << records[item.first.second].name << "\t++\t" << item.second << '\n';
     }
     std::cerr << "nodes\t" << n << "\tedges\t" << (edge_index - 1) << "\n";
     return 0;

@@ -173,7 +173,18 @@ def bayesian_edge(
             else:
                 edge_view = {}
             own = evidence[element_id]
-            keys = set(own) | set(vote) | set(edge_view)
+            keys = set(own)
+            if vote:
+                vote_taxon, vote_prob = argmax_taxon(vote)
+                if vote_prob >= 0.75 and vote_taxon not in keys:
+                    keys.add(vote_taxon)
+            if edge_view:
+                edge_taxon, edge_prob = argmax_taxon(edge_view)
+                if edge_prob >= 0.75 and edge_taxon not in keys:
+                    keys.add(edge_taxon)
+            if not keys:
+                updated[element_id] = {}
+                continue
             raw: dict[int, float] = {}
             for taxon_id in keys:
                 score = max(own.get(taxon_id, 0.0), floor)
