@@ -57,7 +57,8 @@ def classification_scores(
     """Node-level precision, recall, F1, and accuracy at the supplied taxon ids.
 
     A node is a true positive for its truth taxon when the argmax matches.
-    Macro scores average taxa that appear in the truth.
+    Macro scores average taxa that appear in the truth. A truth taxon that
+    receives no predictions contributes precision, recall, and F1 of 0.
     """
     labels = sorted({taxon_id for taxon_id in truth.values() if taxon_id != 0})
     per_taxon = []
@@ -82,19 +83,22 @@ def classification_scores(
                 fp += 1
             elif true_taxon == taxon_id and guess != taxon_id:
                 fn += 1
-        precision = tp / (tp + fp) if (tp + fp) else None
-        recall = tp / (tp + fn) if (tp + fn) else None
-        if precision is None or recall is None or precision + recall == 0:
-            f1 = None
+        if (tp + fp) == 0 and (tp + fn) == 0:
+            continue
+        # A truth species with no predicted nodes scores 0. Dropping it would
+        # inflate the macro average toward the species that were predicted.
+        precision = tp / (tp + fp) if (tp + fp) else 0.0
+        recall = tp / (tp + fn) if (tp + fn) else 0.0
+        if precision + recall == 0:
+            f1 = 0.0
         else:
             f1 = 2 * precision * recall / (precision + recall)
         per_taxon.append((precision, recall, f1))
 
     def _mean(index: int) -> float | None:
-        values = [row[index] for row in per_taxon if row[index] is not None]
-        if not values:
+        if not per_taxon:
             return None
-        return sum(values) / len(values)
+        return sum(row[index] for row in per_taxon) / len(per_taxon)
 
     return {
         "accuracy": (correct / used) if used else None,
