@@ -48,6 +48,9 @@ DATASETS = {
     },
 }
 
+INPUT_GRAPH = "canonical 4-mer cosine kNN rebuilt from assembly contigs"
+GRAPH_CONSTRUCTION_METHOD = "symmetrized top-k cosine on canonical 4-mer frequencies"
+
 HYPOTHESES = (
     "initial_colouring",
     "probability_sum",
@@ -165,7 +168,7 @@ def run_dataset(data_root: Path, name: str, *, intermediate: Path, benchmark: Pa
     taxonomy = parse_kraken_report(
         report_path.read_text(encoding="utf-8"),
         source="kraken2",
-        version=str(report_path),
+        version=spec["report"],
     )
     counts = _group_counts(read_tsv(counts_path))
     calls = {row["seq_id"]: int(row["taxon_id"]) for row in read_tsv(calls_path)}
@@ -210,6 +213,7 @@ def run_dataset(data_root: Path, name: str, *, intermediate: Path, benchmark: Pa
         edge_taxa=edge_taxa,
         taxonomy_names={taxon_id: taxonomy.name(taxon_id) for taxon_id in taxonomy.by_id},
         destination=work / "tocumg",
+        relative_to=Path(__file__).resolve().parents[2],
     )
     _store_colour_layer(work, taxonomy, spec)
 
@@ -372,19 +376,18 @@ def _write_hypothesis(
         ["node_id", "taxon_id", "probability", "truth_taxon_id", "length"],
     )
     manifest = {
-        "input_graph": "minimizer Jaccard kNN rebuilt from assembly contigs",
-        "graph_construction_method": "canonical 4-mer cosine, symmetrized top-k; 21-mer Jaccard between disjoint contigs fell below min_sim",
+        "input_graph": INPUT_GRAPH,
+        "graph_construction_method": GRAPH_CONSTRUCTION_METHOD,
         "k": 4,
         "assembler": "contigs already present in the dataset bundle",
         "tca_method": "kraken2 k-mer counts rolled to species, aggregation=probability_sum",
         "taxonomic_database": "kraken2 report shipped with the dataset",
-        "taxonomy_database_version": str(report_path),
+        "taxonomy_database_version": spec["report"],
         "classifier": "kraken2",
         "resolver": hypothesis,
         "resolver_parameters": _resolver_parameters(hypothesis),
         "profiling_method": "length-weighted posterior; assigned_reads is 0 because no read-to-graph map is in the bundle",
         "software_version": __version__,
-        "random_seed": 0,
         "graph_note": spec["graph_note"],
         "tocumg": tocumg,
         "metrics": metrics,

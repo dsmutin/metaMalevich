@@ -44,6 +44,16 @@ def _composition(sequence: str) -> tuple[str, str]:
     return f"{gc:.6f}", f"{entropy:.6f}"
 
 
+def _display_path(path: Path, relative_to: Path | None) -> str:
+    """Path relative to ``relative_to`` when that stays inside the tree."""
+    if relative_to is None:
+        return str(path)
+    try:
+        return str(path.resolve().relative_to(relative_to.resolve()))
+    except ValueError:
+        return str(path)
+
+
 def export_tocumg(
     *,
     root: Path,
@@ -54,11 +64,13 @@ def export_tocumg(
     edge_taxa: dict[str, list[int]],
     taxonomy_names: dict[int, str],
     destination: Path,
+    relative_to: Path | None = None,
 ) -> dict:
     """Colour a CFA with ``colour_cfa`` and write CFA plus CDBG directories.
 
-    Returns the node-id order and edge-id order so the caller can check that
-    colouring did not change topology.
+    Returned ``cfa`` and ``cdbg`` paths are relative to ``relative_to`` when
+    that root contains the destination. Colouring must leave node and edge
+    order unchanged.
     """
     ensure_metametro(root)
     from metametro.contracts.colouring import colour_cfa
@@ -136,8 +148,8 @@ def export_tocumg(
     dump_cfa(coloured, cfa_dir)
     dump_cdbg(cdbg, cdbg_dir)
     return {
-        "cfa": str(cfa_dir),
-        "cdbg": str(cdbg_dir),
+        "cfa": _display_path(cfa_dir, relative_to),
+        "cdbg": _display_path(cdbg_dir, relative_to),
         "n_nodes": len(after_nodes),
         "n_edges": len(after_edges),
         "n_colours": len(taxon_ids),

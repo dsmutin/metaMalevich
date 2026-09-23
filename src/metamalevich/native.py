@@ -38,7 +38,7 @@ def kraken_counts(kraken_output: Path, destination: Path, calls: Path | None = N
 
 
 def kmer_graph(fasta: Path, destination: Path, *, top_k: int, min_sim: float) -> Path:
-    """Write a symmetrized minimizer-Jaccard graph and a sibling lengths file."""
+    """Write a symmetrized canonical 4-mer cosine graph and a sibling lengths file."""
     destination.parent.mkdir(parents=True, exist_ok=True)
     binary = compile_tool("kmer_knn")
     subprocess.run(
