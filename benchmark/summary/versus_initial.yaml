@@ -1,40 +1,36 @@
 - dataset: samovar10
   hypothesis: probability_sum
-  l1: 0.14406609914103485
+  l1: 0.1440660991410348
+  f1: 0.9182684095463817
   initial_l1: 0.15859986355201924
+  initial_f1: 0.913028941859366
   beats_initial_l1: true
+  beats_initial_f1: true
+  beats_initial: true
 - dataset: samovar10
   hypothesis: lca
   l1: 1.6082545960613386
+  f1: 0.23745173745173745
   initial_l1: 0.15859986355201924
+  initial_f1: 0.913028941859366
   beats_initial_l1: false
+  beats_initial_f1: false
+  beats_initial: false
 - dataset: samovar10
   hypothesis: gated_neighbour
-  l1: 0.13776514535893875
+  l1: 0.13776514535893872
+  f1: 0.8775391362706998
   initial_l1: 0.15859986355201924
+  initial_f1: 0.913028941859366
   beats_initial_l1: true
+  beats_initial_f1: false
+  beats_initial: false
 - dataset: samovar10
   hypothesis: bayesian_edge
   l1: 0.15938813738178897
+  f1: 0.8864354237899311
   initial_l1: 0.15859986355201924
+  initial_f1: 0.913028941859366
   beats_initial_l1: false
-- dataset: samovar10_ont1b
-  hypothesis: probability_sum
-  l1: 0.14406609914103485
-  initial_l1: 0.15859986355201924
-  beats_initial_l1: true
-- dataset: samovar10_ont1b
-  hypothesis: lca
-  l1: 1.6082545960613386
-  initial_l1: 0.15859986355201924
-  beats_initial_l1: false
-- dataset: samovar10_ont1b
-  hypothesis: gated_neighbour
-  l1: 0.13776514535893875
-  initial_l1: 0.15859986355201924
-  beats_initial_l1: true
-- dataset: samovar10_ont1b
-  hypothesis: bayesian_edge
-  l1: 0.15938813738178897
-  initial_l1: 0.15859986355201924
-  beats_initial_l1: false
+  beats_initial_f1: false
+  beats_initial: false

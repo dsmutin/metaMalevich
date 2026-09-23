@@ -43,7 +43,7 @@ Species-rank scores on `samovar10` (399 contigs, 10 genomes). Lower L1 is better
 | probability_sum | 0.1441 | 0.918 | 0.925 |
 | gated_neighbour | 0.1378 | 0.878 | 0.917 |
 | bayesian_edge | 0.1594 | 0.886 | 0.912 |
-| lca | 1.608 | 0.594 | 0.193 |
+| lca | 1.608 | 0.237 | 0.193 |
 
 `probability_sum` improves both abundance and species F1 relative to the hard Kraken call. `gated_neighbour` has the lowest L1. Neighbour agreement on the 4-mer graph rises from 0.884 to 0.975, and that score is the quantity neighbour smoothing directly increases, so it is not an independent check. Macro F1 falls. Relative abundance of Enterococcus sp. DIV2432 (truth 0.081) is 0.031 for the hard call, 0.038 for `probability_sum`, and 0.020 for `gated_neighbour`. Composition neighbours of those contigs are other Enterococcus contigs already labelled faecalis, so neighbour mixing amplifies that swap. The soft species-level k-mer profile is the reprofile that moves DIV2432 toward the truth.
 

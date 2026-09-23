@@ -12,6 +12,7 @@ Check a box only after mandatory tests pass.
 - [x] Choose the LCA by tree depth rather than rank code
 - [x] Refuse an all-pairs 4-mer graph above a few hundred contigs
 - [x] State that profiles weight contig bases and do not use coverage
+- [x] Regenerate the samovar10 benchmark after the metric fixes
 - [x] Count unpredicted truth species as F1 0
 - [x] Record 4-mer graph provenance without machine paths
 - [x] Rebuild cached graphs and Kraken counts when inputs change

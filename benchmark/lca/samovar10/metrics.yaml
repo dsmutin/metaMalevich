@@ -1,6 +1,5 @@
-input_graph: minimizer Jaccard kNN rebuilt from assembly contigs
-graph_construction_method: canonical 4-mer cosine, symmetrized top-k; 21-mer Jaccard
-  between disjoint contigs fell below min_sim
+input_graph: canonical 4-mer cosine kNN rebuilt from assembly contigs
+graph_construction_method: symmetrized top-k cosine on canonical 4-mer frequencies
 k: 4
 assembler: contigs already present in the dataset bundle
 tca_method: kraken2 k-mer counts rolled to species, aggregation=probability_sum
@@ -14,12 +13,13 @@ resolver_parameters:
   rollup: S
 profiling_method: length-weighted posterior; assigned_reads is 0 because no read-to-graph
   map is in the bundle
-software_version: 0.1.0
-random_seed: 0
+abundance_weight: node_length
+coverage: unused; relative abundance is the share of contig bases
+software_version: 0.1.1
 graph_note: samovar10/graph/graph_meta.txt records top_k=8 and min_sim=0.15
 tocumg:
-  cfa: /mnt/tank/scratch/partition-metagenomics/smuteam/vaegbin_improved/intermediate/samovar10/tocumg/cfa
-  cdbg: /mnt/tank/scratch/partition-metagenomics/smuteam/vaegbin_improved/intermediate/samovar10/tocumg/cdbg
+  cfa: intermediate/samovar10/tocumg/cfa
+  cdbg: intermediate/samovar10/tocumg/cdbg
   n_nodes: 399
   n_edges: 4450
   n_colours: 17
@@ -31,11 +31,11 @@ metrics:
   bray_curtis: 0.8041272980306693
   pearson: -0.6546983588598692
   spearman: -0.20322945480961
-  precision: 1.0
+  precision: 0.4
   recall: 0.21053830992855382
-  f1: 0.5936293436293436
+  f1: 0.23745173745173745
   accuracy: 0.19298245614035087
-  path_consistency: 0.14786516853932585
+  neighbour_agreement: 0.14786516853932585
   unclassified_fraction: 0.8041272980306693
   unclassified_bases: 31591056.0
   n_nodes: 399.0
