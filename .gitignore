@@ -40,6 +40,10 @@ conda-bld/
 /strong100/
 *.zip
 
+# held-out genera example: genomes, reads, databases, and assembly
+/data/
+/examples/heldout_genera/work/
+
 # third-party checkouts and large reusable intermediates
 /external/
 /intermediate/

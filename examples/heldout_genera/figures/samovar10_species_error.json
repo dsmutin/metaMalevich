@@ -1,0 +1,678 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+  "config": {
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-795d6b09348f4dfbf88c264444e481c8"
+  },
+  "datasets": {
+    "data-795d6b09348f4dfbf88c264444e481c8": [
+      {
+        "dataset": "samovar10",
+        "error": -3.292933495324668e-09,
+        "estimated": 0.0700962767070665,
+        "hypothesis": "initial_colouring",
+        "name": "Treponema denticola",
+        "taxon_id": "158",
+        "truth": 0.07009628
+      },
+      {
+        "dataset": "samovar10",
+        "error": 0.0013939013297769305,
+        "estimated": 0.0013939013297769305,
+        "hypothesis": "initial_colouring",
+        "name": "Citrobacter freundii",
+        "taxon_id": "546",
+        "truth": 0.0
+      },
+      {
+        "dataset": "samovar10",
+        "error": 0.0007500355468893379,
+        "estimated": 0.0007500355468893379,
+        "hypothesis": "initial_colouring",
+        "name": "Escherichia coli",
+        "taxon_id": "562",
+        "truth": 0.0
+      },
+      {
+        "dataset": "samovar10",
+        "error": -0.0007500330478399098,
+        "estimated": 0.14466896695216008,
+        "hypothesis": "initial_colouring",
+        "name": "Klebsiella pneumoniae",
+        "taxon_id": "573",
+        "truth": 0.145419
+      },
+      {
+        "dataset": "samovar10",
+        "error": -0.0013939004297240931,
+        "estimated": 0.10169189957027591,
+        "hypothesis": "initial_colouring",
+        "name": "Proteus mirabilis",
+        "taxon_id": "584",
+        "truth": 0.1030858
+      },
+      {
+        "dataset": "samovar10",
+        "error": 0.050221426439260586,
+        "estimated": 0.1275216464392606,
+        "hypothesis": "initial_colouring",
+        "name": "Enterococcus faecalis",
+        "taxon_id": "1351",
+        "truth": 0.07730022
+      },
+      {
+        "dataset": "samovar10",
+        "error": 0.0025454270918663473,
+        "estimated": 0.0025454270918663473,
+        "hypothesis": "initial_colouring",
+        "name": "Enterobacter asburiae",
+        "taxon_id": "61645",
+        "truth": 0.0
+      },
+      {
+        "dataset": "samovar10",
+        "error": -2.703341314691521e-09,
+        "estimated": 0.06363567729665869,
+        "hypothesis": "initial_colouring",
+        "name": "Corynebacterium auriscanis",
+        "taxon_id": "99807",
+        "truth": 0.06363568
+      },
+      {
+        "dataset": "samovar10",
+        "error": 0.0025454270918663473,
+        "estimated": 0.0025454270918663473,
+        "hypothesis": "initial_colouring",
+        "name": "Enterobacter hormaechei",
+        "taxon_id": "158836",
+        "truth": 0.0
+      },
+      {
+        "dataset": "samovar10",
+        "error": -0.019904932141613402,
+        "estimated": 0.10690793785838659,
+        "hypothesis": "initial_colouring",
+        "name": "Enterobacter ludwigii",
+        "taxon_id": "299767",
+        "truth": 0.12681287
+      },
+      {
+        "dataset": "samovar10",
+        "error": -0.0025454285389732156,
+        "estimated": 0.08777755146102678,
+        "hypothesis": "initial_colouring",
+        "name": "Flagellimonas sp.",
+        "taxon_id": "2058762",
+        "truth": 0.09032298
+      },
+      {
+        "dataset": "samovar10",
+        "error": 0.0025454270918663473,
+        "estimated": 0.0025454270918663473,
+        "hypothesis": "initial_colouring",
+        "name": "Enterobacter cloacae complex sp. FDA-CDC-AR_0132",
+        "taxon_id": "2077137",
+        "truth": 0.0
+      },
+      {
+        "dataset": "samovar10",
+        "error": 0.0013501963466095853,
+        "estimated": 0.0013501963466095853,
+        "hypothesis": "initial_colouring",
+        "name": "Enterococcus sp. DIV0210g",
+        "taxon_id": "2774656",
+        "truth": 0.0
+      },
+      {
+        "dataset": "samovar10",
+        "error": -0.0044841977170792385,
+        "estimated": 0.07050647228292076,
+        "hypothesis": "initial_colouring",
+        "name": "Enterococcus sp. DIV0180",
+        "taxon_id": "2774749",
+        "truth": 0.07499067
+      },
+      {
+        "dataset": "samovar10",
+        "error": 0.0025454270918663473,
+        "estimated": 0.0025454270918663473,
+        "hypothesis": "initial_colouring",
+        "name": "Enterococcus sp. DIV0176",
+        "taxon_id": "2774758",
+        "truth": 0.0
+      },
+      {
+        "dataset": "samovar10",
+        "error": -0.05022143390450494,
+        "estimated": 0.030537336095495058,
+        "hypothesis": "initial_colouring",
+        "name": "Enterococcus sp. DIV2432",
+        "taxon_id": "2774762",
+        "truth": 0.08075877
+      },
+      {
+        "dataset": "samovar10",
+        "error": 4.4161444223700386e-09,
+        "estimated": 0.16757773441614443,
+        "hypothesis": "initial_colouring",
+        "name": "Roseateles chitinivorans",
+        "taxon_id": "2917965",
+        "truth": 0.16757773
+      },
+      {
+        "dataset": "samovar10",
+        "error": -2.866540505908066e-06,
+        "estimated": 0.07009341345949409,
+        "hypothesis": "probability_sum",
+        "name": "Treponema denticola",
+        "taxon_id": "158",
+        "truth": 0.07009628
+      },
+      {
+        "dataset": "samovar10",
+        "error": 0.0003982575227934087,
+        "estimated": 0.0003982575227934087,
+        "hypothesis": "probability_sum",
+        "name": "Citrobacter freundii",
+        "taxon_id": "546",
+        "truth": 0.0
+      },
+      {
+        "dataset": "samovar10",
+        "error": 0.0032127890050855585,
+        "estimated": 0.0032127890050855585,
+        "hypothesis": "probability_sum",
+        "name": "Escherichia coli",
+        "taxon_id": "562",
+        "truth": 0.0
+      },
+      {
+        "dataset": "samovar10",
+        "error": -0.0027056951023978204,
+        "estimated": 0.14271330489760217,
+        "hypothesis": "probability_sum",
+        "name": "Klebsiella pneumoniae",
+        "taxon_id": "573",
+        "truth": 0.145419
+      },
+      {
+        "dataset": "samovar10",
+        "error": -0.00040111104056156366,
+        "estimated": 0.10268468895943844,
+        "hypothesis": "probability_sum",
+        "name": "Proteus mirabilis",
+        "taxon_id": "584",
+        "truth": 0.1030858
+      },
+      {
+        "dataset": "samovar10",
+        "error": 0.04299654134051463,
+        "estimated": 0.12029676134051463,
+        "hypothesis": "probability_sum",
+        "name": "Enterococcus faecalis",
+        "taxon_id": "1351",
+        "truth": 0.07730022
+      },
+      {
+        "dataset": "samovar10",
+        "error": 0.003181783864832934,
+        "estimated": 0.003181783864832934,
+        "hypothesis": "probability_sum",
+        "name": "Enterobacter asburiae",
+        "taxon_id": "61645",
+        "truth": 0.0
+      },
+      {
+        "dataset": "samovar10",
+        "error": -2.703341314691521e-09,
+        "estimated": 0.06363567729665869,
+        "hypothesis": "probability_sum",
+        "name": "Corynebacterium auriscanis",
+        "taxon_id": "99807",
+        "truth": 0.06363568
+      },
+      {
+        "dataset": "samovar10",
+        "error": 0.003877366913834679,
+        "estimated": 0.003877366913834679,
+        "hypothesis": "probability_sum",
+        "name": "Enterobacter hormaechei",
+        "taxon_id": "158836",
+        "truth": 0.0
+      },
+      {
+        "dataset": "samovar10",
+        "error": -0.017105873845880942,
+        "estimated": 0.10970699615411905,
+        "hypothesis": "probability_sum",
+        "name": "Enterobacter ludwigii",
+        "taxon_id": "299767",
+        "truth": 0.12681287
+      },
+      {
+        "dataset": "samovar10",
+        "error": -0.0025454285389732156,
+        "estimated": 0.08777755146102678,
+        "hypothesis": "probability_sum",
+        "name": "Flagellimonas sp.",
+        "taxon_id": "2058762",
+        "truth": 0.09032298
+      },
+      {
+        "dataset": "samovar10",
+        "error": 0.0019090703188997605,
+        "estimated": 0.0019090703188997605,
+        "hypothesis": "probability_sum",
+        "name": "Enterobacter cloacae complex sp. FDA-CDC-AR_0132",
+        "taxon_id": "2077137",
+        "truth": 0.0
+      },
+      {
+        "dataset": "samovar10",
+        "error": 0.0014171812700797524,
+        "estimated": 0.0014171812700797524,
+        "hypothesis": "probability_sum",
+        "name": "Enterococcus sp. DIV0210g",
+        "taxon_id": "2774656",
+        "truth": 0.0
+      },
+      {
+        "dataset": "samovar10",
+        "error": -0.006418494661903376,
+        "estimated": 0.06857217533809662,
+        "hypothesis": "probability_sum",
+        "name": "Enterococcus sp. DIV0180",
+        "taxon_id": "2774749",
+        "truth": 0.07499067
+      },
+      {
+        "dataset": "samovar10",
+        "error": 0.004858346550866843,
+        "estimated": 0.004858346550866843,
+        "hypothesis": "probability_sum",
+        "name": "Enterococcus sp. DIV0176",
+        "taxon_id": "2774758",
+        "truth": 0.0
+      },
+      {
+        "dataset": "samovar10",
+        "error": -0.042853577136953286,
+        "estimated": 0.03790519286304671,
+        "hypothesis": "probability_sum",
+        "name": "Enterococcus sp. DIV2432",
+        "taxon_id": "2774762",
+        "truth": 0.08075877
+      },
+      {
+        "dataset": "samovar10",
+        "error": 4.4161444223700386e-09,
+        "estimated": 0.16757773441614443,
+        "hypothesis": "probability_sum",
+        "name": "Roseateles chitinivorans",
+        "taxon_id": "2917965",
+        "truth": 0.16757773
+      },
+      {
+        "dataset": "samovar10",
+        "error": -2.866540505908066e-06,
+        "estimated": 0.07009341345949409,
+        "hypothesis": "gated_neighbour",
+        "name": "Treponema denticola",
+        "taxon_id": "158",
+        "truth": 0.07009628
+      },
+      {
+        "dataset": "samovar10",
+        "error": 6.368257313612056e-05,
+        "estimated": 6.368257313612056e-05,
+        "hypothesis": "gated_neighbour",
+        "name": "Citrobacter freundii",
+        "taxon_id": "546",
+        "truth": 0.0
+      },
+      {
+        "dataset": "samovar10",
+        "error": 0.001358517112295931,
+        "estimated": 0.001358517112295931,
+        "hypothesis": "gated_neighbour",
+        "name": "Escherichia coli",
+        "taxon_id": "562",
+        "truth": 0.0
+      },
+      {
+        "dataset": "samovar10",
+        "error": -0.0050485621109869205,
+        "estimated": 0.14037043788901307,
+        "hypothesis": "gated_neighbour",
+        "name": "Klebsiella pneumoniae",
+        "taxon_id": "573",
+        "truth": 0.145419
+      },
+      {
+        "dataset": "samovar10",
+        "error": -0.0012375484147047894,
+        "estimated": 0.10184825158529522,
+        "hypothesis": "gated_neighbour",
+        "name": "Proteus mirabilis",
+        "taxon_id": "584",
+        "truth": 0.1030858
+      },
+      {
+        "dataset": "samovar10",
+        "error": 0.05979498136969566,
+        "estimated": 0.13709520136969566,
+        "hypothesis": "gated_neighbour",
+        "name": "Enterococcus faecalis",
+        "taxon_id": "1351",
+        "truth": 0.07730022
+      },
+      {
+        "dataset": "samovar10",
+        "error": 0.0011401802309910598,
+        "estimated": 0.0011401802309910598,
+        "hypothesis": "gated_neighbour",
+        "name": "Enterobacter asburiae",
+        "taxon_id": "61645",
+        "truth": 0.0
+      },
+      {
+        "dataset": "samovar10",
+        "error": -2.703341314691521e-09,
+        "estimated": 0.06363567729665869,
+        "hypothesis": "gated_neighbour",
+        "name": "Corynebacterium auriscanis",
+        "taxon_id": "99807",
+        "truth": 0.06363568
+      },
+      {
+        "dataset": "samovar10",
+        "error": 0.0005989503742836707,
+        "estimated": 0.0005989503742836707,
+        "hypothesis": "gated_neighbour",
+        "name": "Enterobacter hormaechei",
+        "taxon_id": "158836",
+        "truth": 0.0
+      },
+      {
+        "dataset": "samovar10",
+        "error": 0.0017406165838613485,
+        "estimated": 0.12855348658386134,
+        "hypothesis": "gated_neighbour",
+        "name": "Enterobacter ludwigii",
+        "taxon_id": "299767",
+        "truth": 0.12681287
+      },
+      {
+        "dataset": "samovar10",
+        "error": -0.00038181551088681265,
+        "estimated": 0.08994116448911318,
+        "hypothesis": "gated_neighbour",
+        "name": "Flagellimonas sp.",
+        "taxon_id": "2058762",
+        "truth": 0.09032298
+      },
+      {
+        "dataset": "samovar10",
+        "error": 0.00010879165324286805,
+        "estimated": 0.00010879165324286805,
+        "hypothesis": "gated_neighbour",
+        "name": "Enterobacter cloacae complex sp. FDA-CDC-AR_0132",
+        "taxon_id": "2077137",
+        "truth": 0.0
+      },
+      {
+        "dataset": "samovar10",
+        "error": 0.00028360436410590105,
+        "estimated": 0.00028360436410590105,
+        "hypothesis": "gated_neighbour",
+        "name": "Enterococcus sp. DIV0210g",
+        "taxon_id": "2774656",
+        "truth": 0.0
+      },
+      {
+        "dataset": "samovar10",
+        "error": -0.0017725931967789016,
+        "estimated": 0.0732180768032211,
+        "hypothesis": "gated_neighbour",
+        "name": "Enterococcus sp. DIV0180",
+        "taxon_id": "2774749",
+        "truth": 0.07499067
+      },
+      {
+        "dataset": "samovar10",
+        "error": 0.0021331890278466744,
+        "estimated": 0.0021331890278466744,
+        "hypothesis": "gated_neighbour",
+        "name": "Enterococcus sp. DIV0176",
+        "taxon_id": "2774758",
+        "truth": 0.0
+      },
+      {
+        "dataset": "samovar10",
+        "error": -0.06043918420226471,
+        "estimated": 0.020319585797735285,
+        "hypothesis": "gated_neighbour",
+        "name": "Enterococcus sp. DIV2432",
+        "taxon_id": "2774762",
+        "truth": 0.08075877
+      },
+      {
+        "dataset": "samovar10",
+        "error": 4.4161444223700386e-09,
+        "estimated": 0.16757773441614443,
+        "hypothesis": "gated_neighbour",
+        "name": "Roseateles chitinivorans",
+        "taxon_id": "2917965",
+        "truth": 0.16757773
+      },
+      {
+        "dataset": "samovar10",
+        "error": -3.292933495324668e-09,
+        "estimated": 0.0700962767070665,
+        "hypothesis": "bayesian_edge",
+        "name": "Treponema denticola",
+        "taxon_id": "158",
+        "truth": 0.07009628
+      },
+      {
+        "dataset": "samovar10",
+        "error": 0.00020579909340152848,
+        "estimated": 0.00020579909340152848,
+        "hypothesis": "bayesian_edge",
+        "name": "Citrobacter freundii",
+        "taxon_id": "546",
+        "truth": 0.0
+      },
+      {
+        "dataset": "samovar10",
+        "error": 0.0013867715244190349,
+        "estimated": 0.0013867715244190349,
+        "hypothesis": "bayesian_edge",
+        "name": "Escherichia coli",
+        "taxon_id": "562",
+        "truth": 0.0
+      },
+      {
+        "dataset": "samovar10",
+        "error": -0.0026169210378688412,
+        "estimated": 0.14280207896213115,
+        "hypothesis": "bayesian_edge",
+        "name": "Klebsiella pneumoniae",
+        "taxon_id": "573",
+        "truth": 0.145419
+      },
+      {
+        "dataset": "samovar10",
+        "error": -0.0008794026962202772,
+        "estimated": 0.10220639730377973,
+        "hypothesis": "bayesian_edge",
+        "name": "Proteus mirabilis",
+        "taxon_id": "584",
+        "truth": 0.1030858
+      },
+      {
+        "dataset": "samovar10",
+        "error": 0.06893693269960638,
+        "estimated": 0.14623715269960638,
+        "hypothesis": "bayesian_edge",
+        "name": "Enterococcus faecalis",
+        "taxon_id": "1351",
+        "truth": 0.07730022
+      },
+      {
+        "dataset": "samovar10",
+        "error": 0.002560605717893568,
+        "estimated": 0.002560605717893568,
+        "hypothesis": "bayesian_edge",
+        "name": "Enterobacter asburiae",
+        "taxon_id": "61645",
+        "truth": 0.0
+      },
+      {
+        "dataset": "samovar10",
+        "error": -2.703341314691521e-09,
+        "estimated": 0.06363567729665869,
+        "hypothesis": "bayesian_edge",
+        "name": "Corynebacterium auriscanis",
+        "taxon_id": "99807",
+        "truth": 0.06363568
+      },
+      {
+        "dataset": "samovar10",
+        "error": 8.158330940230414e-09,
+        "estimated": 8.158330940230414e-09,
+        "hypothesis": "bayesian_edge",
+        "name": "Enterobacter hormaechei",
+        "taxon_id": "158836",
+        "truth": 0.0
+      },
+      {
+        "dataset": "samovar10",
+        "error": -0.004637172227847222,
+        "estimated": 0.12217569777215277,
+        "hypothesis": "bayesian_edge",
+        "name": "Enterobacter ludwigii",
+        "taxon_id": "299767",
+        "truth": 0.12681287
+      },
+      {
+        "dataset": "samovar10",
+        "error": -0.0012727149930400333,
+        "estimated": 0.08905026500695996,
+        "hypothesis": "bayesian_edge",
+        "name": "Flagellimonas sp.",
+        "taxon_id": "2058762",
+        "truth": 0.09032298
+      },
+      {
+        "dataset": "samovar10",
+        "error": 9.179897485603539e-15,
+        "estimated": 9.179897485603539e-15,
+        "hypothesis": "bayesian_edge",
+        "name": "Enterobacter cloacae complex sp. FDA-CDC-AR_0132",
+        "taxon_id": "2077137",
+        "truth": 0.0
+      },
+      {
+        "dataset": "samovar10",
+        "error": 0.001350894084563848,
+        "estimated": 0.001350894084563848,
+        "hypothesis": "bayesian_edge",
+        "name": "Enterococcus sp. DIV0210g",
+        "taxon_id": "2774656",
+        "truth": 0.0
+      },
+      {
+        "dataset": "samovar10",
+        "error": -0.0019582797112775996,
+        "estimated": 0.0730323902887224,
+        "hypothesis": "bayesian_edge",
+        "name": "Enterococcus sp. DIV0180",
+        "taxon_id": "2774749",
+        "truth": 0.07499067
+      },
+      {
+        "dataset": "samovar10",
+        "error": 2.2318077671147485e-08,
+        "estimated": 2.2318077671147485e-08,
+        "hypothesis": "bayesian_edge",
+        "name": "Enterococcus sp. DIV0176",
+        "taxon_id": "2774758",
+        "truth": 0.0
+      },
+      {
+        "dataset": "samovar10",
+        "error": -0.06832957202836569,
+        "estimated": 0.012429197971634309,
+        "hypothesis": "bayesian_edge",
+        "name": "Enterococcus sp. DIV2432",
+        "taxon_id": "2774762",
+        "truth": 0.08075877
+      },
+      {
+        "dataset": "samovar10",
+        "error": 4.4161444223700386e-09,
+        "estimated": 0.16757773441614443,
+        "hypothesis": "bayesian_edge",
+        "name": "Roseateles chitinivorans",
+        "taxon_id": "2917965",
+        "truth": 0.16757773
+      }
+    ]
+  },
+  "encoding": {
+    "color": {
+      "field": "hypothesis",
+      "title": "Hypothesis",
+      "type": "nominal"
+    },
+    "tooltip": [
+      {
+        "field": "hypothesis",
+        "type": "nominal"
+      },
+      {
+        "field": "name",
+        "type": "nominal"
+      },
+      {
+        "field": "truth",
+        "type": "quantitative"
+      },
+      {
+        "field": "estimated",
+        "type": "quantitative"
+      },
+      {
+        "field": "error",
+        "type": "quantitative"
+      }
+    ],
+    "x": {
+      "field": "name",
+      "sort": "-y",
+      "title": "Species",
+      "type": "nominal"
+    },
+    "xOffset": {
+      "field": "hypothesis",
+      "type": "nominal"
+    },
+    "y": {
+      "field": "error",
+      "title": "Estimated minus truth (contig-base share)",
+      "type": "quantitative"
+    }
+  },
+  "height": 280,
+  "mark": {
+    "type": "bar"
+  },
+  "title": "samovar10 species abundance error",
+  "width": 520
+}

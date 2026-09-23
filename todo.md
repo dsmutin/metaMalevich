@@ -22,3 +22,4 @@ Check a box only after mandatory tests pass.
 - [x] Record resolver parameters from the functions that use them
 - [x] Report composition-neighbour agreement instead of path consistency
 - [x] Test reprofiling, the k-mer graph, and ToCUMG topology
+- [ ] Held-out genera example: simulate, classify, assemble, and compare
