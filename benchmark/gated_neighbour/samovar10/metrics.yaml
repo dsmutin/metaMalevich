@@ -17,11 +17,11 @@ profiling_method: length-weighted posterior; assigned_reads is 0 because no read
   map is in the bundle
 abundance_weight: node_length
 coverage: unused; relative abundance is the share of contig bases
-software_version: 0.1.1
+software_version: 0.4.0
 graph_note: samovar10/graph/graph_meta.txt records top_k=8 and min_sim=0.15
 tocumg:
-  cfa: intermediate/samovar10/tocumg/cfa
-  cdbg: intermediate/samovar10/tocumg/cdbg
+  cfa: /mnt/tank/scratch/partition-metagenomics/smuteam/vaegbin_improved/intermediate/samovar10/tocumg/cfa
+  cdbg: /mnt/tank/scratch/partition-metagenomics/smuteam/vaegbin_improved/intermediate/samovar10/tocumg/cdbg
   n_nodes: 399
   n_edges: 4450
   n_colours: 17
@@ -29,16 +29,17 @@ tocumg:
 metrics:
   dataset: samovar10
   hypothesis: gated_neighbour
-  l1: 0.13776514535893872
-  bray_curtis: 0.0688825726794694
-  pearson: 0.938427641373221
+  l1: 0.13776514535893866
+  bray_curtis: 0.06888257267946929
+  pearson: 0.9384276413732211
   spearman: 0.9146393597075247
   precision: 0.9442592592592594
   recall: 0.9017635618166526
   f1: 0.8775391362706998
   accuracy: 0.9172932330827067
+  false_positive_rate: 0.08270676691729323
   neighbour_agreement: 0.9748314606741573
-  unclassified_fraction: 0.0016600549738657133
-  unclassified_bases: 65217.14879087481
+  unclassified_fraction: 0.0016600549738657138
+  unclassified_bases: 65217.148790874824
   n_nodes: 399.0
 unclassified_reads: 0

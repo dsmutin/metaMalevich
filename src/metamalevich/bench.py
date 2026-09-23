@@ -18,6 +18,9 @@ from metamalevich.bridge import export_tocumg
 from metamalevich.evaluate import abundance_scores, classification_scores, neighbour_agreement
 from metamalevich.evidence import colours_from_weights, make_layer
 from metamalevich.evidence import EvidenceGraph
+from metamalevich.flip import infer_on_flipped_graph
+from metamalevich.label_drop import drop_unsupported_labels, false_positive_report, logistic_label_drop
+from metamalevich.leakage import decaying_leakage
 from metamalevich.native import kmer_graph, kraken_counts, tool_source
 from metamalevich.plots import write_abundance_chart, write_summary_charts
 from metamalevich.reprofile import profile_nodes
@@ -46,6 +49,11 @@ ABUNDANCE_CHART_HYPOTHESES = (
     "probability_sum",
     "gated_neighbour",
     "bayesian_edge",
+    "edge_union",
+    "leakage",
+    "leakage_flipped",
+    "label_drop",
+    "logistic_drop",
 )
 
 HYPOTHESES = (
@@ -54,7 +62,34 @@ HYPOTHESES = (
     "lca",
     "gated_neighbour",
     "bayesian_edge",
+    "edge_union",
+    "leakage",
+    "leakage_flipped",
+    "label_drop",
+    "label_drop_flipped",
+    "logistic_drop",
+    "logistic_drop_flipped",
 )
+
+# Parameters recorded in each hypothesis manifest. Graph-free methods keep
+# the values from ``resolver_parameters``.
+HYPOTHESIS_PARAMETERS = {
+    "edge_union": {"graph": "line", "edge_taxon": "sum of the two endpoint distributions"},
+    "leakage": {"graph": "contig", "decay": 0.5, "iterations": 4},
+    "leakage_flipped": {"graph": "line", "decay": 0.5, "iterations": 4},
+    "label_drop": {"graph": "contig", "min_own": 0.05, "min_neighbour": 0.05},
+    "label_drop_flipped": {"graph": "line", "min_own": 0.05, "min_neighbour": 0.05},
+    "logistic_drop": {
+        "graph": "contig",
+        "fit": "pseudo-label neighbour agreement",
+        "threshold": 0.5,
+    },
+    "logistic_drop_flipped": {
+        "graph": "line",
+        "fit": "pseudo-label neighbour agreement",
+        "threshold": 0.5,
+    },
+}
 
 PROFILE_COLUMNS = [
     "taxon_id",
@@ -118,6 +153,42 @@ def _one_hot_call(call: int, taxonomy: Taxonomy) -> dict[int, float]:
         return {0: 1.0}
     species = taxonomy.ancestor_at_rank(call, "S")
     return {0 if species is None else species: 1.0}
+
+
+def graph_variants(
+    evidence: dict[str, dict[int, float]],
+    edges: list[dict],
+) -> dict[str, dict[str, dict[int, float]]]:
+    """Infer the line-graph, leakage, and label-drop hypotheses.
+
+    ``edge_union`` colours each edge with every taxon on either endpoint and
+    projects that mass back onto the contigs. Leakage and both label drops
+    run once on the contig graph and once on the line graph. The logistic
+    drop fits pseudo-labels on the graph it filters. It does not see the
+    ground truth.
+    """
+
+    def _as_is(distributions: dict[str, dict[int, float]], _edges: list[dict]) -> dict[str, dict[int, float]]:
+        return {node_id: dict(weights) for node_id, weights in distributions.items()}
+
+    def _leak(distributions: dict[str, dict[int, float]], graph: list[dict]) -> dict[str, dict[int, float]]:
+        return decaying_leakage(distributions, graph)
+
+    def _drop(distributions: dict[str, dict[int, float]], graph: list[dict]) -> dict[str, dict[int, float]]:
+        return drop_unsupported_labels(distributions, graph)
+
+    def _logistic(distributions: dict[str, dict[int, float]], graph: list[dict]) -> dict[str, dict[int, float]]:
+        return logistic_label_drop(distributions, graph)
+
+    return {
+        "edge_union": infer_on_flipped_graph(edges, evidence, _as_is),
+        "leakage": decaying_leakage(evidence, edges),
+        "leakage_flipped": infer_on_flipped_graph(edges, evidence, _leak),
+        "label_drop": drop_unsupported_labels(evidence, edges),
+        "label_drop_flipped": infer_on_flipped_graph(edges, evidence, _drop),
+        "logistic_drop": logistic_label_drop(evidence, edges),
+        "logistic_drop_flipped": infer_on_flipped_graph(edges, evidence, _logistic),
+    }
 
 
 def _lca_distribution(counts: dict[int, float], taxonomy: Taxonomy) -> dict[int, float]:
@@ -280,6 +351,7 @@ def run_dataset(data_root: Path, name: str, *, intermediate: Path, benchmark: Pa
     graph_methods = {
         "gated_neighbour": resolve(evidence, edges, "gated_neighbour", edge_dist),
         "bayesian_edge": resolve(evidence, edges, "bayesian_edge", edge_dist),
+        **graph_variants(evidence, edges),
     }
     resolved = {
         "initial_colouring": hard_assignment(calls_dist),
@@ -460,6 +532,7 @@ def _write_hypothesis(
         "recall": classification["recall"],
         "f1": classification["f1"],
         "accuracy": classification["accuracy"],
+        "false_positive_rate": false_positive_report(scored_nodes, scored_truth)["false_positive_rate"],
         "neighbour_agreement": neighbour_agreement(edges, distributions),
         "unclassified_fraction": summary["unclassified_fraction"],
         "unclassified_bases": summary["unclassified_bases"],
@@ -499,7 +572,10 @@ def _write_hypothesis(
         "taxonomy_database_version": spec["report"],
         "classifier": "kraken2",
         "resolver": hypothesis,
-        "resolver_parameters": resolver_parameters(hypothesis),
+        "resolver_parameters": {
+            **resolver_parameters(hypothesis),
+            **HYPOTHESIS_PARAMETERS.get(hypothesis, {}),
+        },
         "profiling_method": "length-weighted posterior; assigned_reads is 0 because no read-to-graph map is in the bundle",
         "abundance_weight": "node_length",
         "coverage": "unused; relative abundance is the share of contig bases",
@@ -549,6 +625,7 @@ def run_benchmark(
         "recall",
         "f1",
         "accuracy",
+        "false_positive_rate",
         "neighbour_agreement",
         "unclassified_fraction",
     ]

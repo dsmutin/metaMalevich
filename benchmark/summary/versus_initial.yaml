@@ -18,7 +18,7 @@
   beats_initial: false
 - dataset: samovar10
   hypothesis: gated_neighbour
-  l1: 0.13776514535893872
+  l1: 0.13776514535893866
   f1: 0.8775391362706998
   initial_l1: 0.15859986355201924
   initial_f1: 0.913028941859366
@@ -27,10 +27,73 @@
   beats_initial: false
 - dataset: samovar10
   hypothesis: bayesian_edge
-  l1: 0.15938813738178897
+  l1: 0.15938813738178895
   f1: 0.8864354237899311
   initial_l1: 0.15859986355201924
   initial_f1: 0.913028941859366
   beats_initial_l1: false
+  beats_initial_f1: false
+  beats_initial: false
+- dataset: samovar10
+  hypothesis: edge_union
+  l1: 0.14611273314471598
+  f1: 0.8969072791281173
+  initial_l1: 0.15859986355201924
+  initial_f1: 0.913028941859366
+  beats_initial_l1: true
+  beats_initial_f1: false
+  beats_initial: false
+- dataset: samovar10
+  hypothesis: leakage
+  l1: 0.14595197081514952
+  f1: 0.8969072791281173
+  initial_l1: 0.15859986355201924
+  initial_f1: 0.913028941859366
+  beats_initial_l1: true
+  beats_initial_f1: false
+  beats_initial: false
+- dataset: samovar10
+  hypothesis: leakage_flipped
+  l1: 0.15889747435626245
+  f1: 0.8856725566382618
+  initial_l1: 0.15859986355201924
+  initial_f1: 0.913028941859366
+  beats_initial_l1: false
+  beats_initial_f1: false
+  beats_initial: false
+- dataset: samovar10
+  hypothesis: label_drop
+  l1: 0.1433778119519531
+  f1: 0.9182684095463817
+  initial_l1: 0.15859986355201924
+  initial_f1: 0.913028941859366
+  beats_initial_l1: true
+  beats_initial_f1: true
+  beats_initial: true
+- dataset: samovar10
+  hypothesis: label_drop_flipped
+  l1: 0.14477081632239577
+  f1: 0.8969072791281173
+  initial_l1: 0.15859986355201924
+  initial_f1: 0.913028941859366
+  beats_initial_l1: true
+  beats_initial_f1: false
+  beats_initial: false
+- dataset: samovar10
+  hypothesis: logistic_drop
+  l1: 0.15075607003579317
+  f1: 0.9182684095463817
+  initial_l1: 0.15859986355201924
+  initial_f1: 0.913028941859366
+  beats_initial_l1: true
+  beats_initial_f1: true
+  beats_initial: true
+- dataset: samovar10
+  hypothesis: logistic_drop_flipped
+  l1: 0.14611273314471598
+  f1: 0.8969072791281173
+  initial_l1: 0.15859986355201924
+  initial_f1: 0.913028941859366
+  beats_initial_l1: true
   beats_initial_f1: false
   beats_initial: false
