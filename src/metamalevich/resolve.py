@@ -10,6 +10,32 @@ from __future__ import annotations
 from metamalevich.aggregate import normalize
 
 
+RESOLVER_PARAMETERS = {
+    "initial_colouring": {"source": "kraken2 classified taxid", "rollup": "S", "assignment": "hard"},
+    "probability_sum": {"aggregation": "probability_sum", "rollup": "S", "graph": False},
+    "lca": {"aggregation": "lca", "min_fraction": 0.05, "rollup": "S"},
+    "gated_neighbour": {
+        "iterations": 3,
+        "confident": 0.8,
+        "consensus": 0.75,
+        "uncertain_mix": 0.7,
+        "conflict_mix": 0.5,
+    },
+    "bayesian_edge": {
+        "iterations": 3,
+        "neighbour_weight": 1.0,
+        "edge_weight": 1.0,
+        "floor": 1e-6,
+        "import_min_probability": 0.75,
+    },
+}
+
+
+def resolver_parameters(method: str) -> dict:
+    """Copy of the parameters recorded for one hypothesis."""
+    return dict(RESOLVER_PARAMETERS.get(method, {}))
+
+
 def argmax_taxon(weights: dict[int, float]) -> tuple[int, float]:
     """Highest weight. Ties break toward the smaller taxon id."""
     if not weights:
@@ -100,11 +126,11 @@ def gated_neighbour(
     distributions: dict[str, dict[int, float]],
     edges: list[dict],
     *,
-    iterations: int = 3,
-    confident: float = 0.8,
-    consensus: float = 0.75,
-    uncertain_mix: float = 0.7,
-    conflict_mix: float = 0.5,
+    iterations: int | None = None,
+    confident: float | None = None,
+    consensus: float | None = None,
+    uncertain_mix: float | None = None,
+    conflict_mix: float | None = None,
 ) -> dict[str, dict[int, float]]:
     """Mix a node with its neighbours when it is uncertain or conflicts with them.
 
@@ -112,6 +138,12 @@ def gated_neighbour(
     distribution unless the neighbour vote reaches ``consensus`` on a different
     taxon. Uncertain nodes take ``uncertain_mix`` of the neighbour vote.
     """
+    cfg = RESOLVER_PARAMETERS["gated_neighbour"]
+    iterations = cfg["iterations"] if iterations is None else iterations
+    confident = cfg["confident"] if confident is None else confident
+    consensus = cfg["consensus"] if consensus is None else consensus
+    uncertain_mix = cfg["uncertain_mix"] if uncertain_mix is None else uncertain_mix
+    conflict_mix = cfg["conflict_mix"] if conflict_mix is None else conflict_mix
     if iterations < 1:
         raise ValueError("iterations must be >= 1")
     neighbours = _adjacency(edges)
@@ -140,17 +172,31 @@ def bayesian_edge(
     edges: list[dict],
     edge_dist: dict[str, dict[int, float]],
     *,
-    iterations: int = 3,
-    neighbour_weight: float = 1.0,
-    edge_weight: float = 1.0,
-    floor: float = 1e-6,
+    iterations: int | None = None,
+    neighbour_weight: float | None = None,
+    edge_weight: float | None = None,
+    floor: float | None = None,
+    import_min_probability: float | None = None,
 ) -> dict[str, dict[int, float]]:
     """Posterior proportional to evidence, neighbour vote, and incident edge colours.
 
     ``log p(t) = log evidence + neighbour_weight * log vote + edge_weight * log edge``.
+    A taxon absent from the node's own evidence is added only when the neighbour
+    vote or the edge view reaches ``import_min_probability`` on that taxon.
+    Edge colours are computed once from the original node evidence and are not
+    updated between iterations. Each edge colour is the minimum of its endpoints,
+    so multiplying by it counts endpoint evidence a second time.
     Missing taxa use ``floor`` so a zero in one view does not erase the others
     before renormalization. The returned map is still a distribution.
     """
+    cfg = RESOLVER_PARAMETERS["bayesian_edge"]
+    iterations = cfg["iterations"] if iterations is None else iterations
+    neighbour_weight = cfg["neighbour_weight"] if neighbour_weight is None else neighbour_weight
+    edge_weight = cfg["edge_weight"] if edge_weight is None else edge_weight
+    floor = cfg["floor"] if floor is None else floor
+    import_min_probability = (
+        cfg["import_min_probability"] if import_min_probability is None else import_min_probability
+    )
     if iterations < 1:
         raise ValueError("iterations must be >= 1")
     neighbours = _adjacency(edges)
@@ -176,11 +222,11 @@ def bayesian_edge(
             keys = set(own)
             if vote:
                 vote_taxon, vote_prob = argmax_taxon(vote)
-                if vote_prob >= 0.75 and vote_taxon not in keys:
+                if vote_prob >= import_min_probability and vote_taxon not in keys:
                     keys.add(vote_taxon)
             if edge_view:
                 edge_taxon, edge_prob = argmax_taxon(edge_view)
-                if edge_prob >= 0.75 and edge_taxon not in keys:
+                if edge_prob >= import_min_probability and edge_taxon not in keys:
                     keys.add(edge_taxon)
             if not keys:
                 updated[element_id] = {}

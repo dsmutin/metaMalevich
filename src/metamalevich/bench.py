@@ -21,7 +21,7 @@ from metamalevich.evidence import EvidenceGraph
 from metamalevich.native import kmer_graph, kraken_counts, tool_source
 from metamalevich.plots import write_abundance_chart, write_summary_charts
 from metamalevich.reprofile import profile_nodes
-from metamalevich.resolve import edge_distributions, hard_assignment, resolve
+from metamalevich.resolve import edge_distributions, hard_assignment, resolve, resolver_parameters
 from metamalevich.tables import read_csv, read_fasta, read_tsv, write_tsv
 from metamalevich.taxonomy import Taxonomy, parse_kraken_report
 
@@ -473,7 +473,7 @@ def _write_hypothesis(
         "taxonomy_database_version": spec["report"],
         "classifier": "kraken2",
         "resolver": hypothesis,
-        "resolver_parameters": _resolver_parameters(hypothesis),
+        "resolver_parameters": resolver_parameters(hypothesis),
         "profiling_method": "length-weighted posterior; assigned_reads is 0 because no read-to-graph map is in the bundle",
         "software_version": __version__,
         "graph_note": spec["graph_note"],
@@ -487,20 +487,6 @@ def _write_hypothesis(
         encoding="utf-8",
     )
     return metrics
-
-
-def _resolver_parameters(hypothesis: str) -> dict:
-    if hypothesis == "initial_colouring":
-        return {"source": "kraken2 classified taxid", "rollup": "S", "assignment": "hard"}
-    if hypothesis == "probability_sum":
-        return {"aggregation": "probability_sum", "rollup": "S", "graph": False}
-    if hypothesis == "lca":
-        return {"aggregation": "lca", "min_fraction": 0.05, "rollup": "S"}
-    if hypothesis == "gated_neighbour":
-        return {"iterations": 3, "confident": 0.8, "consensus": 0.75, "uncertain_mix": 0.7, "conflict_mix": 0.5}
-    if hypothesis == "bayesian_edge":
-        return {"iterations": 3, "neighbour_weight": 1.0, "edge_weight": 1.0, "floor": 1e-6}
-    return {}
 
 
 def run_benchmark(

@@ -12,3 +12,4 @@ Check a box only after mandatory tests pass.
 - [x] Run outside this source tree: pinned deps, compiler, no machine path
 - [x] Reject mismatched contig ids and malformed Kraken rows
 - [x] Treat a hypothesis as better only when L1 and macro F1 both improve
+- [x] Record resolver parameters from the functions that use them

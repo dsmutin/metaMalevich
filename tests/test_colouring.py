@@ -6,6 +6,7 @@ import pytest
 
 from metamalevich.aggregate import aggregate
 from metamalevich.evidence import EvidenceGraph, colours_from_weights, make_layer
+from metamalevich.resolve import RESOLVER_PARAMETERS, bayesian_edge
 from metamalevich.taxonomy import parse_kraken_report
 from metamalevich.toy import run_toy
 
@@ -62,6 +63,18 @@ def test_majority_is_explicit_and_multilabel_survives() -> None:
                 operation="replace",
             ),
         )
+
+
+def test_bayesian_import_threshold_is_the_recorded_parameter() -> None:
+    """A neighbour taxon enters only at the probability stored in the manifest."""
+    evidence = {"a": {10: 1.0}, "b": {20: 1.0}}
+    edges = [{"edge_id": "e", "source": "b", "target": "a", "weight": 1.0}]
+    recorded = RESOLVER_PARAMETERS["bayesian_edge"]["import_min_probability"]
+    opened = bayesian_edge(evidence, edges, {"e": {}}, iterations=1)
+    blocked = bayesian_edge(evidence, edges, {"e": {}}, iterations=1, import_min_probability=1.01)
+    assert recorded == 0.75
+    assert 10 in opened["b"]
+    assert 10 not in blocked["b"]
 
 
 def test_toy_reprofile_beats_initial_colouring() -> None:
