@@ -22,6 +22,22 @@ def test_unpredicted_truth_taxon_scores_zero() -> None:
     assert scores["accuracy"] == pytest.approx(0.5)
 
 
+def test_beats_initial_requires_both_l1_and_f1() -> None:
+    """Lower L1 with a worse macro F1 does not count as beating the hard colouring."""
+    from metamalevich.bench import ABUNDANCE_CHART_HYPOTHESES, compare_to_initial
+
+    rows = [
+        {"dataset": "d", "hypothesis": "initial_colouring", "l1": 0.2, "f1": 0.9},
+        {"dataset": "d", "hypothesis": "probability_sum", "l1": 0.1, "f1": 0.95},
+        {"dataset": "d", "hypothesis": "gated_neighbour", "l1": 0.05, "f1": 0.8},
+    ]
+    by_name = {row["hypothesis"]: row for row in compare_to_initial(rows)}
+    assert by_name["probability_sum"]["beats_initial"] is True
+    assert by_name["gated_neighbour"]["beats_initial"] is False
+    assert by_name["gated_neighbour"]["beats_initial_l1"] is True
+    assert "probability_sum" in ABUNDANCE_CHART_HYPOTHESES
+
+
 def test_graph_provenance_names_the_4mer_cosine() -> None:
     """Manifest text names the graph that was actually built."""
     from metamalevich.bench import GRAPH_CONSTRUCTION_METHOD, INPUT_GRAPH

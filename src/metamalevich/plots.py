@@ -47,7 +47,7 @@ def write_summary_charts(rows: list[dict], destination: Path) -> list[str]:
 
 
 def write_abundance_chart(rows: list[dict], destination: Path) -> None:
-    """Compare truth and estimated relative abundance for two hypotheses."""
+    """Compare truth and estimated relative abundance across hypotheses."""
     import altair as alt
     import pandas as pd
 

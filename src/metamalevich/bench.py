@@ -51,6 +51,13 @@ DATASETS = {
 INPUT_GRAPH = "canonical 4-mer cosine kNN rebuilt from assembly contigs"
 GRAPH_CONSTRUCTION_METHOD = "symmetrized top-k cosine on canonical 4-mer frequencies"
 
+ABUNDANCE_CHART_HYPOTHESES = (
+    "initial_colouring",
+    "probability_sum",
+    "gated_neighbour",
+    "bayesian_edge",
+)
+
 HYPOTHESES = (
     "initial_colouring",
     "probability_sum",
@@ -537,22 +544,38 @@ def run_benchmark(
     if compare:
         write_tsv(summary / "abundance_compare.tsv", compare, ["dataset", "hypothesis", "taxon_id", "name", "truth", "estimated"])
         write_abundance_chart(compare, summary)
-    initial = {row["dataset"]: row["l1"] for row in rows if row["hypothesis"] == "initial_colouring"}
+    beats = compare_to_initial(rows)
+    (summary / "versus_initial.yaml").write_text(yaml.safe_dump(beats, sort_keys=False), encoding="utf-8")
+    return {"ok": True, "n_rows": len(rows), "beats": beats}
+
+
+def compare_to_initial(rows: list[dict]) -> list[dict]:
+    """A hypothesis beats the hard colouring only when both L1 and macro F1 improve."""
+    initial_l1 = {row["dataset"]: row["l1"] for row in rows if row["hypothesis"] == "initial_colouring"}
+    initial_f1 = {row["dataset"]: row["f1"] for row in rows if row["hypothesis"] == "initial_colouring"}
     beats = []
     for row in rows:
         if row["hypothesis"] == "initial_colouring":
             continue
+        dataset = row["dataset"]
+        better_l1 = row["l1"] < initial_l1[dataset]
+        old_f1 = initial_f1[dataset]
+        new_f1 = row["f1"]
+        better_f1 = old_f1 is not None and new_f1 is not None and new_f1 > old_f1
         beats.append(
             {
-                "dataset": row["dataset"],
+                "dataset": dataset,
                 "hypothesis": row["hypothesis"],
                 "l1": row["l1"],
-                "initial_l1": initial[row["dataset"]],
-                "beats_initial_l1": row["l1"] < initial[row["dataset"]],
+                "f1": new_f1,
+                "initial_l1": initial_l1[dataset],
+                "initial_f1": old_f1,
+                "beats_initial_l1": better_l1,
+                "beats_initial_f1": better_f1,
+                "beats_initial": better_l1 and better_f1,
             }
         )
-    (summary / "versus_initial.yaml").write_text(yaml.safe_dump(beats, sort_keys=False), encoding="utf-8")
-    return {"ok": True, "n_rows": len(rows), "beats": beats}
+    return beats
 
 
 def _abundance_compare(data_root: Path, output: Path, datasets: list[str]) -> list[dict]:
@@ -564,7 +587,7 @@ def _abundance_compare(data_root: Path, output: Path, datasets: list[str]) -> li
             abundance[taxon_id] = abundance.get(taxon_id, 0.0) + float(row["genome_abundance"])
         total = sum(abundance.values()) or 1.0
         abundance = {taxon_id: value / total for taxon_id, value in abundance.items()}
-        for hypothesis in ("initial_colouring", "gated_neighbour", "bayesian_edge"):
+        for hypothesis in ABUNDANCE_CHART_HYPOTHESES:
             profile = output / hypothesis / dataset / "profile.tsv"
             if not profile.is_file():
                 continue

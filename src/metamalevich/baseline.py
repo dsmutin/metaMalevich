@@ -19,7 +19,7 @@ def run_pipeline(input_path: str | None = None) -> dict:
         if not names:
             raise FileNotFoundError(f"no known dataset under {input_path}")
         summary = run_benchmark(root, names, root / "benchmark", intermediate=root / "intermediate")
-        beats = [row for row in summary["beats"] if row["hypothesis"] in {"gated_neighbour", "bayesian_edge"} and row["beats_initial_l1"]]
+        beats = [row for row in summary["beats"] if row["beats_initial"]]
         return {
             "status": "ok",
             "ok": True,
