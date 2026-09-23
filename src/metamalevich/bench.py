@@ -253,7 +253,7 @@ def run_dataset(data_root: Path, name: str, *, intermediate: Path, benchmark: Pa
         edge_taxa=edge_taxa,
         taxonomy_names={taxon_id: taxonomy.name(taxon_id) for taxon_id in taxonomy.by_id},
         destination=work / "tocumg",
-        relative_to=Path(__file__).resolve().parents[2],
+        relative_to=Path.cwd(),
     )
     _store_colour_layer(work, taxonomy, spec)
 
@@ -455,10 +455,20 @@ def _resolver_parameters(hypothesis: str) -> dict:
     return {}
 
 
-def run_benchmark(data_root: Path, datasets: list[str], output: Path) -> dict:
-    """Run every requested dataset and write summary charts under ``output/summary``."""
-    root = Path(__file__).resolve().parents[2]
-    intermediate = root / "intermediate"
+def run_benchmark(
+    data_root: Path,
+    datasets: list[str],
+    output: Path,
+    intermediate: Path | None = None,
+) -> dict:
+    """Run every requested dataset and write summary charts under ``output/summary``.
+
+    Reusable tables go to ``intermediate``, which defaults to ``./intermediate``
+    in the current directory rather than a path inside the source tree.
+    """
+    if intermediate is None:
+        intermediate = Path("intermediate")
+    intermediate = Path(intermediate)
     rows: list[dict] = []
     for name in datasets:
         if name not in DATASETS:

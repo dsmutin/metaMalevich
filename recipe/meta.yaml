@@ -8,19 +8,26 @@ source:
   path: ..
 
 build:
-  noarch: python
   number: 0
-  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  script: |
+    {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+    mkdir -p $PREFIX/share/metamalevich/cpp
+    cp cpp/*.cpp $PREFIX/share/metamalevich/cpp/
   entry_points:
     - metamalevich = metamalevich.cli:main
 
 requirements:
   host:
-    - python 3.12
+    - python 3.12.14
     - pip
-    - setuptools
+    - setuptools 84.0.0
   run:
-    - python 3.12
+    - python 3.12.14
+    - numpy 2.5.3
+    - pyyaml 6.0.3
+    - pandas 3.0.6
+    - altair 6.2.2
+    - gxx_linux-64 16.2.0
 
 test:
   imports:

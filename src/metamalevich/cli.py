@@ -22,6 +22,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--data-root", default=".", help="directory that contains samovar10 and samovar10_ont1b")
     parser.add_argument("--dataset", action="append", dest="datasets", help="dataset name; repeat to run several")
     parser.add_argument("--benchmark", default="benchmark", help="directory for hypothesis outputs")
+    parser.add_argument(
+        "--intermediate",
+        default="intermediate",
+        help="directory for reusable Kraken counts, k-mer edges, and ToCUMG files",
+    )
     args = parser.parse_args(argv)
     if args.version:
         print(__version__)
@@ -30,7 +35,12 @@ def main(argv: list[str] | None = None) -> int:
         from metamalevich.bench import DATASETS, run_benchmark
 
         names = args.datasets or list(DATASETS)
-        summary = run_benchmark(Path(args.data_root), names, Path(args.benchmark))
+        summary = run_benchmark(
+            Path(args.data_root),
+            names,
+            Path(args.benchmark),
+            intermediate=Path(args.intermediate),
+        )
         text = json.dumps({"status": "ok", "ok": True, "input_path": args.data_root, **summary}, indent=2, default=str)
         _emit(text, args.output)
         return 0

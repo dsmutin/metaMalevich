@@ -16,16 +16,30 @@ from metamalevich.tables import sanitize_sequence
 
 
 def metametro_src(root: Path) -> Path:
-    """Locate a MetaMetro checkout."""
+    """Locate a MetaMetro checkout.
+
+    Search ``METAMETRO_SRC``, then ``external/MetaMetro`` under ``root`` and
+    under the current directory.
+    """
     candidates = []
     if os.environ.get("METAMETRO_SRC"):
         candidates.append(Path(os.environ["METAMETRO_SRC"]))
     candidates.append(root / "external" / "MetaMetro" / "src")
-    candidates.append(Path("/mnt/tank/scratch/dsmutin/tools/my/metametro/src"))
+    candidates.append(Path("external") / "MetaMetro" / "src")
+    seen: set[Path] = set()
     for path in candidates:
+        try:
+            key = path.resolve()
+        except OSError:
+            key = path
+        if key in seen:
+            continue
+        seen.add(key)
         if (path / "metametro" / "__init__.py").is_file():
             return path
-    raise FileNotFoundError("MetaMetro source was not found. Set METAMETRO_SRC or clone external/MetaMetro.")
+    raise FileNotFoundError(
+        "MetaMetro source was not found. Set METAMETRO_SRC or clone it to external/MetaMetro."
+    )
 
 
 def ensure_metametro(root: Path) -> None:

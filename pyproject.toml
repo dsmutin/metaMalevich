@@ -9,6 +9,12 @@ description = "Improve metagenomic taxonomic re-profiling with coloured assembly
 readme = "README.md"
 license = { file = "LICENSE" }
 requires-python = ">=3.12"
+dependencies = [
+  "numpy==2.5.3",
+  "pyyaml==6.0.3",
+  "pandas==3.0.6",
+  "altair==6.2.2",
+]
 
 [project.scripts]
 metamalevich = "metamalevich.cli:main"
