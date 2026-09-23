@@ -1,0 +1,15 @@
+name: metamalevich
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python=3.12
+  - setuptools
+  - pytest
+  - pytest-cov
+  - numpy
+  - pyyaml
+  - pandas
+  - altair
+variables:
+  PYTHONPATH: src

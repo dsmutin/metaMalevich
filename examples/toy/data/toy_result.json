@@ -1,0 +1,10 @@
+{
+  "status": "ok",
+  "ok": true,
+  "input_path": null,
+  "method": "gated_neighbour",
+  "initial_l1": 0.6666666666666667,
+  "resolved_l1": 0.12000000000000006,
+  "beats_initial": true,
+  "accuracy": 1.0
+}

@@ -1,0 +1,43 @@
+# metamalevich
+
+[![version](https://img.shields.io/badge/dynamic/file?url=https%3A%2F%2Fraw.githubusercontent.com%2Fdsmutin%2FmetaMalevich%2Fmain%2FVERSION&label=version&color=blue)](VERSION)
+[![required tests](https://img.shields.io/github/actions/workflow/status/dsmutin/metaMalevich/required-tests.yml?branch=main&label=required%20tests)](https://github.com/dsmutin/metaMalevich/actions/workflows/required-tests.yml)
+[![full tests](https://img.shields.io/github/actions/workflow/status/dsmutin/metaMalevich/full-tests.yml?branch=main&label=full%20tests)](https://github.com/dsmutin/metaMalevich/actions/workflows/full-tests.yml)
+[![warning](https://img.shields.io/badge/warning-in%20development-yellow)](https://shields.io/badges/static-badge)
+
+Improve metagenomic taxonomic re-profiling with coloured assembly graphs
+
+**Warning: in development.** Interfaces may change. See `VERSION` (single source of truth).
+
+## Install
+
+Conda is the only supported install:
+
+```bash
+conda env create -f environment.yml
+conda activate metamalevich
+```
+
+`environment.yml` sets `PYTHONPATH=src`. Do not publish a pip-first install path.
+
+## Usage
+
+```bash
+metamalevich --version
+metamalevich
+python examples/toy/run.py
+metamalevich bench --data-root . --benchmark benchmark
+```
+
+`bench` reads Kraken2 whole-contig output already stored for `samovar10` and `samovar10_ont1b`, rebuilds the recorded k-nearest-neighbour graph (`top_k=8`, `min_sim=0.15`) with `cpp/kmer_knn`, colours nodes and edges, and writes each hypothesis under `benchmark/{hypothesis}/{dataset}/`. MetaMetro performs the CFA to ToCUMG step. Set `METAMETRO_SRC` if the checkout is not at `external/MetaMetro` or the default tools path.
+
+## Tests
+
+```bash
+pytest -m mandatory    # every commit
+pytest                 # mandatory + optional (release / manual CI)
+```
+
+## License
+
+MIT. See [CONTRIBUTING.md](CONTRIBUTING.md).

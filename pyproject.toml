@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "metamalevich"
+dynamic = ["version"]
+description = "Improve metagenomic taxonomic re-profiling with coloured assembly graphs"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.12"
+
+[project.scripts]
+metamalevich = "metamalevich.cli:main"
+
+[tool.setuptools.dynamic]
+version = { file = "VERSION" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
