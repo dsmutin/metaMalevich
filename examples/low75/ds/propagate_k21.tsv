@@ -1,0 +1,3 @@
+dataset	nodes_relabelled	correct_base_share	wrong_base_share	unclassified_base_share	kraken2_l1	kraken2_unclassified	kaiju_l1	kaiju_unclassified
+low75	3179	0.184712	0.0255289	0.789759	1.4595	0.72487	0.96658	0.4673
+low75half	6833	0.236167	0.0196892	0.744143	1.35968	0.67473	1.00316	0.49156
