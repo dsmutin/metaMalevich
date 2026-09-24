@@ -1,0 +1,16 @@
+# high100_enriched
+
+Same 100 families as `examples/high100`, with 1000000 paired fragments instead of 100000. Scores are family L1 on reads. The assembly graphs are MEGAHIT `contig2fastg` output.
+
+| method | family L1 | unclassified read fraction |
+| --- | ---: | ---: |
+| kraken2 | 1.63308 | 0.814037 |
+| kaiju | 1.26107 | 0.613819 |
+| kraken2_k141_neighbour | 1.40679 | 0.687671 |
+| kaiju_k141_neighbour | 1.13009 | 0.533185 |
+| kraken2_k21_neighbour | 1.51839 | 0.753645 |
+| kaiju_k21_neighbour | 1.20249 | 0.579648 |
+| kraken2_4mer_graph | 1.03465 | 0.349426 |
+| kaiju_4mer_graph | 0.835244 | 0.257421 |
+
+The k141 graph has 58137 nodes and 620 edges. Neighbour agreement lowers Kaiju family L1 from 1.26107 to 1.13009 and Kraken2 from 1.63308 to 1.40679. The k21 graph has 876751 nodes and 823034 edges. Its neighbour fill is weaker than the final graph: Kaiju L1 1.20249. The 4-mer graph on the final contigs is the lowest L1.

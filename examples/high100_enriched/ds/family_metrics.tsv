@@ -1,0 +1,9 @@
+dataset	method	rank	l1	unclassified	k141_nodes	k141_edges	k21_nodes	k21_edges
+high100_enriched	kraken2	family	1.63308	0.814037	58137	620	876751	823034
+high100_enriched	kaiju	family	1.26107	0.613819	58137	620	876751	823034
+high100_enriched	kraken2_k141_neighbour	family	1.40679	0.687671	58137	620	876751	823034
+high100_enriched	kaiju_k141_neighbour	family	1.13009	0.533185	58137	620	876751	823034
+high100_enriched	kraken2_k21_neighbour	family	1.51839	0.753645	58137	620	876751	823034
+high100_enriched	kaiju_k21_neighbour	family	1.20249	0.579648	58137	620	876751	823034
+high100_enriched	kraken2_4mer_graph	family	1.03465	0.349426	58137	620	876751	823034
+high100_enriched	kaiju_4mer_graph	family	0.835244	0.257421	58137	620	876751	823034
