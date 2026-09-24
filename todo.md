@@ -28,4 +28,5 @@ Check a box only after mandatory tests pass.
 - [x] Score the same hypotheses on held-out genera and the half-strain subset
 - [x] Confident lock, unanimous rescue, edge cut, genus plurality, and margin mixture
 - [x] Genus-rank 4-mer graph on low75 and low75half
+- [ ] 10×-depth enriched low and high examples, scored at the design rank
 - [x] low75 and low75half: 25 genera each of bacteria, archaea, and viruses

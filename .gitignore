@@ -46,6 +46,12 @@ conda-bld/
 /examples/half_strains/work/
 /examples/low75/work/
 /examples/low75half/work/
+/examples/high100/work/
+/examples/half100half/work/
+/examples/low75_enriched/work/
+/examples/low75half_enriched/work/
+/examples/high100_enriched/work/
+/examples/half100half_enriched/work/
 
 # third-party checkouts and large reusable intermediates
 /external/

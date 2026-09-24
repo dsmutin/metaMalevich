@@ -36,3 +36,14 @@ Read-weighted genus L1, with unclassified reads filled from the mapped contig:
 | kaiju_4mer_graph | 0.75986 |
 
 The same table is in `examples/low75/ds/genus_metrics.tsv`.
+
+## Initial MEGAHIT graph (k=21)
+
+`contig2fastg 21` wrote 108039 nodes and 64134 edges. The final graph has 4119 nodes and 296 edges. Of the k21 edges, 0.867 join two unlabelled contigs. One-label edges match the true genus 1374 times and miss it 692 times. Neighbour agreement raises correct bases from 0.223 to 0.228.
+
+| method | genus L1 | unclassified read fraction |
+| --- | ---: | ---: |
+| kraken2_k21_neighbour | 1.37908 | 0.68474 |
+| kaiju_k21_neighbour | 1.01604 | 0.4983 |
+
+A 4-mer cosine filter of 0.5 on those edges leaves Kaiju L1 at 1.0163. The final-contig 4-mer graph is still the larger gain.

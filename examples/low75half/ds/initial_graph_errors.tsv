@@ -1,0 +1,13 @@
+dataset	graph	method	kind	bases	base_share
+low75	k21	kraken_contig	correct	3011721	0.181496
+low75	k21	kraken_contig	unclassified	13222700	0.796842
+low75	k21	kraken_contig	wrong_genus	359453	0.0216618
+low75	k21	neighbour_agree	correct	3039027	0.183142
+low75	k21	neighbour_agree	unclassified	13157729	0.792927
+low75	k21	neighbour_agree	wrong_genus	397118	0.0239316
+low75half	k21	kraken_contig	correct	3041346	0.222842
+low75half	k21	kraken_contig	unclassified	10415878	0.763179
+low75half	k21	kraken_contig	wrong_genus	190784	0.0139789
+low75half	k21	neighbour_agree	correct	3106712	0.227631
+low75half	k21	neighbour_agree	unclassified	10318151	0.756019
+low75half	k21	neighbour_agree	wrong_genus	223145	0.01635

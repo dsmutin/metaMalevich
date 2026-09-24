@@ -1,0 +1,9 @@
+dataset	method	rank	weight	l1	unclassified	k21_nodes	k21_edges	k141_edges
+low75	kraken2	genus	read_count	1.54014	0.76599	122002	26914	24
+low75	kaiju	genus	read_count	1.01624	0.49412	122002	26914	24
+low75	kraken2_k21_neighbour	genus	read_count	1.46336	0.72692	122002	26914	24
+low75	kaiju_k21_neighbour	genus	read_count	0.9688	0.46864	122002	26914	24
+low75half	kraken2	genus	read_count	1.56126	0.77663	108039	64134	296
+low75half	kaiju	genus	read_count	1.1342	0.5583	108039	64134	296
+low75half	kraken2_k21_neighbour	genus	read_count	1.37908	0.68474	108039	64134	296
+low75half	kaiju_k21_neighbour	genus	read_count	1.01604	0.4983	108039	64134	296

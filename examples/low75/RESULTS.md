@@ -38,3 +38,14 @@ On the k141 FASTG, 0.753 of bases have no Kraken genus and 0.013 are the wrong g
 | kaiju_4mer_graph | 0.78304 | 0.31074 |
 
 Charts and the half-strain rows are in `ds/`. Twenty-nine of 75 genera have no assembled bases, so a length-weighted contig profile cannot represent them. The table above is read-weighted.
+
+## Initial MEGAHIT graph (k=21)
+
+`contig2fastg 21` on `k21.contigs.fa` is the first MEGAHIT graph. It has 122002 nodes and 26914 edges. The final k141 graph has 2685 nodes and 24 edges. Of the k21 edges, 0.775 join two unlabelled contigs. Among edges with one labelled end, 750 match the unlabelled contig's true genus and 1010 do not. Copying a neighbour genus when 80% of neighbour length agrees moves correct bases only from 0.181 to 0.183.
+
+| method | genus L1 | unclassified read fraction |
+| --- | ---: | ---: |
+| kraken2_k21_neighbour | 1.46336 | 0.72692 |
+| kaiju_k21_neighbour | 0.9688 | 0.46864 |
+
+Requiring 4-mer cosine at least 0.5 on the same edges leaves Kaiju L1 at 0.96896. That is a smaller gain than the 4-mer graph on the final contigs. Tables are in `ds/initial_graph_*.tsv` and `ds/edge_4mer.tsv`.
