@@ -1,0 +1,9 @@
+dataset	method	rank	l1	unclassified	k141_nodes	k141_edges	k21_nodes	k21_edges
+low75half_enriched	kraken2	genus	1.56177	0.776901	28455	6578	356823	558598
+low75half_enriched	kaiju	genus	1.13852	0.560632	28455	6578	356823	558598
+low75half_enriched	kraken2_k141_neighbour	genus	0.88787	0.423337	28455	6578	356823	558598
+low75half_enriched	kaiju_k141_neighbour	genus	0.717654	0.331246	28455	6578	356823	558598
+low75half_enriched	kraken2_k21_neighbour	genus	1.14558	0.563693	28455	6578	356823	558598
+low75half_enriched	kaiju_k21_neighbour	genus	0.911108	0.439982	28455	6578	356823	558598
+low75half_enriched	kraken2_4mer_graph	genus	0.48872	0.07285	28455	6578	356823	558598
+low75half_enriched	kaiju_4mer_graph	genus	0.42235	0.044543	28455	6578	356823	558598

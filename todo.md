@@ -29,7 +29,7 @@ Check a box only after mandatory tests pass.
 - [x] Confident lock, unanimous rescue, edge cut, genus plurality, and margin mixture
 - [x] Genus-rank 4-mer graph on low75 and low75half
 - [x] 10×-depth low75_enriched and high100_enriched scored at genus and family against Kraken2 and Kaiju
-- [ ] 10×-depth low75half_enriched and half100half_enriched, same scores after assembly
+- [x] 10×-depth low75half_enriched and half100half_enriched, same scores after assembly
 - [x] Learned colouring on the dense shallow graph: coverage and k-mer support do not separate true neighbours; at 10× depth the final overlap edges are same-taxon and neighbour fill plus 4-mers beat Kaiju
 - [x] low75 and low75half: 25 genera each of bacteria, archaea, and viruses
 - [x] high100 and half100half: 25 families each of bacteria, archaea, viruses, and small eukaryotes, scored at family rank
