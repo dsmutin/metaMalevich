@@ -19,19 +19,15 @@ The Python package and the conda environment are named `metamalevich`. Concepts 
 4. Run a named resolver. Each one returns a full distribution per node. Graph-free methods are the hard call, `probability_sum`, and LCA. Graph methods include gated neighbour smoothing, an edge Bayesian update, decaying leakage, label drop, and a small set of lock, rescue, and mixture rules. Parameters are recorded with the hypothesis.
 5. Write a length-weighted profile. Relative abundance is the share of contig bases. Coverage is not an input. Nodes are split into unique, shared, ambiguous, and unclassified. On `samovar10`, a hypothesis beats the hard colouring only when L1 falls and macro F1 rises. Example communities report the same hypotheses at the rank in the table below.
 
-```text
-Kraken2 whole-contig output
-        │
-        ▼
-species k-mer colours on contig nodes
-        │
-assembly graph (MEGAHIT FASTG, or 4-mer cosine kNN on samovar10)
-        │
-        ▼
-edge colours + MetaMetro CFA / CDBG
-        │
-        ▼
-named resolver → length-weighted profile
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '16px', 'fontFamily': 'arial', 'primaryColor': '#fff', 'primaryTextColor': '#000', 'primaryBorderColor': '#000', 'lineColor': '#000', 'secondaryColor': '#fff', 'tertiaryColor': '#fff'}}}%%
+graph TD
+    K[Kraken2 whole-contig output] --> C[Species k-mer colours]
+    G[Assembly graph] --> E[Edge colours]
+    C --> E
+    E --> M[MetaMetro CFA / CDBG]
+    M --> R[Named resolver]
+    R --> P[Length-weighted profile]
 ```
 
 ## Install
