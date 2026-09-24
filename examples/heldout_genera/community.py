@@ -269,6 +269,37 @@ COARSE_RANKS = frozenset(
 )
 
 
+def rank_taxon(taxon_id: int, parents: dict[int, int], ranks: dict[int, str], target: str) -> int | None:
+    """Walk NCBI parents to ``target`` (``species`` or ``family``).
+
+    A start taxon already coarser than ``target`` returns None. A cycle returns
+    None rather than looping.
+    """
+    if target not in {"species", "family"}:
+        raise ValueError(f"unsupported rank {target}")
+    # Family scoring climbs through genus. Species scoring stops at genus.
+    if target == "species":
+        above = COARSE_RANKS
+    else:
+        above = frozenset(
+            {"order", "class", "phylum", "kingdom", "superkingdom", "domain"}
+        )
+    current = taxon_id
+    seen: set[int] = set()
+    while current and current not in seen:
+        seen.add(current)
+        rank = ranks.get(current, "")
+        if rank == target:
+            return current
+        if rank in above:
+            return None
+        parent = parents.get(current)
+        if parent is None or parent == current:
+            return None
+        current = parent
+    return None
+
+
 def species_taxon(taxon_id: int, parents: dict[int, int], ranks: dict[int, str]) -> int | None:
     """Walk NCBI parents to a species, skipping strain and no-rank nodes.
 

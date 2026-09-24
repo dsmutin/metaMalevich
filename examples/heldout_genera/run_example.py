@@ -30,6 +30,7 @@ from community import (
     presence_f1,
     r_squared,
     sequence_digest,
+    rank_taxon,
     species_taxon,
 )
 
@@ -37,6 +38,7 @@ ROOT = Path(__file__).resolve().parents[2]
 EXAMPLE = Path(__file__).resolve().parent
 WORK = EXAMPLE / "work"
 GRAPH_ID = "heldout_genera"
+SCORE_RANK = "species"
 REPORT_PATH = ROOT / "data" / "raw" / "assembly_data_report.jsonl"
 TOTAL_READS = 100_000
 SEED = 42
@@ -712,7 +714,7 @@ def _roll(counts: dict[int, int], parents: dict[int, int], ranks: dict[int, str]
         raise SystemExit("classification has no reads")
     rolled: dict[int, int] = {}
     for taxon_id, count in counts.items():
-        species = None if taxon_id == 0 else species_taxon(taxon_id, parents, ranks)
+        species = None if taxon_id == 0 else rank_taxon(taxon_id, parents, ranks, SCORE_RANK)
         rolled[species or 0] = rolled.get(species or 0, 0) + count
     return {taxon_id: count / total for taxon_id, count in rolled.items()}
 
@@ -754,9 +756,9 @@ def _truth(parents: dict[int, int], ranks: dict[int, str]) -> dict[int, float]:
         if record is None:
             raise SystemExit(f"no assembly report for simulated genome {accession}")
         _accession, _name, taxon_id = _report_identity(record)
-        species = species_taxon(taxon_id, parents, ranks)
+        species = rank_taxon(taxon_id, parents, ranks, SCORE_RANK)
         if species is None:
-            raise SystemExit(f"{accession} taxid {taxon_id} does not roll to a species")
+            raise SystemExit(f"{accession} taxid {taxon_id} does not roll to {SCORE_RANK}")
         counts[species] = counts.get(species, 0) + int(raw_count)
     total = sum(counts.values())
     return {taxon_id: count / total for taxon_id, count in counts.items()}
@@ -1039,7 +1041,7 @@ def _profile_row(
     profile, summary = profile_nodes(distributions, lengths, taxonomy)
     predicted = {}
     for taxon_id, fraction in relative_from_profile(profile, summary["unclassified_fraction"]).items():
-        species = 0 if taxon_id == 0 else species_taxon(taxon_id, parents, ranks)
+        species = 0 if taxon_id == 0 else rank_taxon(taxon_id, parents, ranks, SCORE_RANK)
         predicted[species or 0] = predicted.get(species or 0, 0.0) + fraction
     node_scores = None
     if node_truth:
@@ -1048,7 +1050,7 @@ def _profile_row(
             if node_id not in node_truth:
                 continue
             taxon_id = max(dist, key=dist.get) if dist else 0
-            species = 0 if taxon_id == 0 else species_taxon(taxon_id, parents, ranks)
+            species = 0 if taxon_id == 0 else rank_taxon(taxon_id, parents, ranks, SCORE_RANK)
             rolled[node_id] = {species or 0: 1.0}
         node_scores = classification_scores(rolled, node_truth)
     lines = []
@@ -1101,9 +1103,9 @@ def _contig_species(fasta: Path, parents: dict[int, int], ranks: dict[int, str])
         if record is None:
             continue
         _accession, _name, taxon_id = _report_identity(record)
-        species = species_taxon(taxon_id, parents, ranks)
+        species = rank_taxon(taxon_id, parents, ranks, SCORE_RANK)
         if species is None:
-            raise SystemExit(f"mapped genome {target} taxid {taxon_id} has no species")
+            raise SystemExit(f"mapped genome {target} taxid {taxon_id} has no {SCORE_RANK}")
         truth[query] = species
     return truth
 

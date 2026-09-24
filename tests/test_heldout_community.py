@@ -125,6 +125,29 @@ def test_low75_pins_two_species_in_each_genus(repo_root: Path) -> None:
     assert len({row["pair_id"] for row in half}) == 38
 
 
+def test_high100_families_and_family_rank(repo_root: Path) -> None:
+    """100 families, 13 same-genus and 12 cross-genus in each domain, half is 50."""
+    community = _community(repo_root)
+    rows = community.load_pairs(repo_root / "examples" / "high100" / "accessions.tsv")
+    assert len(rows) == 200
+    modes: dict[str, dict[str, int]] = {}
+    for row in rows:
+        if row["role"] != "sim":
+            continue
+        modes.setdefault(row["domain"], {}).setdefault(row["pair_mode"], 0)
+        modes[row["domain"]][row["pair_mode"]] += 1
+    assert set(modes) == {"bacteria", "archaea", "viral", "eukaryota"}
+    for domain, counts in modes.items():
+        assert counts == {"same_genus": 13, "different_genera": 12}, domain
+    half = community.load_pairs(repo_root / "examples" / "half100half" / "accessions.tsv")
+    assert half == community.every_other_strain(rows)
+    assert len({row["pair_id"] for row in half}) == 50
+    parents = {562: 561, 561: 543, 543: 91347}
+    ranks = {562: "species", 561: "genus", 543: "family", 91347: "order"}
+    assert community.rank_taxon(562, parents, ranks, "family") == 543
+    assert community.rank_taxon(91347, parents, ranks, "family") is None
+
+
 def test_presence_f1_and_r_squared() -> None:
     """A missed truth taxon lowers F1, and R² is the squared Pearson value."""
     community = _community(Path(__file__).resolve().parents[1])

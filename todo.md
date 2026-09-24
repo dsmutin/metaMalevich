@@ -31,3 +31,4 @@ Check a box only after mandatory tests pass.
 - [ ] 10×-depth enriched low and high examples, scored at the design rank
 - [ ] Learned colouring on the dense MEGAHIT graph: coverage, k-mer support, and composition decide which neighbour genus to trust
 - [x] low75 and low75half: 25 genera each of bacteria, archaea, and viruses
+- [x] high100 and half100half: 25 families each of bacteria, archaea, viruses, and small eukaryotes, scored at family rank

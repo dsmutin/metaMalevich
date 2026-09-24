@@ -30,10 +30,12 @@ python examples/heldout_genera/run_example.py
 python examples/half_strains/run_example.py
 python examples/low75/run_example.py
 python examples/low75half/run_example.py
+python examples/high100/run_example.py
+python examples/half100half/run_example.py
 python -m metamalevich bench --data-root . --benchmark benchmark
 ```
 
-`examples/heldout_genera/` is a from-scratch community: twenty simulated assemblies and twenty held-out assemblies used as the Kraken2 and Kaiju databases. `examples/half_strains/` repeats that pipeline on every other strain (ten pairs) and reuses the same downloaded FASTA files. `examples/low75/` uses 25 genera each of bacteria, archaea, and viruses, with a different species in the database than in the metagenome. `examples/low75half/` keeps every other of those genera. Genomes, reads, and indexes are not committed. See each directory's README.
+`examples/heldout_genera/` is a from-scratch community: twenty simulated assemblies and twenty held-out assemblies used as the Kraken2 and Kaiju databases. `examples/half_strains/` repeats that pipeline on every other strain (ten pairs) and reuses the same downloaded FASTA files. `examples/low75/` uses 25 genera each of bacteria, archaea, and viruses, with a different species in the database than in the metagenome. `examples/low75half/` keeps every other of those genera. `examples/high100/` uses 25 families each of bacteria, archaea, viruses, and small eukaryotes, two genomes per family, and scores at family rank. `examples/half100half/` keeps every other of those families. Genomes, reads, and indexes are not committed. See each directory's README.
 
 `bench` reads Kraken2 whole-contig output already stored for `samovar10`, builds a canonical 4-mer cosine k-nearest-neighbour graph (`top_k=8`, `min_sim=0.15`) with `cpp/kmer_knn`, colours nodes and edges, and writes each hypothesis under `benchmark/{hypothesis}/{dataset}/`. `samovar10_ont1b` repeats the same FASTA, Kraken2 output, and ground truth, so it is not a second dataset. Relative abundance is the share of contig bases. Coverage is not used. On `samovar10`, `genome_abundance` matches that base share, so the benchmark scores how bases are classified. Reusable counts and edges go to `./intermediate`. MetaMetro performs the CFA to ToCUMG step. Set `METAMETRO_SRC`, or clone MetaMetro to `external/MetaMetro`.
 
