@@ -1,0 +1,24 @@
+---
+description: Rank at which each example community is scored
+alwaysApply: true
+---
+
+# Example score rank
+
+Score each community at the rank its design can still match. Do not treat a species-rank table as the result when that rank is disjoint by construction.
+
+| Examples | Score rank | Why |
+| --- | --- | --- |
+| `examples/low75`, `examples/low75half` | genus | The database species is a different species of the same genus. Species L1 is 2 and node accuracy is 0 for every hypothesis. |
+| `examples/high100` and any other `examples/high*` | family | Those communities are paired inside a family, including pairs from different genera. |
+| `samovar10`, `examples/heldout_genera`, `examples/half_strains` | species | The simulated species is present in the reference. |
+
+Report the design rank in `RESULTS.md` and in any comparison table. A coarser or finer rollup may be added only as a labeled extra, not instead of the rank in the table.
+
+## Taxonomy
+
+Walk NCBI parents with Samovar. Load `nodes.dmp` and `names.dmp` from `/mnt/tank/scratch/partition-metagenomics/databases/taxdump`. If either file is missing or empty, stop. Do not download a replacement dump.
+
+Use `samovar.taxonomy_engine.NCBITaxonomyParser.get_ancestor_by_rank`. A missing rank returns `None`; count that call as unclassified. Do not use `samovar.parse_annotators.resolve_taxid_at_rank` for these scores: when the requested rank is absent it keeps a finer taxid, which would count a species id as a family or genus hit.
+
+Names come from `names.dmp` scientific names. The Kraken report shipped with an example is not a substitute for this dump when the simulated taxon was never called.

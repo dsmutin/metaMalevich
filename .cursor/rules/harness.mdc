@@ -17,6 +17,7 @@ alwaysApply: true
 - english-docs
 - no-push
 - follow-contributing
+- example-rank
 
 User-level publication-figures applies when producing plots.
 
