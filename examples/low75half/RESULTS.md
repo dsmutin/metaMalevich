@@ -21,3 +21,18 @@ Genus rollup of the same argmax calls:
 MEGAHIT wrote 4090 contigs, 1881332 bp, N50 429 bp. The k141 FASTG has 4119 nodes and 296 edges. The coloured CFA and CDBG have those counts, 27 colours, and `topology_unchanged` true.
 
 The read budget is again 100000 paired fragments, redrawn for these 38 genomes with seed 42.
+
+## Genus rank and the 4-mer graph
+
+Kraken leaves 0.724 of assembled bases without a genus. Wrong-genus bases are 0.016. The 296 overlap edges do not connect those unclassified contigs to a labelled contig. Nearest-neighbour transfer on canonical 4-mers raises the correct-genus base share from 0.260 to 0.827.
+
+Read-weighted genus L1, with unclassified reads filled from the mapped contig:
+
+| method | genus L1 |
+| --- | ---: |
+| kraken2 | 1.56126 |
+| kaiju | 1.1342 |
+| kraken2_4mer_graph | 1.09142 |
+| kaiju_4mer_graph | 0.75986 |
+
+The same table is in `examples/low75/ds/genus_metrics.tsv`.

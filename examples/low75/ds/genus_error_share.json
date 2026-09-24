@@ -1,0 +1,153 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+  "columns": 2,
+  "config": {
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-86373d45f7cc7a22551e42ef3ead8547"
+  },
+  "datasets": {
+    "data-86373d45f7cc7a22551e42ef3ead8547": [
+      {
+        "base_share": 0.233578,
+        "bases": 315389,
+        "dataset": "low75",
+        "kind": "correct",
+        "method": "kraken_contig"
+      },
+      {
+        "base_share": 0.753039,
+        "bases": 1016791,
+        "dataset": "low75",
+        "kind": "unclassified",
+        "method": "kraken_contig"
+      },
+      {
+        "base_share": 0.0133827,
+        "bases": 18070,
+        "dataset": "low75",
+        "kind": "wrong_genus",
+        "method": "kraken_contig"
+      },
+      {
+        "base_share": 0.688375,
+        "bases": 929479,
+        "dataset": "low75",
+        "kind": "correct",
+        "method": "4mer_graph"
+      },
+      {
+        "base_share": 0.0,
+        "bases": 0,
+        "dataset": "low75",
+        "kind": "unclassified",
+        "method": "4mer_graph"
+      },
+      {
+        "base_share": 0.311625,
+        "bases": 420771,
+        "dataset": "low75",
+        "kind": "wrong_genus",
+        "method": "4mer_graph"
+      },
+      {
+        "base_share": 0.259859,
+        "bases": 490137,
+        "dataset": "low75half",
+        "kind": "correct",
+        "method": "kraken_contig"
+      },
+      {
+        "base_share": 0.724165,
+        "bases": 1365896,
+        "dataset": "low75half",
+        "kind": "unclassified",
+        "method": "kraken_contig"
+      },
+      {
+        "base_share": 0.0159763,
+        "bases": 30134,
+        "dataset": "low75half",
+        "kind": "wrong_genus",
+        "method": "kraken_contig"
+      },
+      {
+        "base_share": 0.826993,
+        "bases": 1559846,
+        "dataset": "low75half",
+        "kind": "correct",
+        "method": "4mer_graph"
+      },
+      {
+        "base_share": 0.0,
+        "bases": 0,
+        "dataset": "low75half",
+        "kind": "unclassified",
+        "method": "4mer_graph"
+      },
+      {
+        "base_share": 0.173007,
+        "bases": 326321,
+        "dataset": "low75half",
+        "kind": "wrong_genus",
+        "method": "4mer_graph"
+      }
+    ]
+  },
+  "facet": {
+    "field": "dataset",
+    "title": "Community",
+    "type": "nominal"
+  },
+  "spec": {
+    "encoding": {
+      "color": {
+        "field": "kind",
+        "title": "Genus call",
+        "type": "nominal"
+      },
+      "tooltip": [
+        {
+          "field": "dataset",
+          "type": "nominal"
+        },
+        {
+          "field": "method",
+          "type": "nominal"
+        },
+        {
+          "field": "kind",
+          "type": "nominal"
+        },
+        {
+          "field": "base_share",
+          "type": "quantitative"
+        },
+        {
+          "field": "bases",
+          "type": "quantitative"
+        }
+      ],
+      "x": {
+        "field": "method",
+        "title": "Contig labelling",
+        "type": "nominal"
+      },
+      "y": {
+        "field": "base_share",
+        "title": "Share of assembled bases",
+        "type": "quantitative"
+      }
+    },
+    "height": 240,
+    "mark": {
+      "type": "bar"
+    },
+    "title": "Where contig genus errors sit",
+    "width": 320
+  }
+}

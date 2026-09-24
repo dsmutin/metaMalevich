@@ -23,3 +23,18 @@ Kraken2 left 76157 of 100000 reads unclassified. Of the remaining reads, 23401 w
 MEGAHIT wrote 2684 contigs, 1350101 bp, N50 465 bp. The k141 FASTG has 2685 nodes and 24 edges. The coloured CFA and CDBG have those counts, 35 colours, and `topology_unchanged` true.
 
 The read budget is the same 100000 paired fragments used for twenty genomes in `examples/heldout_genera`, spread across 75 genomes.
+
+## Genus rank, read baselines, and the 4-mer graph
+
+On the k141 FASTG, 0.753 of bases have no Kraken genus and 0.013 are the wrong genus. All 24 overlap edges join contigs of the same true genus, and none joins an unclassified contig to a labelled one, so neighbour smoothing cannot move those bases.
+
+`composition_genus_graph` labels each unclassified contig with the nearest Kraken-labelled contig under canonical 4-mer cosine. That raises the correct-genus base share from 0.234 to 0.688 and the wrong-genus share to 0.312, because every contig is forced onto a genus. The read profile does not do that. An unclassified Kraken2 or Kaiju read that maps to a contig inherits the contig genus; a read that already has a genus keeps it.
+
+| method | genus L1 | unclassified read fraction |
+| --- | ---: | ---: |
+| kraken2 | 1.54014 | 0.76599 |
+| kaiju | 1.01624 | 0.49412 |
+| kraken2_4mer_graph | 1.20352 | 0.52264 |
+| kaiju_4mer_graph | 0.78304 | 0.31074 |
+
+Charts and the half-strain rows are in `ds/`. Twenty-nine of 75 genera have no assembled bases, so a length-weighted contig profile cannot represent them. The table above is read-weighted.

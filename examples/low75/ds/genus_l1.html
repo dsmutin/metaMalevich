@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    #vis.vega-embed {
+      width: 100%;
+      display: flex;
+    }
+
+    #vis.vega-embed details,
+    #vis.vega-embed details summary {
+      position: relative;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@6"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-lite@6.4.1"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@7"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "data": {"name": "data-daa0158d15234316b7d51eaa64d93428"}, "mark": {"type": "bar"}, "encoding": {"color": {"field": "dataset", "title": "Community", "type": "nominal"}, "tooltip": [{"field": "dataset", "type": "nominal"}, {"field": "method", "type": "nominal"}, {"field": "l1", "type": "quantitative"}, {"field": "unclassified", "type": "nominal"}], "x": {"axis": {"labelAngle": -30}, "field": "method", "title": "Method", "type": "nominal"}, "xOffset": {"field": "dataset", "type": "nominal"}, "y": {"field": "l1", "title": "Genus L1 against read truth", "type": "quantitative"}}, "height": 260, "title": "Genus abundance error: read baselines and the 4-mer graph", "width": 420, "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json", "datasets": {"data-daa0158d15234316b7d51eaa64d93428": [{"dataset": "low75", "method": "kraken2", "rank": "genus", "weight": "read_count", "l1": 1.54014, "unclassified": "0.76599"}, {"dataset": "low75", "method": "kaiju", "rank": "genus", "weight": "read_count", "l1": 1.01624, "unclassified": "0.49412"}, {"dataset": "low75", "method": "kraken2_4mer_graph", "rank": "genus", "weight": "read_count", "l1": 1.20352, "unclassified": "0.52264"}, {"dataset": "low75", "method": "kaiju_4mer_graph", "rank": "genus", "weight": "read_count", "l1": 0.78304, "unclassified": "0.31074"}, {"dataset": "low75half", "method": "kraken2", "rank": "genus", "weight": "read_count", "l1": 1.56126, "unclassified": "0.77663"}, {"dataset": "low75half", "method": "kaiju", "rank": "genus", "weight": "read_count", "l1": 1.1342, "unclassified": "0.5583"}, {"dataset": "low75half", "method": "kraken2_4mer_graph", "rank": "genus", "weight": "read_count", "l1": 1.09142, "unclassified": "0.4105"}, {"dataset": "low75half", "method": "kaiju_4mer_graph", "rank": "genus", "weight": "read_count", "l1": 0.75986, "unclassified": "0.24982"}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>

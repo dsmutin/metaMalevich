@@ -1,0 +1,128 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+  "config": {
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-daa0158d15234316b7d51eaa64d93428"
+  },
+  "datasets": {
+    "data-daa0158d15234316b7d51eaa64d93428": [
+      {
+        "dataset": "low75",
+        "l1": 1.54014,
+        "method": "kraken2",
+        "rank": "genus",
+        "unclassified": "0.76599",
+        "weight": "read_count"
+      },
+      {
+        "dataset": "low75",
+        "l1": 1.01624,
+        "method": "kaiju",
+        "rank": "genus",
+        "unclassified": "0.49412",
+        "weight": "read_count"
+      },
+      {
+        "dataset": "low75",
+        "l1": 1.20352,
+        "method": "kraken2_4mer_graph",
+        "rank": "genus",
+        "unclassified": "0.52264",
+        "weight": "read_count"
+      },
+      {
+        "dataset": "low75",
+        "l1": 0.78304,
+        "method": "kaiju_4mer_graph",
+        "rank": "genus",
+        "unclassified": "0.31074",
+        "weight": "read_count"
+      },
+      {
+        "dataset": "low75half",
+        "l1": 1.56126,
+        "method": "kraken2",
+        "rank": "genus",
+        "unclassified": "0.77663",
+        "weight": "read_count"
+      },
+      {
+        "dataset": "low75half",
+        "l1": 1.1342,
+        "method": "kaiju",
+        "rank": "genus",
+        "unclassified": "0.5583",
+        "weight": "read_count"
+      },
+      {
+        "dataset": "low75half",
+        "l1": 1.09142,
+        "method": "kraken2_4mer_graph",
+        "rank": "genus",
+        "unclassified": "0.4105",
+        "weight": "read_count"
+      },
+      {
+        "dataset": "low75half",
+        "l1": 0.75986,
+        "method": "kaiju_4mer_graph",
+        "rank": "genus",
+        "unclassified": "0.24982",
+        "weight": "read_count"
+      }
+    ]
+  },
+  "encoding": {
+    "color": {
+      "field": "dataset",
+      "title": "Community",
+      "type": "nominal"
+    },
+    "tooltip": [
+      {
+        "field": "dataset",
+        "type": "nominal"
+      },
+      {
+        "field": "method",
+        "type": "nominal"
+      },
+      {
+        "field": "l1",
+        "type": "quantitative"
+      },
+      {
+        "field": "unclassified",
+        "type": "nominal"
+      }
+    ],
+    "x": {
+      "axis": {
+        "labelAngle": -30
+      },
+      "field": "method",
+      "title": "Method",
+      "type": "nominal"
+    },
+    "xOffset": {
+      "field": "dataset",
+      "type": "nominal"
+    },
+    "y": {
+      "field": "l1",
+      "title": "Genus L1 against read truth",
+      "type": "quantitative"
+    }
+  },
+  "height": 260,
+  "mark": {
+    "type": "bar"
+  },
+  "title": "Genus abundance error: read baselines and the 4-mer graph",
+  "width": 420
+}

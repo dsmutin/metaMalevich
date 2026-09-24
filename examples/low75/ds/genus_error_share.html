@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    #vis.vega-embed {
+      width: 100%;
+      display: flex;
+    }
+
+    #vis.vega-embed details,
+    #vis.vega-embed details summary {
+      position: relative;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@6"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-lite@6.4.1"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@7"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "data": {"name": "data-86373d45f7cc7a22551e42ef3ead8547"}, "facet": {"field": "dataset", "title": "Community", "type": "nominal"}, "spec": {"mark": {"type": "bar"}, "encoding": {"color": {"field": "kind", "title": "Genus call", "type": "nominal"}, "tooltip": [{"field": "dataset", "type": "nominal"}, {"field": "method", "type": "nominal"}, {"field": "kind", "type": "nominal"}, {"field": "base_share", "type": "quantitative"}, {"field": "bases", "type": "quantitative"}], "x": {"field": "method", "title": "Contig labelling", "type": "nominal"}, "y": {"field": "base_share", "title": "Share of assembled bases", "type": "quantitative"}}, "height": 240, "title": "Where contig genus errors sit", "width": 320}, "columns": 2, "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json", "datasets": {"data-86373d45f7cc7a22551e42ef3ead8547": [{"dataset": "low75", "method": "kraken_contig", "kind": "correct", "bases": 315389, "base_share": 0.233578}, {"dataset": "low75", "method": "kraken_contig", "kind": "unclassified", "bases": 1016791, "base_share": 0.753039}, {"dataset": "low75", "method": "kraken_contig", "kind": "wrong_genus", "bases": 18070, "base_share": 0.0133827}, {"dataset": "low75", "method": "4mer_graph", "kind": "correct", "bases": 929479, "base_share": 0.688375}, {"dataset": "low75", "method": "4mer_graph", "kind": "unclassified", "bases": 0, "base_share": 0.0}, {"dataset": "low75", "method": "4mer_graph", "kind": "wrong_genus", "bases": 420771, "base_share": 0.311625}, {"dataset": "low75half", "method": "kraken_contig", "kind": "correct", "bases": 490137, "base_share": 0.259859}, {"dataset": "low75half", "method": "kraken_contig", "kind": "unclassified", "bases": 1365896, "base_share": 0.724165}, {"dataset": "low75half", "method": "kraken_contig", "kind": "wrong_genus", "bases": 30134, "base_share": 0.0159763}, {"dataset": "low75half", "method": "4mer_graph", "kind": "correct", "bases": 1559846, "base_share": 0.826993}, {"dataset": "low75half", "method": "4mer_graph", "kind": "unclassified", "bases": 0, "base_share": 0.0}, {"dataset": "low75half", "method": "4mer_graph", "kind": "wrong_genus", "bases": 326321, "base_share": 0.173007}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>

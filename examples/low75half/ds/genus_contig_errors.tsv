@@ -1,0 +1,13 @@
+dataset	method	kind	bases	base_share
+low75	kraken_contig	correct	315389	0.233578
+low75	kraken_contig	unclassified	1016791	0.753039
+low75	kraken_contig	wrong_genus	18070	0.0133827
+low75	4mer_graph	correct	929479	0.688375
+low75	4mer_graph	unclassified	0	0
+low75	4mer_graph	wrong_genus	420771	0.311625
+low75half	kraken_contig	correct	490137	0.259859
+low75half	kraken_contig	unclassified	1365896	0.724165
+low75half	kraken_contig	wrong_genus	30134	0.0159763
+low75half	4mer_graph	correct	1559846	0.826993
+low75half	4mer_graph	unclassified	0	0
+low75half	4mer_graph	wrong_genus	326321	0.173007
