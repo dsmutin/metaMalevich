@@ -7,10 +7,10 @@
     }
   },
   "data": {
-    "name": "data-b40c0dbf3d27e58fb67a7ed774ca3fd4"
+    "name": "data-92524b8e79d9e2841dcbf8559ed09084"
   },
   "datasets": {
-    "data-b40c0dbf3d27e58fb67a7ed774ca3fd4": [
+    "data-92524b8e79d9e2841dcbf8559ed09084": [
       {
         "dataset": "samovar10",
         "harmed_bases": 259872,
@@ -88,6 +88,51 @@
         "harmed_bases": 0,
         "harmed_nodes": 0,
         "hypothesis": "logistic_drop",
+        "net_bases": 0,
+        "rescued_bases": 0,
+        "rescued_nodes": 0
+      },
+      {
+        "dataset": "samovar10",
+        "harmed_bases": 400000,
+        "harmed_nodes": 4,
+        "hypothesis": "confident_lock",
+        "net_bases": -100000,
+        "rescued_bases": 300000,
+        "rescued_nodes": 3
+      },
+      {
+        "dataset": "samovar10",
+        "harmed_bases": 0,
+        "harmed_nodes": 0,
+        "hypothesis": "unanimous_rescue",
+        "net_bases": 0,
+        "rescued_bases": 0,
+        "rescued_nodes": 0
+      },
+      {
+        "dataset": "samovar10",
+        "harmed_bases": 554761,
+        "harmed_nodes": 6,
+        "hypothesis": "cut_then_leak",
+        "net_bases": -254761,
+        "rescued_bases": 300000,
+        "rescued_nodes": 3
+      },
+      {
+        "dataset": "samovar10",
+        "harmed_bases": 0,
+        "harmed_nodes": 0,
+        "hypothesis": "genus_plurality",
+        "net_bases": 400000,
+        "rescued_bases": 400000,
+        "rescued_nodes": 4
+      },
+      {
+        "dataset": "samovar10",
+        "harmed_bases": 0,
+        "harmed_nodes": 0,
+        "hypothesis": "margin_mixture",
         "net_bases": 0,
         "rescued_bases": 0,
         "rescued_nodes": 0

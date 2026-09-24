@@ -1,0 +1,44 @@
+input_graph: canonical 4-mer cosine kNN rebuilt from assembly contigs
+graph_construction_method: symmetrized top-k cosine on canonical 4-mer frequencies
+k: 4
+assembler: contigs already present in the dataset bundle
+tca_method: kraken2 k-mer counts rolled to species, aggregation=probability_sum
+taxonomic_database: kraken2 report shipped with the dataset
+taxonomy_database_version: samovar10/kraken2/whole_contig.report
+classifier: kraken2
+resolver: cut_then_leak
+resolver_parameters:
+  graph: contig
+  confident: 0.8
+  decay: 0.5
+  iterations: 4
+profiling_method: length-weighted posterior; assigned_reads is 0 because no read-to-graph
+  map is in the bundle
+abundance_weight: node_length
+coverage: unused; relative abundance is the share of contig bases
+software_version: 0.4.1
+graph_note: samovar10/graph/graph_meta.txt records top_k=8 and min_sim=0.15
+tocumg:
+  cfa: /mnt/tank/scratch/partition-metagenomics/smuteam/vaegbin_improved/intermediate/samovar10/tocumg/cfa
+  cdbg: /mnt/tank/scratch/partition-metagenomics/smuteam/vaegbin_improved/intermediate/samovar10/tocumg/cdbg
+  n_nodes: 399
+  n_edges: 4450
+  n_colours: 17
+  topology_unchanged: true
+metrics:
+  dataset: samovar10
+  hypothesis: cut_then_leak
+  l1: 0.1413919176859151
+  bray_curtis: 0.07069595884295754
+  pearson: 0.9600659808622062
+  spearman: 0.9124796445724421
+  precision: 0.9532294832826749
+  recall: 0.9038090599009438
+  f1: 0.8969072791281173
+  accuracy: 0.9172932330827067
+  false_positive_rate: 0.08270676691729323
+  neighbour_agreement: 0.9276404494382022
+  unclassified_fraction: 0.007323366836892234
+  unclassified_bases: 287706.8001787718
+  n_nodes: 399.0
+unclassified_reads: 0

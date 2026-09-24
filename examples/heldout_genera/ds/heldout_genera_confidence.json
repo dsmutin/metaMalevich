@@ -7,10 +7,10 @@
     }
   },
   "data": {
-    "name": "data-8e6038e2faf4e97435c50e2ab5e5fbd1"
+    "name": "data-4e71d26d3e9295811b77d16d15901fc4"
   },
   "datasets": {
-    "data-8e6038e2faf4e97435c50e2ab5e5fbd1": [
+    "data-4e71d26d3e9295811b77d16d15901fc4": [
       {
         "base_error_rate": 0.556292805066647,
         "bin": "0-0.5",
@@ -328,6 +328,166 @@
         "bin": "0.95-1",
         "dataset": "heldout_genera",
         "hypothesis": "logistic_drop",
+        "n": 4342,
+        "node_error_rate": 0.5465223399355136
+      },
+      {
+        "base_error_rate": 0.5349142057588924,
+        "bin": "0-0.5",
+        "dataset": "heldout_genera",
+        "hypothesis": "confident_lock",
+        "n": 286,
+        "node_error_rate": 0.5734265734265734
+      },
+      {
+        "base_error_rate": 0.5092863699527246,
+        "bin": "0.5-0.8",
+        "dataset": "heldout_genera",
+        "hypothesis": "confident_lock",
+        "n": 1288,
+        "node_error_rate": 0.5108695652173914
+      },
+      {
+        "base_error_rate": 0.3564904598060682,
+        "bin": "0.8-0.95",
+        "dataset": "heldout_genera",
+        "hypothesis": "confident_lock",
+        "n": 523,
+        "node_error_rate": 0.35181644359464626
+      },
+      {
+        "base_error_rate": 0.5507954293959476,
+        "bin": "0.95-1",
+        "dataset": "heldout_genera",
+        "hypothesis": "confident_lock",
+        "n": 4342,
+        "node_error_rate": 0.5465223399355136
+      },
+      {
+        "base_error_rate": 0.5349142057588924,
+        "bin": "0-0.5",
+        "dataset": "heldout_genera",
+        "hypothesis": "unanimous_rescue",
+        "n": 286,
+        "node_error_rate": 0.5734265734265734
+      },
+      {
+        "base_error_rate": 0.5092863699527246,
+        "bin": "0.5-0.8",
+        "dataset": "heldout_genera",
+        "hypothesis": "unanimous_rescue",
+        "n": 1288,
+        "node_error_rate": 0.5108695652173914
+      },
+      {
+        "base_error_rate": 0.3564904598060682,
+        "bin": "0.8-0.95",
+        "dataset": "heldout_genera",
+        "hypothesis": "unanimous_rescue",
+        "n": 523,
+        "node_error_rate": 0.35181644359464626
+      },
+      {
+        "base_error_rate": 0.5507954293959476,
+        "bin": "0.95-1",
+        "dataset": "heldout_genera",
+        "hypothesis": "unanimous_rescue",
+        "n": 4342,
+        "node_error_rate": 0.5465223399355136
+      },
+      {
+        "base_error_rate": 0.5349142057588924,
+        "bin": "0-0.5",
+        "dataset": "heldout_genera",
+        "hypothesis": "cut_then_leak",
+        "n": 286,
+        "node_error_rate": 0.5734265734265734
+      },
+      {
+        "base_error_rate": 0.5092863699527246,
+        "bin": "0.5-0.8",
+        "dataset": "heldout_genera",
+        "hypothesis": "cut_then_leak",
+        "n": 1288,
+        "node_error_rate": 0.5108695652173914
+      },
+      {
+        "base_error_rate": 0.3564904598060682,
+        "bin": "0.8-0.95",
+        "dataset": "heldout_genera",
+        "hypothesis": "cut_then_leak",
+        "n": 523,
+        "node_error_rate": 0.35181644359464626
+      },
+      {
+        "base_error_rate": 0.5507954293959476,
+        "bin": "0.95-1",
+        "dataset": "heldout_genera",
+        "hypothesis": "cut_then_leak",
+        "n": 4342,
+        "node_error_rate": 0.5465223399355136
+      },
+      {
+        "base_error_rate": 0.2957286987259739,
+        "bin": "0-0.5",
+        "dataset": "heldout_genera",
+        "hypothesis": "genus_plurality",
+        "n": 286,
+        "node_error_rate": 0.2867132867132867
+      },
+      {
+        "base_error_rate": 0.5130832780033306,
+        "bin": "0.5-0.8",
+        "dataset": "heldout_genera",
+        "hypothesis": "genus_plurality",
+        "n": 1288,
+        "node_error_rate": 0.5116459627329193
+      },
+      {
+        "base_error_rate": 0.3564904598060682,
+        "bin": "0.8-0.95",
+        "dataset": "heldout_genera",
+        "hypothesis": "genus_plurality",
+        "n": 523,
+        "node_error_rate": 0.35181644359464626
+      },
+      {
+        "base_error_rate": 0.5328038022146669,
+        "bin": "0.95-1",
+        "dataset": "heldout_genera",
+        "hypothesis": "genus_plurality",
+        "n": 4342,
+        "node_error_rate": 0.5271764163979733
+      },
+      {
+        "base_error_rate": 0.5384638044038589,
+        "bin": "0-0.5",
+        "dataset": "heldout_genera",
+        "hypothesis": "margin_mixture",
+        "n": 286,
+        "node_error_rate": 0.5769230769230769
+      },
+      {
+        "base_error_rate": 0.5130832780033306,
+        "bin": "0.5-0.8",
+        "dataset": "heldout_genera",
+        "hypothesis": "margin_mixture",
+        "n": 1288,
+        "node_error_rate": 0.5116459627329193
+      },
+      {
+        "base_error_rate": 0.3564904598060682,
+        "bin": "0.8-0.95",
+        "dataset": "heldout_genera",
+        "hypothesis": "margin_mixture",
+        "n": 523,
+        "node_error_rate": 0.35181644359464626
+      },
+      {
+        "base_error_rate": 0.5507954293959476,
+        "bin": "0.95-1",
+        "dataset": "heldout_genera",
+        "hypothesis": "margin_mixture",
         "n": 4342,
         "node_error_rate": 0.5465223399355136
       }

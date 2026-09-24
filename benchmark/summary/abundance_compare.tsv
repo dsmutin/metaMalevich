@@ -29,101 +29,101 @@ samovar10	probability_sum	299767	Enterobacter ludwigii	0.12681287	0.109706996154
 samovar10	probability_sum	2058762	Flagellimonas sp.	0.09032298	0.08777755146102678
 samovar10	probability_sum	2077137	Enterobacter cloacae complex sp. FDA-CDC-AR_0132	0.0	0.0019090703188997605
 samovar10	probability_sum	2774656	Enterococcus sp. DIV0210g	0.0	0.0014171812700797524
-samovar10	probability_sum	2774749	Enterococcus sp. DIV0180	0.07499067	0.06857217533809662
+samovar10	probability_sum	2774749	Enterococcus sp. DIV0180	0.07499067	0.0685721753380966
 samovar10	probability_sum	2774758	Enterococcus sp. DIV0176	0.0	0.004858346550866841
-samovar10	probability_sum	2774762	Enterococcus sp. DIV2432	0.08075877	0.037905192863046715
+samovar10	probability_sum	2774762	Enterococcus sp. DIV2432	0.08075877	0.03790519286304672
 samovar10	probability_sum	2917965	Roseateles chitinivorans	0.16757773	0.16757773441614443
 samovar10	gated_neighbour	158	Treponema denticola	0.07009628	0.07009341345949409
-samovar10	gated_neighbour	546	Citrobacter freundii	0.0	6.368257313612057e-05
-samovar10	gated_neighbour	562	Escherichia coli	0.0	0.0013585171122959309
-samovar10	gated_neighbour	573	Klebsiella pneumoniae	0.145419	0.14037043788901313
+samovar10	gated_neighbour	546	Citrobacter freundii	0.0	6.368257313612056e-05
+samovar10	gated_neighbour	562	Escherichia coli	0.0	0.0013585171122959313
+samovar10	gated_neighbour	573	Klebsiella pneumoniae	0.145419	0.14037043788901307
 samovar10	gated_neighbour	584	Proteus mirabilis	0.1030858	0.10184825158529522
 samovar10	gated_neighbour	1351	Enterococcus faecalis	0.07730022	0.13709520136969564
-samovar10	gated_neighbour	61645	Enterobacter asburiae	0.0	0.0011401802309910596
+samovar10	gated_neighbour	61645	Enterobacter asburiae	0.0	0.0011401802309910598
 samovar10	gated_neighbour	99807	Corynebacterium auriscanis	0.06363568	0.06363567729665869
-samovar10	gated_neighbour	158836	Enterobacter hormaechei	0.0	0.0005989503742836705
+samovar10	gated_neighbour	158836	Enterobacter hormaechei	0.0	0.0005989503742836706
 samovar10	gated_neighbour	299767	Enterobacter ludwigii	0.12681287	0.12855348658386134
 samovar10	gated_neighbour	2058762	Flagellimonas sp.	0.09032298	0.08994116448911318
 samovar10	gated_neighbour	2077137	Enterobacter cloacae complex sp. FDA-CDC-AR_0132	0.0	0.00010879165324286805
 samovar10	gated_neighbour	2774656	Enterococcus sp. DIV0210g	0.0	0.00028360436410590105
 samovar10	gated_neighbour	2774749	Enterococcus sp. DIV0180	0.07499067	0.07321807680322108
-samovar10	gated_neighbour	2774758	Enterococcus sp. DIV0176	0.0	0.002133189027846675
-samovar10	gated_neighbour	2774762	Enterococcus sp. DIV2432	0.08075877	0.020319585797735285
+samovar10	gated_neighbour	2774758	Enterococcus sp. DIV0176	0.0	0.0021331890278466744
+samovar10	gated_neighbour	2774762	Enterococcus sp. DIV2432	0.08075877	0.02031958579773529
 samovar10	gated_neighbour	2917965	Roseateles chitinivorans	0.16757773	0.16757773441614443
 samovar10	bayesian_edge	158	Treponema denticola	0.07009628	0.0700962767070665
 samovar10	bayesian_edge	546	Citrobacter freundii	0.0	0.00020579909340152848
 samovar10	bayesian_edge	562	Escherichia coli	0.0	0.0013867715244190349
-samovar10	bayesian_edge	573	Klebsiella pneumoniae	0.145419	0.14280207896213118
+samovar10	bayesian_edge	573	Klebsiella pneumoniae	0.145419	0.14280207896213115
 samovar10	bayesian_edge	584	Proteus mirabilis	0.1030858	0.10220639730377973
-samovar10	bayesian_edge	1351	Enterococcus faecalis	0.07730022	0.14623715269960635
+samovar10	bayesian_edge	1351	Enterococcus faecalis	0.07730022	0.14623715269960638
 samovar10	bayesian_edge	61645	Enterobacter asburiae	0.0	0.002560605717893568
 samovar10	bayesian_edge	99807	Corynebacterium auriscanis	0.06363568	0.06363567729665869
 samovar10	bayesian_edge	158836	Enterobacter hormaechei	0.0	8.158330940230414e-09
-samovar10	bayesian_edge	299767	Enterobacter ludwigii	0.12681287	0.12217569777215276
+samovar10	bayesian_edge	299767	Enterobacter ludwigii	0.12681287	0.12217569777215277
 samovar10	bayesian_edge	2058762	Flagellimonas sp.	0.09032298	0.08905026500695996
 samovar10	bayesian_edge	2077137	Enterobacter cloacae complex sp. FDA-CDC-AR_0132	0.0	9.179897485603539e-15
 samovar10	bayesian_edge	2774656	Enterococcus sp. DIV0210g	0.0	0.001350894084563848
-samovar10	bayesian_edge	2774749	Enterococcus sp. DIV0180	0.07499067	0.0730323902887224
-samovar10	bayesian_edge	2774758	Enterococcus sp. DIV0176	0.0	2.231807767114749e-08
+samovar10	bayesian_edge	2774749	Enterococcus sp. DIV0180	0.07499067	0.07303239028872238
+samovar10	bayesian_edge	2774758	Enterococcus sp. DIV0176	0.0	2.2318077671147485e-08
 samovar10	bayesian_edge	2774762	Enterococcus sp. DIV2432	0.08075877	0.012429197971634309
 samovar10	bayesian_edge	2917965	Roseateles chitinivorans	0.16757773	0.16757773441614443
 samovar10	edge_union	158	Treponema denticola	0.07009628	0.0700928165105932
-samovar10	edge_union	546	Citrobacter freundii	0.0	0.0004891598414956996
-samovar10	edge_union	562	Escherichia coli	0.0	0.0036466512560431644
-samovar10	edge_union	573	Klebsiella pneumoniae	0.145419	0.1419314944138404
+samovar10	edge_union	546	Citrobacter freundii	0.0	0.0004891598414956995
+samovar10	edge_union	562	Escherichia coli	0.0	0.0036466512560431653
+samovar10	edge_union	573	Klebsiella pneumoniae	0.145419	0.14193149441384045
 samovar10	edge_union	584	Proteus mirabilis	0.1030858	0.1029123187292072
-samovar10	edge_union	1351	Enterococcus faecalis	0.07730022	0.1210166051306755
+samovar10	edge_union	1351	Enterococcus faecalis	0.07730022	0.12101660513067557
 samovar10	edge_union	61645	Enterobacter asburiae	0.0	0.0029205586266945506
 samovar10	edge_union	99807	Corynebacterium auriscanis	0.06363568	0.06363567729665869
 samovar10	edge_union	158836	Enterobacter hormaechei	0.0	0.004073248460408873
-samovar10	edge_union	299767	Enterobacter ludwigii	0.12681287	0.10956644790121171
+samovar10	edge_union	299767	Enterobacter ludwigii	0.12681287	0.10956644790121173
 samovar10	edge_union	2058762	Flagellimonas sp.	0.09032298	0.0881487586193582
-samovar10	edge_union	2077137	Enterobacter cloacae complex sp. FDA-CDC-AR_0132	0.0	0.0016255941187342186
+samovar10	edge_union	2077137	Enterobacter cloacae complex sp. FDA-CDC-AR_0132	0.0	0.0016255941187342188
 samovar10	edge_union	2774656	Enterococcus sp. DIV0210g	0.0	0.0016587514310985882
-samovar10	edge_union	2774749	Enterococcus sp. DIV0180	0.07499067	0.06994775869367695
+samovar10	edge_union	2774749	Enterococcus sp. DIV0180	0.07499067	0.06994775869367696
 samovar10	edge_union	2774758	Enterococcus sp. DIV0176	0.0	0.004596130844057929
 samovar10	edge_union	2774762	Enterococcus sp. DIV2432	0.08075877	0.03583041126309564
 samovar10	edge_union	2917965	Roseateles chitinivorans	0.16757773	0.16757773441614443
 samovar10	leakage	158	Treponema denticola	0.07009628	0.07009286192402896
-samovar10	leakage	546	Citrobacter freundii	0.0	0.0004816267301440434
-samovar10	leakage	562	Escherichia coli	0.0	0.0036078079422957807
-samovar10	leakage	573	Klebsiella pneumoniae	0.145419	0.14188066618396686
-samovar10	leakage	584	Proteus mirabilis	0.1030858	0.10289348166822687
-samovar10	leakage	1351	Enterococcus faecalis	0.07730022	0.12101887141874425
-samovar10	leakage	61645	Enterobacter asburiae	0.0	0.002987092805982939
+samovar10	leakage	546	Citrobacter freundii	0.0	0.0004816267301440435
+samovar10	leakage	562	Escherichia coli	0.0	0.0036078079422957815
+samovar10	leakage	573	Klebsiella pneumoniae	0.145419	0.14188066618396675
+samovar10	leakage	584	Proteus mirabilis	0.1030858	0.10289348166822689
+samovar10	leakage	1351	Enterococcus faecalis	0.07730022	0.12101887141874429
+samovar10	leakage	61645	Enterobacter asburiae	0.0	0.0029870928059829395
 samovar10	leakage	99807	Corynebacterium auriscanis	0.06363568	0.06363567729665869
 samovar10	leakage	158836	Enterobacter hormaechei	0.0	0.004007104422873675
-samovar10	leakage	299767	Enterobacter ludwigii	0.12681287	0.10970712879514444
+samovar10	leakage	299767	Enterobacter ludwigii	0.12681287	0.10970712879514447
 samovar10	leakage	2058762	Flagellimonas sp.	0.09032298	0.0881531565600328
-samovar10	leakage	2077137	Enterobacter cloacae complex sp. FDA-CDC-AR_0132	0.0	0.0016582490481394456
-samovar10	leakage	2774656	Enterococcus sp. DIV0210g	0.0	0.0016516123350196969
-samovar10	leakage	2774749	Enterococcus sp. DIV0180	0.07499067	0.06989122089838283
-samovar10	leakage	2774758	Enterococcus sp. DIV0176	0.0	0.004596081444474043
-samovar10	leakage	2774762	Enterococcus sp. DIV2432	0.08075877	0.03589187126598381
+samovar10	leakage	2077137	Enterobacter cloacae complex sp. FDA-CDC-AR_0132	0.0	0.0016582490481394452
+samovar10	leakage	2774656	Enterococcus sp. DIV0210g	0.0	0.0016516123350196962
+samovar10	leakage	2774749	Enterococcus sp. DIV0180	0.07499067	0.0698912208983828
+samovar10	leakage	2774758	Enterococcus sp. DIV0176	0.0	0.00459608144447404
+samovar10	leakage	2774762	Enterococcus sp. DIV2432	0.08075877	0.03589187126598383
 samovar10	leakage	2917965	Roseateles chitinivorans	0.16757773	0.16757773441614443
 samovar10	leakage_flipped	158	Treponema denticola	0.07009628	0.07009254589603545
 samovar10	leakage_flipped	546	Citrobacter freundii	0.0	0.0010278146090750193
-samovar10	leakage_flipped	562	Escherichia coli	0.0	0.006775709174045672
+samovar10	leakage_flipped	562	Escherichia coli	0.0	0.006775709174045673
 samovar10	leakage_flipped	573	Klebsiella pneumoniae	0.145419	0.144967957250028
-samovar10	leakage_flipped	584	Proteus mirabilis	0.1030858	0.10425991102092924
-samovar10	leakage_flipped	1351	Enterococcus faecalis	0.07730022	0.12529445054879107
+samovar10	leakage_flipped	584	Proteus mirabilis	0.1030858	0.10425991102092923
+samovar10	leakage_flipped	1351	Enterococcus faecalis	0.07730022	0.1252944505487911
 samovar10	leakage_flipped	61645	Enterobacter asburiae	0.0	0.0021042890368507296
 samovar10	leakage_flipped	99807	Corynebacterium auriscanis	0.06363568	0.06363567729665869
-samovar10	leakage_flipped	158836	Enterobacter hormaechei	0.0	0.00382978361799355
-samovar10	leakage_flipped	299767	Enterobacter ludwigii	0.12681287	0.104682685393209
-samovar10	leakage_flipped	2058762	Flagellimonas sp.	0.09032298	0.08849578416209204
-samovar10	leakage_flipped	2077137	Enterobacter cloacae complex sp. FDA-CDC-AR_0132	0.0	0.0012146686616865468
-samovar10	leakage_flipped	2774656	Enterococcus sp. DIV0210g	0.0	0.00340792509934233
+samovar10	leakage_flipped	158836	Enterobacter hormaechei	0.0	0.0038297836179935494
+samovar10	leakage_flipped	299767	Enterobacter ludwigii	0.12681287	0.10468268539320895
+samovar10	leakage_flipped	2058762	Flagellimonas sp.	0.09032298	0.08849578416209201
+samovar10	leakage_flipped	2077137	Enterobacter cloacae complex sp. FDA-CDC-AR_0132	0.0	0.0012146686616865466
+samovar10	leakage_flipped	2774656	Enterococcus sp. DIV0210g	0.0	0.0034079250993423287
 samovar10	leakage_flipped	2774749	Enterococcus sp. DIV0180	0.07499067	0.0673345231229581
 samovar10	leakage_flipped	2774758	Enterococcus sp. DIV0176	0.0	0.003634418890625622
-samovar10	leakage_flipped	2774762	Enterococcus sp. DIV2432	0.08075877	0.033378339700887515
+samovar10	leakage_flipped	2774762	Enterococcus sp. DIV2432	0.08075877	0.033378339700887494
 samovar10	leakage_flipped	2917965	Roseateles chitinivorans	0.16757773	0.16757773441614443
 samovar10	label_drop	158	Treponema denticola	0.07009628	0.0700962767070665
 samovar10	label_drop	546	Citrobacter freundii	0.0	0.0003982575227934087
 samovar10	label_drop	562	Escherichia coli	0.0	0.0032353888581832337
 samovar10	label_drop	573	Klebsiella pneumoniae	0.145419	0.14278966771035817
 samovar10	label_drop	584	Proteus mirabilis	0.1030858	0.10268754337725942
-samovar10	label_drop	1351	Enterococcus faecalis	0.07730022	0.12028044450018219
+samovar10	label_drop	1351	Enterococcus faecalis	0.07730022	0.12028044450018216
 samovar10	label_drop	61645	Enterobacter asburiae	0.0	0.003181783864832934
 samovar10	label_drop	99807	Corynebacterium auriscanis	0.06363568	0.06363567729665869
 samovar10	label_drop	158836	Enterobacter hormaechei	0.0	0.0037726865825876217
@@ -132,22 +132,107 @@ samovar10	label_drop	2058762	Flagellimonas sp.	0.09032298	0.08777755146102678
 samovar10	label_drop	2077137	Enterobacter cloacae complex sp. FDA-CDC-AR_0132	0.0	0.0019090703188997605
 samovar10	label_drop	2774656	Enterococcus sp. DIV0210g	0.0	0.0014180744023926878
 samovar10	label_drop	2774749	Enterococcus sp. DIV0180	0.07499067	0.06883423845448809
-samovar10	label_drop	2774758	Enterococcus sp. DIV0176	0.0	0.004611707142494904
-samovar10	label_drop	2774762	Enterococcus sp. DIV2432	0.08075877	0.037905192863046715
+samovar10	label_drop	2774758	Enterococcus sp. DIV0176	0.0	0.0046117071424949035
+samovar10	label_drop	2774762	Enterococcus sp. DIV2432	0.08075877	0.03790519286304672
 samovar10	label_drop	2917965	Roseateles chitinivorans	0.16757773	0.16757773441614443
-samovar10	logistic_drop	158	Treponema denticola	0.07009628	0.0700962767070665
-samovar10	logistic_drop	562	Escherichia coli	0.0	0.0007500355468893379
-samovar10	logistic_drop	573	Klebsiella pneumoniae	0.145419	0.14466896695216008
-samovar10	logistic_drop	584	Proteus mirabilis	0.1030858	0.10308580090005284
-samovar10	logistic_drop	1351	Enterococcus faecalis	0.07730022	0.1328742460474633
-samovar10	logistic_drop	61645	Enterobacter asburiae	0.0	0.0025454270918663473
+samovar10	logistic_drop	158	Treponema denticola	0.07009628	0.07009341345949409
+samovar10	logistic_drop	546	Citrobacter freundii	0.0	0.0003982575227934087
+samovar10	logistic_drop	562	Escherichia coli	0.0	0.0032127890050855585
+samovar10	logistic_drop	573	Klebsiella pneumoniae	0.145419	0.14271330489760217
+samovar10	logistic_drop	584	Proteus mirabilis	0.1030858	0.10268468895943844
+samovar10	logistic_drop	1351	Enterococcus faecalis	0.07730022	0.12029676134051465
+samovar10	logistic_drop	61645	Enterobacter asburiae	0.0	0.003181783864832934
 samovar10	logistic_drop	99807	Corynebacterium auriscanis	0.06363568	0.06363567729665869
-samovar10	logistic_drop	158836	Enterobacter hormaechei	0.0	0.0013706145879280331
-samovar10	logistic_drop	299767	Enterobacter ludwigii	0.12681287	0.11335147899123721
+samovar10	logistic_drop	158836	Enterobacter hormaechei	0.0	0.003877366913834679
+samovar10	logistic_drop	299767	Enterobacter ludwigii	0.12681287	0.10970699615411905
 samovar10	logistic_drop	2058762	Flagellimonas sp.	0.09032298	0.08777755146102678
 samovar10	logistic_drop	2077137	Enterobacter cloacae complex sp. FDA-CDC-AR_0132	0.0	0.0019090703188997605
-samovar10	logistic_drop	2774656	Enterococcus sp. DIV0210g	0.0	0.0013501963466095853
-samovar10	logistic_drop	2774749	Enterococcus sp. DIV0180	0.07499067	0.0719435270866618
-samovar10	logistic_drop	2774758	Enterococcus sp. DIV0176	0.0	0.0016969513945775646
-samovar10	logistic_drop	2774762	Enterococcus sp. DIV2432	0.08075877	0.025184736487292324
+samovar10	logistic_drop	2774656	Enterococcus sp. DIV0210g	0.0	0.0014171812700797524
+samovar10	logistic_drop	2774749	Enterococcus sp. DIV0180	0.07499067	0.0685721753380966
+samovar10	logistic_drop	2774758	Enterococcus sp. DIV0176	0.0	0.004858346550866841
+samovar10	logistic_drop	2774762	Enterococcus sp. DIV2432	0.08075877	0.03790519286304672
 samovar10	logistic_drop	2917965	Roseateles chitinivorans	0.16757773	0.16757773441614443
+samovar10	confident_lock	158	Treponema denticola	0.07009628	0.07009341345949409
+samovar10	confident_lock	546	Citrobacter freundii	0.0	0.0004540451384566583
+samovar10	confident_lock	562	Escherichia coli	0.0	0.001930350003308138
+samovar10	confident_lock	573	Klebsiella pneumoniae	0.145419	0.14429250734624402
+samovar10	confident_lock	584	Proteus mirabilis	0.1030858	0.10282415799859657
+samovar10	confident_lock	1351	Enterococcus faecalis	0.07730022	0.12978421446358565
+samovar10	confident_lock	61645	Enterobacter asburiae	0.0	0.003464562352153808
+samovar10	confident_lock	99807	Corynebacterium auriscanis	0.06363568	0.06363567729665869
+samovar10	confident_lock	158836	Enterobacter hormaechei	0.0	0.00029546052032602624
+samovar10	confident_lock	299767	Enterobacter ludwigii	0.12681287	0.11337166708165146
+samovar10	confident_lock	2058762	Flagellimonas sp.	0.09032298	0.08777755146102678
+samovar10	confident_lock	2774656	Enterococcus sp. DIV0210g	0.0	0.0016711770836287888
+samovar10	confident_lock	2774749	Enterococcus sp. DIV0180	0.07499067	0.0717641002107417
+samovar10	confident_lock	2774758	Enterococcus sp. DIV0176	0.0	0.001410613684761899
+samovar10	confident_lock	2774762	Enterococcus sp. DIV2432	0.08075877	0.028419551919886512
+samovar10	confident_lock	2917965	Roseateles chitinivorans	0.16757773	0.16757773441614443
+samovar10	unanimous_rescue	158	Treponema denticola	0.07009628	0.07009341345949409
+samovar10	unanimous_rescue	546	Citrobacter freundii	0.0	0.0003982575227934087
+samovar10	unanimous_rescue	562	Escherichia coli	0.0	0.0032127890050855585
+samovar10	unanimous_rescue	573	Klebsiella pneumoniae	0.145419	0.14271330489760217
+samovar10	unanimous_rescue	584	Proteus mirabilis	0.1030858	0.10268468895943844
+samovar10	unanimous_rescue	1351	Enterococcus faecalis	0.07730022	0.12029676134051465
+samovar10	unanimous_rescue	61645	Enterobacter asburiae	0.0	0.003181783864832934
+samovar10	unanimous_rescue	99807	Corynebacterium auriscanis	0.06363568	0.06363567729665869
+samovar10	unanimous_rescue	158836	Enterobacter hormaechei	0.0	0.003877366913834679
+samovar10	unanimous_rescue	299767	Enterobacter ludwigii	0.12681287	0.10970699615411905
+samovar10	unanimous_rescue	2058762	Flagellimonas sp.	0.09032298	0.08777755146102678
+samovar10	unanimous_rescue	2077137	Enterobacter cloacae complex sp. FDA-CDC-AR_0132	0.0	0.0019090703188997605
+samovar10	unanimous_rescue	2774656	Enterococcus sp. DIV0210g	0.0	0.0014171812700797524
+samovar10	unanimous_rescue	2774749	Enterococcus sp. DIV0180	0.07499067	0.0685721753380966
+samovar10	unanimous_rescue	2774758	Enterococcus sp. DIV0176	0.0	0.004858346550866841
+samovar10	unanimous_rescue	2774762	Enterococcus sp. DIV2432	0.08075877	0.03790519286304672
+samovar10	unanimous_rescue	2917965	Roseateles chitinivorans	0.16757773	0.16757773441614443
+samovar10	cut_then_leak	158	Treponema denticola	0.07009628	0.07009286192402896
+samovar10	cut_then_leak	546	Citrobacter freundii	0.0	0.0005729435974010408
+samovar10	cut_then_leak	562	Escherichia coli	0.0	0.0029246994649658707
+samovar10	cut_then_leak	573	Klebsiella pneumoniae	0.145419	0.14175929435365156
+samovar10	cut_then_leak	584	Proteus mirabilis	0.1030858	0.10312177383636935
+samovar10	cut_then_leak	1351	Enterococcus faecalis	0.07730022	0.12209601918263319
+samovar10	cut_then_leak	61645	Enterobacter asburiae	0.0	0.002509466921848888
+samovar10	cut_then_leak	99807	Corynebacterium auriscanis	0.06363568	0.06363567729665869
+samovar10	cut_then_leak	158836	Enterobacter hormaechei	0.0	0.004605523421401377
+samovar10	cut_then_leak	299767	Enterobacter ludwigii	0.12681287	0.11289757392853686
+samovar10	cut_then_leak	2058762	Flagellimonas sp.	0.09032298	0.08777755146102678
+samovar10	cut_then_leak	2077137	Enterobacter cloacae complex sp. FDA-CDC-AR_0132	0.0	0.0021518751784693436
+samovar10	cut_then_leak	2774656	Enterococcus sp. DIV0210g	0.0	0.0008791792537481711
+samovar10	cut_then_leak	2774749	Enterococcus sp. DIV0180	0.07499067	0.06926989548231823
+samovar10	cut_then_leak	2774758	Enterococcus sp. DIV0176	0.0	0.004897126733083636
+samovar10	cut_then_leak	2774762	Enterococcus sp. DIV2432	0.08075877	0.03590743671082131
+samovar10	cut_then_leak	2917965	Roseateles chitinivorans	0.16757773	0.16757773441614443
+samovar10	genus_plurality	158	Treponema denticola	0.07009628	0.07009341345949409
+samovar10	genus_plurality	546	Citrobacter freundii	0.0	0.0003982575227934087
+samovar10	genus_plurality	562	Escherichia coli	0.0	0.0032127890050855585
+samovar10	genus_plurality	573	Klebsiella pneumoniae	0.145419	0.14271330489760217
+samovar10	genus_plurality	584	Proteus mirabilis	0.1030858	0.10268468895943844
+samovar10	genus_plurality	1351	Enterococcus faecalis	0.07730022	0.12029676134051465
+samovar10	genus_plurality	61645	Enterobacter asburiae	0.0	0.003181783864832934
+samovar10	genus_plurality	99807	Corynebacterium auriscanis	0.06363568	0.06363567729665869
+samovar10	genus_plurality	158836	Enterobacter hormaechei	0.0	0.003877366913834679
+samovar10	genus_plurality	299767	Enterobacter ludwigii	0.12681287	0.11734327742971806
+samovar10	genus_plurality	2058762	Flagellimonas sp.	0.09032298	0.09032297855289313
+samovar10	genus_plurality	2077137	Enterobacter cloacae complex sp. FDA-CDC-AR_0132	0.0	0.0019090703188997605
+samovar10	genus_plurality	2774656	Enterococcus sp. DIV0210g	0.0	0.0014171812700797524
+samovar10	genus_plurality	2774749	Enterococcus sp. DIV0180	0.07499067	0.0685721753380966
+samovar10	genus_plurality	2774758	Enterococcus sp. DIV0176	0.0	0.004858346550866841
+samovar10	genus_plurality	2774762	Enterococcus sp. DIV2432	0.08075877	0.03790519286304672
+samovar10	genus_plurality	2917965	Roseateles chitinivorans	0.16757773	0.16757773441614443
+samovar10	margin_mixture	158	Treponema denticola	0.07009628	0.07009341345949409
+samovar10	margin_mixture	546	Citrobacter freundii	0.0	0.0003982575227934087
+samovar10	margin_mixture	562	Escherichia coli	0.0	0.003030972784237962
+samovar10	margin_mixture	573	Klebsiella pneumoniae	0.145419	0.14271330489760217
+samovar10	margin_mixture	584	Proteus mirabilis	0.1030858	0.10268468895943844
+samovar10	margin_mixture	1351	Enterococcus faecalis	0.07730022	0.12029676134051465
+samovar10	margin_mixture	61645	Enterobacter asburiae	0.0	0.003181783864832934
+samovar10	margin_mixture	99807	Corynebacterium auriscanis	0.06363568	0.06363567729665869
+samovar10	margin_mixture	158836	Enterobacter hormaechei	0.0	0.003975267955829539
+samovar10	margin_mixture	299767	Enterobacter ludwigii	0.12681287	0.1097909113329718
+samovar10	margin_mixture	2058762	Flagellimonas sp.	0.09032298	0.08777755146102678
+samovar10	margin_mixture	2077137	Enterobacter cloacae complex sp. FDA-CDC-AR_0132	0.0	0.0019090703188997605
+samovar10	margin_mixture	2774656	Enterococcus sp. DIV0210g	0.0	0.0014171812700797524
+samovar10	margin_mixture	2774749	Enterococcus sp. DIV0180	0.07499067	0.0685721753380966
+samovar10	margin_mixture	2774758	Enterococcus sp. DIV0176	0.0	0.004858346550866841
+samovar10	margin_mixture	2774762	Enterococcus sp. DIV2432	0.08075877	0.03790519286304672
+samovar10	margin_mixture	2917965	Roseateles chitinivorans	0.16757773	0.16757773441614443

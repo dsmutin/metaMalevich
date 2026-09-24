@@ -7,10 +7,10 @@
     }
   },
   "data": {
-    "name": "data-7347e0abc2ebb89222dafcf7a245f43d"
+    "name": "data-7d3daf7ede572ed2f40c53958c4a8d11"
   },
   "datasets": {
-    "data-7347e0abc2ebb89222dafcf7a245f43d": [
+    "data-7d3daf7ede572ed2f40c53958c4a8d11": [
       {
         "base_error_rate": 0.09745693736192548,
         "bin": "3-8",
@@ -168,6 +168,86 @@
         "bin": "9+",
         "dataset": "samovar10",
         "hypothesis": "logistic_drop",
+        "n": 320,
+        "node_error_rate": 0.06875
+      },
+      {
+        "base_error_rate": 0.08710741989601847,
+        "bin": "3-8",
+        "dataset": "samovar10",
+        "hypothesis": "confident_lock",
+        "n": 79,
+        "node_error_rate": 0.10126582278481013
+      },
+      {
+        "base_error_rate": 0.07241639629375403,
+        "bin": "9+",
+        "dataset": "samovar10",
+        "hypothesis": "confident_lock",
+        "n": 320,
+        "node_error_rate": 0.071875
+      },
+      {
+        "base_error_rate": 0.08710741989601847,
+        "bin": "3-8",
+        "dataset": "samovar10",
+        "hypothesis": "unanimous_rescue",
+        "n": 79,
+        "node_error_rate": 0.10126582278481013
+      },
+      {
+        "base_error_rate": 0.06926785732446038,
+        "bin": "9+",
+        "dataset": "samovar10",
+        "hypothesis": "unanimous_rescue",
+        "n": 320,
+        "node_error_rate": 0.06875
+      },
+      {
+        "base_error_rate": 0.09438426656478913,
+        "bin": "3-8",
+        "dataset": "samovar10",
+        "hypothesis": "cut_then_leak",
+        "n": 79,
+        "node_error_rate": 0.11392405063291139
+      },
+      {
+        "base_error_rate": 0.07556493526304768,
+        "bin": "9+",
+        "dataset": "samovar10",
+        "hypothesis": "cut_then_leak",
+        "n": 320,
+        "node_error_rate": 0.075
+      },
+      {
+        "base_error_rate": 0.06053067122900852,
+        "bin": "3-8",
+        "dataset": "samovar10",
+        "hypothesis": "genus_plurality",
+        "n": 79,
+        "node_error_rate": 0.0759493670886076
+      },
+      {
+        "base_error_rate": 0.06297077938587306,
+        "bin": "9+",
+        "dataset": "samovar10",
+        "hypothesis": "genus_plurality",
+        "n": 320,
+        "node_error_rate": 0.0625
+      },
+      {
+        "base_error_rate": 0.08710741989601847,
+        "bin": "3-8",
+        "dataset": "samovar10",
+        "hypothesis": "margin_mixture",
+        "n": 79,
+        "node_error_rate": 0.10126582278481013
+      },
+      {
+        "base_error_rate": 0.06926785732446038,
+        "bin": "9+",
+        "dataset": "samovar10",
+        "hypothesis": "margin_mixture",
         "n": 320,
         "node_error_rate": 0.06875
       }

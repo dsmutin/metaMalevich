@@ -8,3 +8,8 @@ heldout_genera	leakage	2	0	2575	0	2575
 heldout_genera	leakage_flipped	2	1	2575	362	2213
 heldout_genera	label_drop	0	0	0	0	0
 heldout_genera	logistic_drop	0	0	0	0	0
+heldout_genera	confident_lock	2	0	2575	0	2575
+heldout_genera	unanimous_rescue	2	0	2575	0	2575
+heldout_genera	cut_then_leak	2	0	2575	0	2575
+heldout_genera	genus_plurality	195	28	80641	16707	63934
+heldout_genera	margin_mixture	0	0	0	0	0

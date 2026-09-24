@@ -25,3 +25,5 @@ Check a box only after mandatory tests pass.
 - [x] Held-out genera example: simulate, classify, assemble, and compare
 - [x] Half-strain example: same pipeline on every other downloaded strain
 - [x] Edge-graph flip, decaying leakage, and label drop on samovar10
+- [x] Score the same hypotheses on held-out genera and the half-strain subset
+- [x] Confident lock, unanimous rescue, edge cut, genus plurality, and margin mixture

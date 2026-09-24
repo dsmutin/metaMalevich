@@ -15,7 +15,7 @@ profiling_method: length-weighted posterior; assigned_reads is 0 because no read
   map is in the bundle
 abundance_weight: node_length
 coverage: unused; relative abundance is the share of contig bases
-software_version: 0.4.0
+software_version: 0.4.1
 graph_note: samovar10/graph/graph_meta.txt records top_k=8 and min_sim=0.15
 tocumg:
   cfa: /mnt/tank/scratch/partition-metagenomics/smuteam/vaegbin_improved/intermediate/samovar10/tocumg/cfa
@@ -27,8 +27,8 @@ tocumg:
 metrics:
   dataset: samovar10
   hypothesis: label_drop
-  l1: 0.1433778119519531
-  bray_curtis: 0.07168890597597655
+  l1: 0.14337781195195307
+  bray_curtis: 0.07168890597597644
   pearson: 0.9616722563214749
   spearman: 0.9124796445724421
   precision: 0.9607843137254901

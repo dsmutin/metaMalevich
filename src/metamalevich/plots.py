@@ -23,7 +23,7 @@ def write_summary_charts(rows: list[dict], destination: Path) -> list[str]:
             xOffset="dataset:N",
             tooltip=["dataset", "hypothesis", "l1", "f1", "accuracy"],
         )
-        .properties(title="Abundance error by colouring and resolution hypothesis", width=720, height=280)
+        .properties(title="Abundance error by colouring and resolution hypothesis", width=960, height=280)
     )
     f1 = (
         alt.Chart(frame)
@@ -35,7 +35,7 @@ def write_summary_charts(rows: list[dict], destination: Path) -> list[str]:
             xOffset="dataset:N",
             tooltip=["dataset", "hypothesis", "f1", "accuracy", "l1"],
         )
-        .properties(title="Species assignment by hypothesis", width=720, height=280)
+        .properties(title="Species assignment by hypothesis", width=960, height=280)
     )
     for name, chart in (("l1", l1), ("f1", f1)):
         html_path = destination / f"{name}.html"

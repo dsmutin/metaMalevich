@@ -7,10 +7,10 @@
     }
   },
   "data": {
-    "name": "data-4dd738b37fbd15c8439feb86d1689c6c"
+    "name": "data-e97a4df662ed7a5067a0cdb5d57563a2"
   },
   "datasets": {
-    "data-4dd738b37fbd15c8439feb86d1689c6c": [
+    "data-e97a4df662ed7a5067a0cdb5d57563a2": [
       {
         "base_error_rate": 0.18511943287733496,
         "bin": "0",
@@ -248,6 +248,126 @@
         "bin": "3-8",
         "dataset": "half_strains",
         "hypothesis": "logistic_drop",
+        "n": 3,
+        "node_error_rate": 0.3333333333333333
+      },
+      {
+        "base_error_rate": 0.1838502393796664,
+        "bin": "0",
+        "dataset": "half_strains",
+        "hypothesis": "confident_lock",
+        "n": 10035,
+        "node_error_rate": 0.20707523667164923
+      },
+      {
+        "base_error_rate": 0.1712085308056872,
+        "bin": "1-2",
+        "dataset": "half_strains",
+        "hypothesis": "confident_lock",
+        "n": 34,
+        "node_error_rate": 0.2647058823529412
+      },
+      {
+        "base_error_rate": 0.4819277108433735,
+        "bin": "3-8",
+        "dataset": "half_strains",
+        "hypothesis": "confident_lock",
+        "n": 3,
+        "node_error_rate": 0.3333333333333333
+      },
+      {
+        "base_error_rate": 0.1838502393796664,
+        "bin": "0",
+        "dataset": "half_strains",
+        "hypothesis": "unanimous_rescue",
+        "n": 10035,
+        "node_error_rate": 0.20707523667164923
+      },
+      {
+        "base_error_rate": 0.1712085308056872,
+        "bin": "1-2",
+        "dataset": "half_strains",
+        "hypothesis": "unanimous_rescue",
+        "n": 34,
+        "node_error_rate": 0.2647058823529412
+      },
+      {
+        "base_error_rate": 0.4819277108433735,
+        "bin": "3-8",
+        "dataset": "half_strains",
+        "hypothesis": "unanimous_rescue",
+        "n": 3,
+        "node_error_rate": 0.3333333333333333
+      },
+      {
+        "base_error_rate": 0.1838502393796664,
+        "bin": "0",
+        "dataset": "half_strains",
+        "hypothesis": "cut_then_leak",
+        "n": 10035,
+        "node_error_rate": 0.20707523667164923
+      },
+      {
+        "base_error_rate": 0.1712085308056872,
+        "bin": "1-2",
+        "dataset": "half_strains",
+        "hypothesis": "cut_then_leak",
+        "n": 34,
+        "node_error_rate": 0.2647058823529412
+      },
+      {
+        "base_error_rate": 0.4819277108433735,
+        "bin": "3-8",
+        "dataset": "half_strains",
+        "hypothesis": "cut_then_leak",
+        "n": 3,
+        "node_error_rate": 0.3333333333333333
+      },
+      {
+        "base_error_rate": 0.17728986117432624,
+        "bin": "0",
+        "dataset": "half_strains",
+        "hypothesis": "genus_plurality",
+        "n": 10035,
+        "node_error_rate": 0.20029895366218237
+      },
+      {
+        "base_error_rate": 0.15493984688297485,
+        "bin": "1-2",
+        "dataset": "half_strains",
+        "hypothesis": "genus_plurality",
+        "n": 34,
+        "node_error_rate": 0.2647058823529412
+      },
+      {
+        "base_error_rate": 0.0,
+        "bin": "3-8",
+        "dataset": "half_strains",
+        "hypothesis": "genus_plurality",
+        "n": 3,
+        "node_error_rate": 0.0
+      },
+      {
+        "base_error_rate": 0.1838502393796664,
+        "bin": "0",
+        "dataset": "half_strains",
+        "hypothesis": "margin_mixture",
+        "n": 10035,
+        "node_error_rate": 0.20707523667164923
+      },
+      {
+        "base_error_rate": 0.18569996354356544,
+        "bin": "1-2",
+        "dataset": "half_strains",
+        "hypothesis": "margin_mixture",
+        "n": 34,
+        "node_error_rate": 0.29411764705882354
+      },
+      {
+        "base_error_rate": 0.4819277108433735,
+        "bin": "3-8",
+        "dataset": "half_strains",
+        "hypothesis": "margin_mixture",
         "n": 3,
         "node_error_rate": 0.3333333333333333
       }

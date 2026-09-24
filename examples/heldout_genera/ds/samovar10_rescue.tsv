@@ -8,3 +8,8 @@ samovar10	leakage	3	6	300000	554761	-254761
 samovar10	leakage_flipped	9	10	853044	863557	-10513
 samovar10	label_drop	0	0	0	0	0
 samovar10	logistic_drop	0	0	0	0	0
+samovar10	confident_lock	3	4	300000	400000	-100000
+samovar10	unanimous_rescue	0	0	0	0	0
+samovar10	cut_then_leak	3	6	300000	554761	-254761
+samovar10	genus_plurality	4	0	400000	0	400000
+samovar10	margin_mixture	0	0	0	0	0

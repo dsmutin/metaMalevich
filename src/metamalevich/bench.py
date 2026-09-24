@@ -18,9 +18,14 @@ from metamalevich.bridge import export_tocumg
 from metamalevich.evaluate import abundance_scores, classification_scores, neighbour_agreement
 from metamalevich.evidence import colours_from_weights, make_layer
 from metamalevich.evidence import EvidenceGraph
+from metamalevich.confident_lock import confident_lock
+from metamalevich.edge_cut import cut_then_leak
 from metamalevich.flip import infer_on_flipped_graph
+from metamalevich.genus_plurality import genus_plurality
 from metamalevich.label_drop import drop_unsupported_labels, false_positive_report, logistic_label_drop
 from metamalevich.leakage import decaying_leakage
+from metamalevich.margin_mixture import margin_mixture
+from metamalevich.unanimous_rescue import unanimous_rescue
 from metamalevich.native import kmer_graph, kraken_counts, tool_source
 from metamalevich.plots import write_abundance_chart, write_summary_charts
 from metamalevich.reprofile import profile_nodes
@@ -54,6 +59,11 @@ ABUNDANCE_CHART_HYPOTHESES = (
     "leakage_flipped",
     "label_drop",
     "logistic_drop",
+    "confident_lock",
+    "unanimous_rescue",
+    "cut_then_leak",
+    "genus_plurality",
+    "margin_mixture",
 )
 
 HYPOTHESES = (
@@ -69,6 +79,11 @@ HYPOTHESES = (
     "label_drop_flipped",
     "logistic_drop",
     "logistic_drop_flipped",
+    "confident_lock",
+    "unanimous_rescue",
+    "cut_then_leak",
+    "genus_plurality",
+    "margin_mixture",
 )
 
 # Parameters recorded in each hypothesis manifest. Graph-free methods keep
@@ -89,6 +104,11 @@ HYPOTHESIS_PARAMETERS = {
         "fit": "pseudo-label neighbour agreement",
         "threshold": 0.5,
     },
+    "confident_lock": {"graph": "contig", "confident": 0.8, "vote_min": 0.75, "genus": "same"},
+    "unanimous_rescue": {"graph": "contig", "uncertain": 0.55, "mix": 0.5},
+    "cut_then_leak": {"graph": "contig", "confident": 0.8, "decay": 0.5, "iterations": 4},
+    "genus_plurality": {"graph": False, "confident": 0.9, "uncertain": 0.5, "prior": "genus plurality"},
+    "margin_mixture": {"graph": False, "margin": 0.4, "argmax": "preserved"},
 }
 
 PROFILE_COLUMNS = [
@@ -188,6 +208,28 @@ def graph_variants(
         "label_drop_flipped": infer_on_flipped_graph(edges, evidence, _drop),
         "logistic_drop": logistic_label_drop(evidence, edges),
         "logistic_drop_flipped": infer_on_flipped_graph(edges, evidence, _logistic),
+    }
+
+
+def decision_variants(
+    evidence: dict[str, dict[int, float]],
+    edges: list[dict],
+    taxonomy: Taxonomy,
+    calls: dict[str, int],
+    lengths: dict[str, int],
+) -> dict[str, dict[str, dict[int, float]]]:
+    """Infer the five resolvers chosen from the node, edge, and taxon error split.
+
+    Confident calls stay locked. An uncertain node takes a neighbour only when
+    every neighbour agrees. Leakage runs after confident disagreements are cut.
+    The genus prior and the close same-genus mixture do not use edges.
+    """
+    return {
+        "confident_lock": confident_lock(evidence, edges, taxonomy),
+        "unanimous_rescue": unanimous_rescue(evidence, edges, taxonomy),
+        "cut_then_leak": cut_then_leak(evidence, edges, taxonomy),
+        "genus_plurality": genus_plurality(evidence, edges, taxonomy, calls, lengths),
+        "margin_mixture": margin_mixture(evidence, edges, taxonomy),
     }
 
 
@@ -352,6 +394,7 @@ def run_dataset(data_root: Path, name: str, *, intermediate: Path, benchmark: Pa
         "gated_neighbour": resolve(evidence, edges, "gated_neighbour", edge_dist),
         "bayesian_edge": resolve(evidence, edges, "bayesian_edge", edge_dist),
         **graph_variants(evidence, edges),
+        **decision_variants(evidence, edges, taxonomy, calls, lengths),
     }
     resolved = {
         "initial_colouring": hard_assignment(calls_dist),

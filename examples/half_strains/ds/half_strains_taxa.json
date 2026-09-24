@@ -7,10 +7,10 @@
     }
   },
   "data": {
-    "name": "data-a504e8631852957e39b0ad7366de0fa6"
+    "name": "data-a7f55515b844f75bbcf3b4a651a352f4"
   },
   "datasets": {
-    "data-a504e8631852957e39b0ad7366de0fa6": [
+    "data-a7f55515b844f75bbcf3b4a651a352f4": [
       {
         "dataset": "half_strains",
         "error": 0.11319318,
@@ -213,8 +213,8 @@
       },
       {
         "dataset": "half_strains",
-        "error": -0.05804771,
-        "estimated": 0.14653229,
+        "error": -0.05801994000000002,
+        "estimated": 0.14656006,
         "hypothesis": "logistic_drop",
         "name": "Escherichia coli",
         "truth": 0.20458
@@ -253,8 +253,8 @@
       },
       {
         "dataset": "half_strains",
-        "error": -0.013293399000000004,
-        "estimated": 0.031716601,
+        "error": -0.013321171,
+        "estimated": 0.031688829,
         "hypothesis": "logistic_drop",
         "name": "Escherichia albertii",
         "truth": 0.04501

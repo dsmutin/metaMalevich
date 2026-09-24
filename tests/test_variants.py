@@ -4,8 +4,9 @@ from __future__ import annotations
 
 import pytest
 
-from metamalevich.bench import HYPOTHESES, graph_variants
+from metamalevich.bench import HYPOTHESES, decision_variants, graph_variants
 from metamalevich.resolve import argmax_taxon
+from metamalevich.taxonomy import Taxon, Taxonomy
 
 pytestmark = pytest.mark.mandatory
 
@@ -33,6 +34,37 @@ def test_graph_variants_cover_flip_leakage_and_drops() -> None:
     }
     assert expected <= set(HYPOTHESES)
     variants = graph_variants(EVIDENCE, EDGES)
+    assert set(variants) == expected
+    for name, distributions in variants.items():
+        assert set(distributions) == {"a", "b", "c"}, name
+
+
+def test_decision_variants_stay_on_original_nodes() -> None:
+    """The five error-split resolvers return every original contig id."""
+    taxonomy = Taxonomy(
+        [
+            Taxon(1, None, "G", "Genus", "test", "v"),
+            Taxon(2, 1, "S", "Species A", "test", "v"),
+            Taxon(3, 1, "S", "Species B", "test", "v"),
+        ],
+        source="test",
+        version="v",
+    )
+    expected = {
+        "confident_lock",
+        "unanimous_rescue",
+        "cut_then_leak",
+        "genus_plurality",
+        "margin_mixture",
+    }
+    assert expected <= set(HYPOTHESES)
+    variants = decision_variants(
+        EVIDENCE,
+        EDGES,
+        taxonomy,
+        {"a": 1, "b": 1, "c": 2},
+        {"a": 10, "b": 10, "c": 10},
+    )
     assert set(variants) == expected
     for name, distributions in variants.items():
         assert set(distributions) == {"a", "b", "c"}, name

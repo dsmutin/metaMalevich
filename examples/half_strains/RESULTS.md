@@ -47,6 +47,11 @@ Truth is the species read fraction. Taxon 0 in a classifier profile includes cal
 | label_drop_flipped | node_length | 0.407331 | 0.845515 | 1 | 0.487507 | 0.791898 |
 | logistic_drop | node_length | 0.379475 | 0.858672 | 1 | 0.487895 | 0.792593 |
 | logistic_drop_flipped | node_length | 0.407398 | 0.845503 | 1 | 0.487507 | 0.791898 |
+| confident_lock | node_length | 0.406142 | 0.846638 | 1 | 0.487437 | 0.792196 |
+| unanimous_rescue | node_length | 0.406141 | 0.846626 | 1 | 0.487437 | 0.792196 |
+| cut_then_leak | node_length | 0.406149 | 0.846615 | 1 | 0.487509 | 0.792196 |
+| genus_plurality | node_length | 0.39659 | 0.855768 | 1 | 0.49512 | 0.799047 |
+| margin_mixture | node_length | 0.405371 | 0.847122 | 1 | 0.487895 | 0.792593 |
 
 Coverage weighting raises L1. `initial_colouring_coverage` is 0.455632 against 0.383564 for length weighting. It was not adopted.
 

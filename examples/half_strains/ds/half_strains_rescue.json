@@ -7,10 +7,10 @@
     }
   },
   "data": {
-    "name": "data-d486add0cbd1e045d2932221b8317264"
+    "name": "data-2546d958bb9589657a64cd71ff655efe"
   },
   "datasets": {
-    "data-d486add0cbd1e045d2932221b8317264": [
+    "data-2546d958bb9589657a64cd71ff655efe": [
       {
         "dataset": "half_strains",
         "harmed_bases": 9098,
@@ -88,6 +88,51 @@
         "harmed_bases": 0,
         "harmed_nodes": 0,
         "hypothesis": "logistic_drop",
+        "net_bases": 0,
+        "rescued_bases": 0,
+        "rescued_nodes": 0
+      },
+      {
+        "dataset": "half_strains",
+        "harmed_bases": 0,
+        "harmed_nodes": 0,
+        "hypothesis": "confident_lock",
+        "net_bases": 318,
+        "rescued_bases": 318,
+        "rescued_nodes": 1
+      },
+      {
+        "dataset": "half_strains",
+        "harmed_bases": 0,
+        "harmed_nodes": 0,
+        "hypothesis": "unanimous_rescue",
+        "net_bases": 318,
+        "rescued_bases": 318,
+        "rescued_nodes": 1
+      },
+      {
+        "dataset": "half_strains",
+        "harmed_bases": 0,
+        "harmed_nodes": 0,
+        "hypothesis": "cut_then_leak",
+        "net_bases": 318,
+        "rescued_bases": 318,
+        "rescued_nodes": 1
+      },
+      {
+        "dataset": "half_strains",
+        "harmed_bases": 977,
+        "harmed_nodes": 2,
+        "hypothesis": "genus_plurality",
+        "net_bases": 32383,
+        "rescued_bases": 33360,
+        "rescued_nodes": 72
+      },
+      {
+        "dataset": "half_strains",
+        "harmed_bases": 0,
+        "harmed_nodes": 0,
+        "hypothesis": "margin_mixture",
         "net_bases": 0,
         "rescued_bases": 0,
         "rescued_nodes": 0

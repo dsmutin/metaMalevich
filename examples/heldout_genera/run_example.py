@@ -366,8 +366,10 @@ def _simulated_reads() -> tuple[Path, Path] | None:
     candidates = [
         path
         for path in (WORK / "iss").rglob("*_full_R1.fastq")
-        if ".iss_full" not in path.parts and path.is_file() and path.stat().st_size > 0
+        if path.is_file() and path.stat().st_size > 0
     ]
+    outside = [path for path in candidates if ".iss_full" not in path.parts]
+    candidates = outside or candidates
     if not candidates:
         return None
     if len(candidates) != 1:
@@ -417,15 +419,34 @@ def stage_simulate() -> None:
     script = WORK / "iss" / ".generate" / "generate.sh"
     if not script.is_file():
         raise SystemExit(f"samovar generate did not write {script}")
-    completed = subprocess.run(["bash", str(script)], text=True)
     _log(log_path, f"$ bash {script}")
-    if completed.returncode != 0 and _simulated_reads() is None:
-        raise SystemExit(f"command failed ({completed.returncode}): bash {script}")
-    if completed.returncode != 0:
+    process = subprocess.Popen(["bash", str(script)])
+    stable = 0
+    previous_size = -1
+    while process.poll() is None:
+        found = _simulated_reads()
+        size = found[0].stat().st_size if found else 0
+        if found and size == previous_size and size > 0:
+            stable += 1
+        else:
+            stable = 0
+        previous_size = size
+        if stable >= 3:
+            process.terminate()
+            process.wait(timeout=30)
+            _log(log_path, "stopped generate.sh after *_full_R*.fastq stopped growing; Snakemake waits for a different filename")
+            break
+        try:
+            process.wait(timeout=15)
+        except subprocess.TimeoutExpired:
+            continue
+    if process.returncode not in (0, -15) and _simulated_reads() is None:
+        raise SystemExit(f"command failed ({process.returncode}): bash {script}")
+    if process.returncode not in (0, None):
         _log(
             log_path,
             "generate.sh exited non-zero after writing *_full_R*.fastq. "
-            "Samovar's snakefile expects iss/initial/1_full_R1.fastq; InSilicoSeq writes sample_full_R1.fastq.",
+            "Samovar's snakefile expects iss/initial/1_full_R1.fastq; InSilicoSeq writes sample_full or pool_full reads.",
         )
     if _simulated_reads() is None:
         raise SystemExit("samovar ISS wrote no non-empty *_full_R1.fastq")
@@ -867,6 +888,7 @@ def _assembly_profiles(parents, ranks, scientific, truth) -> list[tuple[str, lis
         _lca_distribution,
         _one_hot_call,
         _relative_from_profile,
+        decision_variants,
         graph_variants,
     )
     from metamalevich.evaluate import classification_scores
@@ -911,6 +933,7 @@ def _assembly_profiles(parents, ranks, scientific, truth) -> list[tuple[str, lis
     calls_dist = {node_id: _one_hot_call(calls.get(node_id, 0), taxonomy) for node_id in evidence}
     edge_dist = edge_distributions(edges, evidence) if edges else {}
     sequences = dict(read_fasta(fasta))
+    lengths = {node_id: len(sequence) for node_id, sequence in sequences.items()}
     _export_assembly_tocumg(sequences, edges, evidence, edge_dist, scientific)
     resolved = {
         "initial_colouring": hard_assignment(calls_dist),
@@ -919,8 +942,8 @@ def _assembly_profiles(parents, ranks, scientific, truth) -> list[tuple[str, lis
         "gated_neighbour": resolve(evidence, edges, "gated_neighbour", edge_dist) if edges else hard_assignment(evidence),
         "bayesian_edge": resolve(evidence, edges, "bayesian_edge", edge_dist) if edges else hard_assignment(evidence),
         **graph_variants(evidence, edges),
+        **decision_variants(evidence, edges, taxonomy, calls, lengths),
     }
-    lengths = {node_id: len(sequence) for node_id, sequence in sequences.items()}
     coverages = {}
     for node_id, sequence in sequences.items():
         coverage = megahit_coverage(node_id)

@@ -1,7 +1,7 @@
 key	value
 dataset	samovar10
 hypothesis	bayesian_edge
-l1	0.15938813738178895
+l1	0.159388137381789
 bray_curtis	0.07969406869089446
 pearson	0.9207462917688055
 spearman	0.9038407840321112

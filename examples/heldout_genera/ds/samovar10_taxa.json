@@ -7,10 +7,10 @@
     }
   },
   "data": {
-    "name": "data-e2a6bc1aa7e816a2e2340144c83a312d"
+    "name": "data-4a9c3fd403b7aebae70e1668128730a5"
   },
   "datasets": {
-    "data-e2a6bc1aa7e816a2e2340144c83a312d": [
+    "data-4a9c3fd403b7aebae70e1668128730a5": [
       {
         "dataset": "samovar10",
         "error": -3.292933495324668e-09,
@@ -253,8 +253,8 @@
       },
       {
         "dataset": "samovar10",
-        "error": -0.006418494661903376,
-        "estimated": 0.06857217533809662,
+        "error": -0.00641849466190339,
+        "estimated": 0.0685721753380966,
         "hypothesis": "probability_sum",
         "name": "Enterococcus sp. DIV0180",
         "truth": 0.07499067
@@ -269,8 +269,8 @@
       },
       {
         "dataset": "samovar10",
-        "error": -0.04285357713695328,
-        "estimated": 0.037905192863046715,
+        "error": -0.04285357713695327,
+        "estimated": 0.03790519286304672,
         "hypothesis": "probability_sum",
         "name": "Enterococcus sp. DIV2432",
         "truth": 0.08075877
@@ -285,48 +285,56 @@
       },
       {
         "dataset": "samovar10",
-        "error": -3.292933495324668e-09,
-        "estimated": 0.0700962767070665,
+        "error": -2.866540505908066e-06,
+        "estimated": 0.07009341345949409,
         "hypothesis": "logistic_drop",
         "name": "Treponema denticola",
         "truth": 0.07009628
       },
       {
         "dataset": "samovar10",
-        "error": 0.0007500355468893379,
-        "estimated": 0.0007500355468893379,
+        "error": 0.0003982575227934087,
+        "estimated": 0.0003982575227934087,
+        "hypothesis": "logistic_drop",
+        "name": "Citrobacter freundii",
+        "truth": 0.0
+      },
+      {
+        "dataset": "samovar10",
+        "error": 0.0032127890050855585,
+        "estimated": 0.0032127890050855585,
         "hypothesis": "logistic_drop",
         "name": "Escherichia coli",
         "truth": 0.0
       },
       {
         "dataset": "samovar10",
-        "error": -0.0007500330478399098,
-        "estimated": 0.14466896695216008,
+        "error": -0.0027056951023978204,
+        "estimated": 0.14271330489760217,
         "hypothesis": "logistic_drop",
         "name": "Klebsiella pneumoniae",
         "truth": 0.145419
       },
       {
         "dataset": "samovar10",
-        "error": 9.000528378155792e-10,
-        "estimated": 0.10308580090005284,
+        "error": -0.00040111104056156366,
+        "estimated": 0.10268468895943844,
         "hypothesis": "logistic_drop",
         "name": "Proteus mirabilis",
         "truth": 0.1030858
       },
       {
         "dataset": "samovar10",
-        "error": 0.05557402604746331,
-        "estimated": 0.1328742460474633,
+        "error": 0.042996541340514643,
+        "estimated": 0.12029676134051465,
         "hypothesis": "logistic_drop",
         "name": "Enterococcus faecalis",
         "truth": 0.07730022
       },
       {
         "dataset": "samovar10",
-        "error": 0.0025454270918663473,
-        "estimated": 0.0025454270918663473,
+        "error": 0.003181783864832934,
+        "estimated": 0.003181783864832934,
         "hypothesis": "logistic_drop",
         "name": "Enterobacter asburiae",
         "truth": 0.0
@@ -341,16 +349,16 @@
       },
       {
         "dataset": "samovar10",
-        "error": 0.0013706145879280331,
-        "estimated": 0.0013706145879280331,
+        "error": 0.003877366913834679,
+        "estimated": 0.003877366913834679,
         "hypothesis": "logistic_drop",
         "name": "Enterobacter hormaechei",
         "truth": 0.0
       },
       {
         "dataset": "samovar10",
-        "error": -0.013461391008762785,
-        "estimated": 0.11335147899123721,
+        "error": -0.017105873845880942,
+        "estimated": 0.10970699615411905,
         "hypothesis": "logistic_drop",
         "name": "Enterobacter ludwigii",
         "truth": 0.12681287
@@ -373,32 +381,32 @@
       },
       {
         "dataset": "samovar10",
-        "error": 0.0013501963466095853,
-        "estimated": 0.0013501963466095853,
+        "error": 0.0014171812700797524,
+        "estimated": 0.0014171812700797524,
         "hypothesis": "logistic_drop",
         "name": "Enterococcus sp. DIV0210g",
         "truth": 0.0
       },
       {
         "dataset": "samovar10",
-        "error": -0.0030471429133381994,
-        "estimated": 0.0719435270866618,
+        "error": -0.00641849466190339,
+        "estimated": 0.0685721753380966,
         "hypothesis": "logistic_drop",
         "name": "Enterococcus sp. DIV0180",
         "truth": 0.07499067
       },
       {
         "dataset": "samovar10",
-        "error": 0.0016969513945775646,
-        "estimated": 0.0016969513945775646,
+        "error": 0.004858346550866841,
+        "estimated": 0.004858346550866841,
         "hypothesis": "logistic_drop",
         "name": "Enterococcus sp. DIV0176",
         "truth": 0.0
       },
       {
         "dataset": "samovar10",
-        "error": -0.05557403351270767,
-        "estimated": 0.025184736487292324,
+        "error": -0.04285357713695327,
+        "estimated": 0.03790519286304672,
         "hypothesis": "logistic_drop",
         "name": "Enterococcus sp. DIV2432",
         "truth": 0.08075877

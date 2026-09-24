@@ -32,6 +32,11 @@ FOCUS = (
     "leakage_flipped",
     "label_drop",
     "logistic_drop",
+    "confident_lock",
+    "unanimous_rescue",
+    "cut_then_leak",
+    "genus_plurality",
+    "margin_mixture",
 )
 
 

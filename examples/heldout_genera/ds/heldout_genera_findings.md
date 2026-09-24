@@ -23,10 +23,15 @@ Scored nodes: 6439. Wrong nodes: 3381 (0.525). Wrong bases: 0.526.
 - bayesian_edge: rescued 2 (2575 bp), harmed 2 (3923 bp), net -1348 bp
 - label_drop: rescued 0 (0 bp), harmed 0 (0 bp), net 0 bp
 - logistic_drop: rescued 0 (0 bp), harmed 0 (0 bp), net 0 bp
+- margin_mixture: rescued 0 (0 bp), harmed 0 (0 bp), net 0 bp
 - gated_neighbour: rescued 2 (2575 bp), harmed 1 (362 bp), net 2213 bp
 - leakage_flipped: rescued 2 (2575 bp), harmed 1 (362 bp), net 2213 bp
 - edge_union: rescued 2 (2575 bp), harmed 0 (0 bp), net 2575 bp
 - leakage: rescued 2 (2575 bp), harmed 0 (0 bp), net 2575 bp
+- confident_lock: rescued 2 (2575 bp), harmed 0 (0 bp), net 2575 bp
+- unanimous_rescue: rescued 2 (2575 bp), harmed 0 (0 bp), net 2575 bp
+- cut_then_leak: rescued 2 (2575 bp), harmed 0 (0 bp), net 2575 bp
+- genus_plurality: rescued 195 (80641 bp), harmed 28 (16707 bp), net 63934 bp
 
 ## Largest confusions
 

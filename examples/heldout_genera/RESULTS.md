@@ -28,8 +28,13 @@ Truth is the lognormal read fraction rolled to species. The two Shigella flexner
 | label_drop_flipped | node_length | 0.644089 | 0.252664 | 0.972973 | 0.399391 | 0.474608 |
 | logistic_drop | node_length | 0.617258 | 0.283926 | 0.972973 | 0.399487 | 0.474918 |
 | logistic_drop_flipped | node_length | 0.643722 | 0.252992 | 0.972973 | 0.399391 | 0.474608 |
+| confident_lock | node_length | 0.642595 | 0.253863 | 0.972973 | 0.399391 | 0.474608 |
+| unanimous_rescue | node_length | 0.642405 | 0.252979 | 0.972973 | 0.399391 | 0.474608 |
+| cut_then_leak | node_length | 0.643957 | 0.252379 | 0.972973 | 0.399391 | 0.474608 |
+| genus_plurality | node_length | 0.598609 | 0.397362 | 0.972973 | 0.40329 | 0.500699 |
+| margin_mixture | node_length | 0.638829 | 0.258954 | 0.972973 | 0.399394 | 0.474918 |
 
-Coverage-weighted rows (`length_times_multi`, MEGAHIT `_cov_` on the node id) are in `work/metrics.tsv`. The lowest L1 in that file is `logistic_drop_coverage` at 0.604717. Its node F1 is 0.399487, below `initial_colouring`. `initial_colouring_coverage` L1 is 0.63391, worse than length weighting. Coverage weight is not adopted as the library profile.
+Coverage-weighted rows (`length_times_multi`, MEGAHIT `_cov_` on the node id) are in `work/metrics.tsv`. The lowest L1 in that file is `genus_plurality` at 0.598609. Its node F1 is 0.40329, below `initial_colouring`. `initial_colouring_coverage` L1 is 0.63391, worse than length weighting. Coverage weight is not adopted as the library profile.
 
 On samovar10, `probability_sum` is the only hypothesis that improves both abundance L1 and species macro F1 relative to hard colouring. On this graph it does not: L1 rises from 0.629774 to 0.643788 and node F1 falls from 0.408121 to 0.399307. `gated_neighbour` and `bayesian_edge` move L1 by about 0.01 on 24 edges among 6439 nodes. No resolver parameter was changed.
 
