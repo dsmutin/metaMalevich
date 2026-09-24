@@ -14,11 +14,12 @@ CLI (metamalevich.cli)
 tests/          mandatory vs optional pytest
 examples/toy/   end-to-end run of the current (baseline) tool
 cite/           BibTeX for integrated third-party tools
-wiki/           contracts, test data, integrative testing
 agents/         portable rules and skills (any IDE)
 ```
 
-Replace baseline bodies with real implementations. Keep the documented return keys until you change the contract in `wiki/Contracts.md` and the tests together.
+The wiki is not in this tree. It is [dsmutin/metaMalevich.wiki](https://github.com/dsmutin/metaMalevich/wiki), cloned beside this repository as `metaMalevich.wiki`.
+
+Replace baseline bodies with real implementations. Keep the documented return keys until you change the contract on the wiki page `Contracts` and the tests together.
 
 ## Testing architecture
 

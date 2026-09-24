@@ -14,8 +14,8 @@ htmlcov/
 # local test scratch
 testing*/
 
-# nested GitHub wiki clone metadata (markdown under wiki/ is tracked)
-wiki/.git/
+# GitHub wiki is a separate repo, cloned beside this tree
+/wiki/
 
 # conda / local envs
 .conda/
