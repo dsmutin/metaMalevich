@@ -27,3 +27,4 @@ Check a box only after mandatory tests pass.
 - [x] Edge-graph flip, decaying leakage, and label drop on samovar10
 - [x] Score the same hypotheses on held-out genera and the half-strain subset
 - [x] Confident lock, unanimous rescue, edge cut, genus plurality, and margin mixture
+- [x] low75 and low75half: 25 genera each of bacteria, archaea, and viruses

@@ -108,6 +108,23 @@ def test_half_strains_keeps_every_other_pair(repo_root: Path) -> None:
         community.half_strains([{"pair_id": "only", "role": "sim"}])
 
 
+def test_low75_pins_two_species_in_each_genus(repo_root: Path) -> None:
+    """25 genera in each domain, and low75half is every other genus."""
+    community = _community(repo_root)
+    rows = community.load_pairs(repo_root / "examples" / "low75" / "accessions.tsv")
+    assert len(rows) == 150
+    domains = {}
+    species: dict[str, set[str]] = {}
+    for row in rows:
+        domains.setdefault(row["domain"], set()).add(row["pair_id"])
+        species.setdefault(row["pair_id"], set()).add(row["species_taxid"])
+    assert {name: len(pairs) for name, pairs in domains.items()} == {"bacteria": 25, "archaea": 25, "viral": 25}
+    assert all(len(ids) == 2 for ids in species.values())
+    half = community.load_pairs(repo_root / "examples" / "low75half" / "accessions.tsv")
+    assert half == community.every_other_strain(rows)
+    assert len({row["pair_id"] for row in half}) == 38
+
+
 def test_presence_f1_and_r_squared() -> None:
     """A missed truth taxon lowers F1, and R² is the squared Pearson value."""
     community = _community(Path(__file__).resolve().parents[1])

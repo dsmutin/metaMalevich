@@ -44,6 +44,8 @@ conda-bld/
 /data/
 /examples/heldout_genera/work/
 /examples/half_strains/work/
+/examples/low75/work/
+/examples/low75half/work/
 
 # third-party checkouts and large reusable intermediates
 /external/
