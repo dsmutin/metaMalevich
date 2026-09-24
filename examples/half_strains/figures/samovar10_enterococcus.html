@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    #vis.vega-embed {
+      width: 100%;
+      display: flex;
+    }
+
+    #vis.vega-embed details,
+    #vis.vega-embed details summary {
+      position: relative;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@6"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-lite@6.4.1"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@7"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "data": {"name": "data-e6ce2c85d4151ddf452895a896738ba0"}, "mark": {"type": "bar"}, "encoding": {"color": {"field": "name", "title": "Species", "type": "nominal"}, "tooltip": [{"field": "hypothesis", "type": "nominal"}, {"field": "name", "type": "nominal"}, {"field": "truth", "type": "quantitative"}, {"field": "estimated", "type": "quantitative"}], "x": {"field": "hypothesis", "title": "Hypothesis", "type": "nominal"}, "xOffset": {"field": "name", "type": "nominal"}, "y": {"field": "estimated", "title": "Estimated share", "type": "quantitative"}}, "height": 280, "title": "samovar10 Enterococcus: faecalis absorbs DIV2432", "width": 420, "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json", "datasets": {"data-e6ce2c85d4151ddf452895a896738ba0": [{"dataset": "samovar10", "hypothesis": "initial_colouring", "taxon_id": "1351", "name": "Enterococcus faecalis", "truth": 0.07730022, "estimated": 0.1275216464392606, "error": 0.050221426439260586}, {"dataset": "samovar10", "hypothesis": "initial_colouring", "taxon_id": "2774762", "name": "Enterococcus sp. DIV2432", "truth": 0.08075877, "estimated": 0.030537336095495058, "error": -0.05022143390450494}, {"dataset": "samovar10", "hypothesis": "probability_sum", "taxon_id": "1351", "name": "Enterococcus faecalis", "truth": 0.07730022, "estimated": 0.12029676134051465, "error": 0.042996541340514643}, {"dataset": "samovar10", "hypothesis": "probability_sum", "taxon_id": "2774762", "name": "Enterococcus sp. DIV2432", "truth": 0.08075877, "estimated": 0.037905192863046715, "error": -0.04285357713695328}, {"dataset": "samovar10", "hypothesis": "gated_neighbour", "taxon_id": "1351", "name": "Enterococcus faecalis", "truth": 0.07730022, "estimated": 0.13709520136969564, "error": 0.05979498136969563}, {"dataset": "samovar10", "hypothesis": "gated_neighbour", "taxon_id": "2774762", "name": "Enterococcus sp. DIV2432", "truth": 0.08075877, "estimated": 0.020319585797735285, "error": -0.06043918420226471}, {"dataset": "samovar10", "hypothesis": "bayesian_edge", "taxon_id": "1351", "name": "Enterococcus faecalis", "truth": 0.07730022, "estimated": 0.14623715269960635, "error": 0.06893693269960635}, {"dataset": "samovar10", "hypothesis": "bayesian_edge", "taxon_id": "2774762", "name": "Enterococcus sp. DIV2432", "truth": 0.08075877, "estimated": 0.012429197971634309, "error": -0.06832957202836569}, {"dataset": "samovar10", "hypothesis": "edge_union", "taxon_id": "1351", "name": "Enterococcus faecalis", "truth": 0.07730022, "estimated": 0.1210166051306755, "error": 0.043716385130675495}, {"dataset": "samovar10", "hypothesis": "edge_union", "taxon_id": "2774762", "name": "Enterococcus sp. DIV2432", "truth": 0.08075877, "estimated": 0.03583041126309564, "error": -0.04492835873690435}, {"dataset": "samovar10", "hypothesis": "leakage", "taxon_id": "1351", "name": "Enterococcus faecalis", "truth": 0.07730022, "estimated": 0.12101887141874425, "error": 0.043718651418744245}, {"dataset": "samovar10", "hypothesis": "leakage", "taxon_id": "2774762", "name": "Enterococcus sp. DIV2432", "truth": 0.08075877, "estimated": 0.03589187126598381, "error": -0.04486689873401618}, {"dataset": "samovar10", "hypothesis": "leakage_flipped", "taxon_id": "1351", "name": "Enterococcus faecalis", "truth": 0.07730022, "estimated": 0.12529445054879107, "error": 0.04799423054879107}, {"dataset": "samovar10", "hypothesis": "leakage_flipped", "taxon_id": "2774762", "name": "Enterococcus sp. DIV2432", "truth": 0.08075877, "estimated": 0.033378339700887515, "error": -0.04738043029911248}, {"dataset": "samovar10", "hypothesis": "label_drop", "taxon_id": "1351", "name": "Enterococcus faecalis", "truth": 0.07730022, "estimated": 0.12028044450018219, "error": 0.042980224500182185}, {"dataset": "samovar10", "hypothesis": "label_drop", "taxon_id": "2774762", "name": "Enterococcus sp. DIV2432", "truth": 0.08075877, "estimated": 0.037905192863046715, "error": -0.04285357713695328}, {"dataset": "samovar10", "hypothesis": "logistic_drop", "taxon_id": "1351", "name": "Enterococcus faecalis", "truth": 0.07730022, "estimated": 0.1328742460474633, "error": 0.05557402604746331}, {"dataset": "samovar10", "hypothesis": "logistic_drop", "taxon_id": "2774762", "name": "Enterococcus sp. DIV2432", "truth": 0.08075877, "estimated": 0.025184736487292324, "error": -0.05557403351270767}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>

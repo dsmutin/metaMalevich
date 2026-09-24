@@ -29,4 +29,4 @@ Use the same programs and versions as the full example. From the repository root
 python examples/half_strains/run_example.py
 ```
 
-Read allocation is again `random.Random(42).lognormvariate(0, 1.5)` and 100000 paired fragments. The draw is for these ten genomes, not a slice of the twenty-genome abundance table. Kraken2, Kaiju (`fetch_missing=False` on the pinned database FASTA), MEGAHIT `meta-sensitive`, the k141 FASTG, and the current resolvers are unchanged.
+Read allocation is again `random.Random(42).lognormvariate(0, 1.5)` and 100000 paired fragments. The draw is for these ten genomes, not a slice of the twenty-genome abundance table. Kraken2, Kaiju (`fetch_missing=False` on the pinned database FASTA), MEGAHIT `meta-sensitive`, the k141 FASTG, and the current resolvers are unchanged. Measured scores are in `RESULTS.md`.

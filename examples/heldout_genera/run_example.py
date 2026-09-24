@@ -416,7 +416,16 @@ def stage_simulate() -> None:
     script = WORK / "iss" / ".generate" / "generate.sh"
     if not script.is_file():
         raise SystemExit(f"samovar generate did not write {script}")
-    _run(["bash", str(script)], log_path)
+    completed = subprocess.run(["bash", str(script)], text=True)
+    _log(log_path, f"$ bash {script}")
+    if completed.returncode != 0 and _simulated_reads() is None:
+        raise SystemExit(f"command failed ({completed.returncode}): bash {script}")
+    if completed.returncode != 0:
+        _log(
+            log_path,
+            "generate.sh exited non-zero after writing *_full_R*.fastq. "
+            "Samovar's snakefile expects iss/initial/1_full_R1.fastq; InSilicoSeq writes sample_full_R1.fastq.",
+        )
     if _simulated_reads() is None:
         raise SystemExit("samovar ISS wrote no non-empty *_full_R1.fastq")
 
@@ -472,12 +481,13 @@ def _build_kaiju_from_pinned_fasta(log_path: Path) -> None:
             accession, _name, tax_id = _report_identity(json.loads(line))
             identities[accession] = tax_id
     db_path = WORK / "kaiju_db"
+    fastas = sorted((WORK / "db").glob("*.fna"))
+    n_db = sum(1 for row in load_pairs(EXAMPLE / "accessions.tsv") if row["role"] == "db")
+    if len(fastas) != n_db:
+        raise SystemExit(f"expected {n_db} database FASTA files, found {len(fastas)}")
     if db_path.exists():
         shutil.rmtree(db_path)
     db_path.mkdir(parents=True)
-    fastas = sorted((WORK / "db").glob("*.fna"))
-    if len(fastas) != 20:
-        raise SystemExit(f"expected 20 database FASTA files, found {len(fastas)}")
     _log(log_path, "kaiju: Samovar add_database_kaiju fetch_missing=False on pinned FASTA")
     for fasta in fastas:
         accession = fasta.name[: -len(".fna")]

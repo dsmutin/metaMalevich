@@ -1,0 +1,223 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+  "config": {
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-e6ce2c85d4151ddf452895a896738ba0"
+  },
+  "datasets": {
+    "data-e6ce2c85d4151ddf452895a896738ba0": [
+      {
+        "dataset": "samovar10",
+        "error": 0.050221426439260586,
+        "estimated": 0.1275216464392606,
+        "hypothesis": "initial_colouring",
+        "name": "Enterococcus faecalis",
+        "taxon_id": "1351",
+        "truth": 0.07730022
+      },
+      {
+        "dataset": "samovar10",
+        "error": -0.05022143390450494,
+        "estimated": 0.030537336095495058,
+        "hypothesis": "initial_colouring",
+        "name": "Enterococcus sp. DIV2432",
+        "taxon_id": "2774762",
+        "truth": 0.08075877
+      },
+      {
+        "dataset": "samovar10",
+        "error": 0.042996541340514643,
+        "estimated": 0.12029676134051465,
+        "hypothesis": "probability_sum",
+        "name": "Enterococcus faecalis",
+        "taxon_id": "1351",
+        "truth": 0.07730022
+      },
+      {
+        "dataset": "samovar10",
+        "error": -0.04285357713695328,
+        "estimated": 0.037905192863046715,
+        "hypothesis": "probability_sum",
+        "name": "Enterococcus sp. DIV2432",
+        "taxon_id": "2774762",
+        "truth": 0.08075877
+      },
+      {
+        "dataset": "samovar10",
+        "error": 0.05979498136969563,
+        "estimated": 0.13709520136969564,
+        "hypothesis": "gated_neighbour",
+        "name": "Enterococcus faecalis",
+        "taxon_id": "1351",
+        "truth": 0.07730022
+      },
+      {
+        "dataset": "samovar10",
+        "error": -0.06043918420226471,
+        "estimated": 0.020319585797735285,
+        "hypothesis": "gated_neighbour",
+        "name": "Enterococcus sp. DIV2432",
+        "taxon_id": "2774762",
+        "truth": 0.08075877
+      },
+      {
+        "dataset": "samovar10",
+        "error": 0.06893693269960635,
+        "estimated": 0.14623715269960635,
+        "hypothesis": "bayesian_edge",
+        "name": "Enterococcus faecalis",
+        "taxon_id": "1351",
+        "truth": 0.07730022
+      },
+      {
+        "dataset": "samovar10",
+        "error": -0.06832957202836569,
+        "estimated": 0.012429197971634309,
+        "hypothesis": "bayesian_edge",
+        "name": "Enterococcus sp. DIV2432",
+        "taxon_id": "2774762",
+        "truth": 0.08075877
+      },
+      {
+        "dataset": "samovar10",
+        "error": 0.043716385130675495,
+        "estimated": 0.1210166051306755,
+        "hypothesis": "edge_union",
+        "name": "Enterococcus faecalis",
+        "taxon_id": "1351",
+        "truth": 0.07730022
+      },
+      {
+        "dataset": "samovar10",
+        "error": -0.04492835873690435,
+        "estimated": 0.03583041126309564,
+        "hypothesis": "edge_union",
+        "name": "Enterococcus sp. DIV2432",
+        "taxon_id": "2774762",
+        "truth": 0.08075877
+      },
+      {
+        "dataset": "samovar10",
+        "error": 0.043718651418744245,
+        "estimated": 0.12101887141874425,
+        "hypothesis": "leakage",
+        "name": "Enterococcus faecalis",
+        "taxon_id": "1351",
+        "truth": 0.07730022
+      },
+      {
+        "dataset": "samovar10",
+        "error": -0.04486689873401618,
+        "estimated": 0.03589187126598381,
+        "hypothesis": "leakage",
+        "name": "Enterococcus sp. DIV2432",
+        "taxon_id": "2774762",
+        "truth": 0.08075877
+      },
+      {
+        "dataset": "samovar10",
+        "error": 0.04799423054879107,
+        "estimated": 0.12529445054879107,
+        "hypothesis": "leakage_flipped",
+        "name": "Enterococcus faecalis",
+        "taxon_id": "1351",
+        "truth": 0.07730022
+      },
+      {
+        "dataset": "samovar10",
+        "error": -0.04738043029911248,
+        "estimated": 0.033378339700887515,
+        "hypothesis": "leakage_flipped",
+        "name": "Enterococcus sp. DIV2432",
+        "taxon_id": "2774762",
+        "truth": 0.08075877
+      },
+      {
+        "dataset": "samovar10",
+        "error": 0.042980224500182185,
+        "estimated": 0.12028044450018219,
+        "hypothesis": "label_drop",
+        "name": "Enterococcus faecalis",
+        "taxon_id": "1351",
+        "truth": 0.07730022
+      },
+      {
+        "dataset": "samovar10",
+        "error": -0.04285357713695328,
+        "estimated": 0.037905192863046715,
+        "hypothesis": "label_drop",
+        "name": "Enterococcus sp. DIV2432",
+        "taxon_id": "2774762",
+        "truth": 0.08075877
+      },
+      {
+        "dataset": "samovar10",
+        "error": 0.05557402604746331,
+        "estimated": 0.1328742460474633,
+        "hypothesis": "logistic_drop",
+        "name": "Enterococcus faecalis",
+        "taxon_id": "1351",
+        "truth": 0.07730022
+      },
+      {
+        "dataset": "samovar10",
+        "error": -0.05557403351270767,
+        "estimated": 0.025184736487292324,
+        "hypothesis": "logistic_drop",
+        "name": "Enterococcus sp. DIV2432",
+        "taxon_id": "2774762",
+        "truth": 0.08075877
+      }
+    ]
+  },
+  "encoding": {
+    "color": {
+      "field": "name",
+      "title": "Species",
+      "type": "nominal"
+    },
+    "tooltip": [
+      {
+        "field": "hypothesis",
+        "type": "nominal"
+      },
+      {
+        "field": "name",
+        "type": "nominal"
+      },
+      {
+        "field": "truth",
+        "type": "quantitative"
+      },
+      {
+        "field": "estimated",
+        "type": "quantitative"
+      }
+    ],
+    "x": {
+      "field": "hypothesis",
+      "title": "Hypothesis",
+      "type": "nominal"
+    },
+    "xOffset": {
+      "field": "name",
+      "type": "nominal"
+    },
+    "y": {
+      "field": "estimated",
+      "title": "Estimated share",
+      "type": "quantitative"
+    }
+  },
+  "height": 280,
+  "mark": {
+    "type": "bar"
+  },
+  "title": "samovar10 Enterococcus: faecalis absorbs DIV2432",
+  "width": 420
+}
