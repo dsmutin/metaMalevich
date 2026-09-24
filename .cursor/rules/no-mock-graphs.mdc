@@ -1,0 +1,12 @@
+---
+description: Example graphs must be real assembler output
+alwaysApply: true
+---
+
+# No mock graphs in examples
+
+An example under `examples/` uses the assembly graph the assembler wrote. For these communities that file is `megahit_toolkit contig2fastg` on the kept `k<int>.contigs.fa`, stored as `work/megahit/assembly.fastg`. Do not replace it with a fixture, a random graph, a complete graph, or a k-mer kNN when the FASTG is missing or sparse.
+
+A method may add a second graph only by computing it from those real contig sequences, and the write-up must say it is not the assembler edge list.
+
+Synthetic graphs are allowed in `tests/` only.
