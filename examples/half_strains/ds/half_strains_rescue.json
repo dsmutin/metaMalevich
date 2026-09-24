@@ -1,0 +1,140 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+  "config": {
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-d486add0cbd1e045d2932221b8317264"
+  },
+  "datasets": {
+    "data-d486add0cbd1e045d2932221b8317264": [
+      {
+        "dataset": "half_strains",
+        "harmed_bases": 9098,
+        "harmed_nodes": 17,
+        "hypothesis": "initial_colouring",
+        "net_bases": -6026,
+        "rescued_bases": 3072,
+        "rescued_nodes": 8
+      },
+      {
+        "dataset": "half_strains",
+        "harmed_bases": 1436159,
+        "harmed_nodes": 3178,
+        "hypothesis": "lca",
+        "net_bases": -1436159,
+        "rescued_bases": 0,
+        "rescued_nodes": 0
+      },
+      {
+        "dataset": "half_strains",
+        "harmed_bases": 5987,
+        "harmed_nodes": 3,
+        "hypothesis": "gated_neighbour",
+        "net_bases": -5669,
+        "rescued_bases": 318,
+        "rescued_nodes": 1
+      },
+      {
+        "dataset": "half_strains",
+        "harmed_bases": 5987,
+        "harmed_nodes": 3,
+        "hypothesis": "bayesian_edge",
+        "net_bases": -5669,
+        "rescued_bases": 318,
+        "rescued_nodes": 1
+      },
+      {
+        "dataset": "half_strains",
+        "harmed_bases": 5987,
+        "harmed_nodes": 3,
+        "hypothesis": "edge_union",
+        "net_bases": -5669,
+        "rescued_bases": 318,
+        "rescued_nodes": 1
+      },
+      {
+        "dataset": "half_strains",
+        "harmed_bases": 0,
+        "harmed_nodes": 0,
+        "hypothesis": "leakage",
+        "net_bases": 318,
+        "rescued_bases": 318,
+        "rescued_nodes": 1
+      },
+      {
+        "dataset": "half_strains",
+        "harmed_bases": 5987,
+        "harmed_nodes": 3,
+        "hypothesis": "leakage_flipped",
+        "net_bases": -5669,
+        "rescued_bases": 318,
+        "rescued_nodes": 1
+      },
+      {
+        "dataset": "half_strains",
+        "harmed_bases": 0,
+        "harmed_nodes": 0,
+        "hypothesis": "label_drop",
+        "net_bases": 0,
+        "rescued_bases": 0,
+        "rescued_nodes": 0
+      },
+      {
+        "dataset": "half_strains",
+        "harmed_bases": 0,
+        "harmed_nodes": 0,
+        "hypothesis": "logistic_drop",
+        "net_bases": 0,
+        "rescued_bases": 0,
+        "rescued_nodes": 0
+      }
+    ]
+  },
+  "encoding": {
+    "tooltip": [
+      {
+        "field": "hypothesis",
+        "type": "nominal"
+      },
+      {
+        "field": "rescued_nodes",
+        "type": "quantitative"
+      },
+      {
+        "field": "harmed_nodes",
+        "type": "quantitative"
+      },
+      {
+        "field": "rescued_bases",
+        "type": "quantitative"
+      },
+      {
+        "field": "harmed_bases",
+        "type": "quantitative"
+      }
+    ],
+    "x": {
+      "axis": {
+        "labelAngle": -40
+      },
+      "field": "hypothesis",
+      "title": "Hypothesis",
+      "type": "nominal"
+    },
+    "y": {
+      "field": "net_bases",
+      "title": "Rescued minus harmed bases vs probability_sum",
+      "type": "quantitative"
+    }
+  },
+  "height": 260,
+  "mark": {
+    "type": "bar"
+  },
+  "title": "half_strains: graph methods versus the soft profile",
+  "width": 420
+}

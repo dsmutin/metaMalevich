@@ -1,0 +1,10 @@
+dataset	truth_name	call_name	bases
+samovar10	Enterococcus sp. DIV2432	Enterococcus faecalis	1973006
+samovar10	Enterobacter ludwigii	unclassified	300000
+samovar10	Enterococcus sp. DIV0180	Enterococcus sp. DIV0176	100000
+samovar10	Enterobacter ludwigii	Enterobacter asburiae	100000
+samovar10	Enterobacter ludwigii	Enterobacter cloacae complex sp. FDA-CDC-AR_0132	100000
+samovar10	Enterobacter ludwigii	Enterobacter hormaechei	100000
+samovar10	Flagellimonas sp.	unclassified	100000
+samovar10	Enterococcus sp. DIV0180	Enterococcus sp. DIV0210g	53044
+samovar10	Klebsiella pneumoniae	Escherichia coli	29466

@@ -1,0 +1,120 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+  "config": {
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-11197385ceed1e34b30b07a57c13e3bc"
+  },
+  "datasets": {
+    "data-11197385ceed1e34b30b07a57c13e3bc": [
+      {
+        "base_error_rate": 0.5263427466073923,
+        "bases": 2614287,
+        "dataset": "heldout_genera",
+        "n": 6423,
+        "node_error_rate": 0.5254553946753854,
+        "other_genus_bases": 212545,
+        "same_genus_bases": 513939,
+        "situation": "isolated",
+        "unclassified_bases": 649527
+      },
+      {
+        "base_error_rate": 0.0,
+        "bases": 5845,
+        "dataset": "heldout_genera",
+        "n": 7,
+        "node_error_rate": 0.0,
+        "other_genus_bases": 0,
+        "same_genus_bases": 0,
+        "situation": "vote_matches_call",
+        "unclassified_bases": 0
+      },
+      {
+        "base_error_rate": 1.0,
+        "bases": 2575,
+        "dataset": "heldout_genera",
+        "n": 2,
+        "node_error_rate": 1.0,
+        "other_genus_bases": 0,
+        "same_genus_bases": 2575,
+        "situation": "vote_matches_truth",
+        "unclassified_bases": 0
+      },
+      {
+        "base_error_rate": 1.0,
+        "bases": 4721,
+        "dataset": "heldout_genera",
+        "n": 3,
+        "node_error_rate": 1.0,
+        "other_genus_bases": 4159,
+        "same_genus_bases": 562,
+        "situation": "vote_matches_wrong_call",
+        "unclassified_bases": 0
+      },
+      {
+        "base_error_rate": 0.1278241400366375,
+        "bases": 4913,
+        "dataset": "heldout_genera",
+        "n": 4,
+        "node_error_rate": 0.25,
+        "other_genus_bases": 0,
+        "same_genus_bases": 628,
+        "situation": "vote_other",
+        "unclassified_bases": 0
+      }
+    ]
+  },
+  "encoding": {
+    "color": {
+      "field": "base_error_rate",
+      "title": "Base error rate",
+      "type": "quantitative"
+    },
+    "tooltip": [
+      {
+        "field": "situation",
+        "type": "nominal"
+      },
+      {
+        "field": "n",
+        "type": "quantitative"
+      },
+      {
+        "field": "bases",
+        "type": "quantitative"
+      },
+      {
+        "field": "base_error_rate",
+        "type": "quantitative"
+      },
+      {
+        "field": "same_genus_bases",
+        "type": "quantitative"
+      },
+      {
+        "field": "unclassified_bases",
+        "type": "quantitative"
+      }
+    ],
+    "x": {
+      "field": "situation",
+      "title": "Neighbour vote vs soft call",
+      "type": "nominal"
+    },
+    "y": {
+      "field": "bases",
+      "title": "Bases",
+      "type": "quantitative"
+    }
+  },
+  "height": 260,
+  "mark": {
+    "type": "bar"
+  },
+  "title": "heldout_genera: where the neighbour vote sits",
+  "width": 420
+}

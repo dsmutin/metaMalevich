@@ -1,0 +1,13 @@
+dataset	truth_name	call_name	bases
+half_strains	Pseudomonas protegens	unclassified	334831
+half_strains	Escherichia coli	unclassified	107647
+half_strains	Escherichia coli	Escherichia albertii	91231
+half_strains	Pseudomonas protegens	Pseudomonas aeruginosa	76588
+half_strains	Pseudomonas protegens	Pseudomonas fluorescens	53879
+half_strains	Shigella sonnei	unclassified	42195
+half_strains	Escherichia coli	Escherichia marmotae	30705
+half_strains	Streptococcus mutans	unclassified	28003
+half_strains	Shigella sonnei	Escherichia albertii	21528
+half_strains	Escherichia coli	Shigella sonnei	14852
+half_strains	Shigella sonnei	Escherichia coli	12300
+half_strains	Shigella dysenteriae	Escherichia coli	9088

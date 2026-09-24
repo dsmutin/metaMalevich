@@ -1,0 +1,133 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+  "config": {
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-ae41b06c63a2b978460196596116f5f1"
+  },
+  "datasets": {
+    "data-ae41b06c63a2b978460196596116f5f1": [
+      {
+        "bases": 334831,
+        "call_name": "unclassified",
+        "dataset": "half_strains",
+        "pair": "Pseudomonas protegens → unclassified",
+        "truth_name": "Pseudomonas protegens"
+      },
+      {
+        "bases": 107647,
+        "call_name": "unclassified",
+        "dataset": "half_strains",
+        "pair": "Escherichia coli → unclassified",
+        "truth_name": "Escherichia coli"
+      },
+      {
+        "bases": 91231,
+        "call_name": "Escherichia albertii",
+        "dataset": "half_strains",
+        "pair": "Escherichia coli → Escherichia albertii",
+        "truth_name": "Escherichia coli"
+      },
+      {
+        "bases": 76588,
+        "call_name": "Pseudomonas aeruginosa",
+        "dataset": "half_strains",
+        "pair": "Pseudomonas protegens → Pseudomonas aeruginosa",
+        "truth_name": "Pseudomonas protegens"
+      },
+      {
+        "bases": 53879,
+        "call_name": "Pseudomonas fluorescens",
+        "dataset": "half_strains",
+        "pair": "Pseudomonas protegens → Pseudomonas fluorescens",
+        "truth_name": "Pseudomonas protegens"
+      },
+      {
+        "bases": 42195,
+        "call_name": "unclassified",
+        "dataset": "half_strains",
+        "pair": "Shigella sonnei → unclassified",
+        "truth_name": "Shigella sonnei"
+      },
+      {
+        "bases": 30705,
+        "call_name": "Escherichia marmotae",
+        "dataset": "half_strains",
+        "pair": "Escherichia coli → Escherichia marmotae",
+        "truth_name": "Escherichia coli"
+      },
+      {
+        "bases": 28003,
+        "call_name": "unclassified",
+        "dataset": "half_strains",
+        "pair": "Streptococcus mutans → unclassified",
+        "truth_name": "Streptococcus mutans"
+      },
+      {
+        "bases": 21528,
+        "call_name": "Escherichia albertii",
+        "dataset": "half_strains",
+        "pair": "Shigella sonnei → Escherichia albertii",
+        "truth_name": "Shigella sonnei"
+      },
+      {
+        "bases": 14852,
+        "call_name": "Shigella sonnei",
+        "dataset": "half_strains",
+        "pair": "Escherichia coli → Shigella sonnei",
+        "truth_name": "Escherichia coli"
+      },
+      {
+        "bases": 12300,
+        "call_name": "Escherichia coli",
+        "dataset": "half_strains",
+        "pair": "Shigella sonnei → Escherichia coli",
+        "truth_name": "Shigella sonnei"
+      },
+      {
+        "bases": 9088,
+        "call_name": "Escherichia coli",
+        "dataset": "half_strains",
+        "pair": "Shigella dysenteriae → Escherichia coli",
+        "truth_name": "Shigella dysenteriae"
+      }
+    ]
+  },
+  "encoding": {
+    "tooltip": [
+      {
+        "field": "truth_name",
+        "type": "nominal"
+      },
+      {
+        "field": "call_name",
+        "type": "nominal"
+      },
+      {
+        "field": "bases",
+        "type": "quantitative"
+      }
+    ],
+    "x": {
+      "field": "bases",
+      "title": "Wrong bases",
+      "type": "quantitative"
+    },
+    "y": {
+      "field": "pair",
+      "sort": "-x",
+      "title": "Truth → probability_sum call",
+      "type": "nominal"
+    }
+  },
+  "height": 280,
+  "mark": {
+    "type": "bar"
+  },
+  "title": "half_strains: largest species confusions",
+  "width": 420
+}

@@ -40,10 +40,17 @@ Truth is the species read fraction. Taxon 0 in a classifier profile includes cal
 | lca | node_length | 1.09451 | 0.0885802 | 1 | 0.348321 | 0.477065 |
 | gated_neighbour | node_length | 0.408551 | 0.844416 | 1 | 0.487507 | 0.791898 |
 | bayesian_edge | node_length | 0.407528 | 0.845372 | 1 | 0.488553 | 0.793288 |
+| edge_union | node_length | 0.407331 | 0.845515 | 1 | 0.487507 | 0.791898 |
+| leakage | node_length | 0.406972 | 0.845817 | 1 | 0.487509 | 0.792196 |
+| leakage_flipped | node_length | 0.407209 | 0.84546 | 1 | 0.487507 | 0.791898 |
+| label_drop | node_length | 0.404144 | 0.847518 | 1 | 0.487334 | 0.792097 |
+| label_drop_flipped | node_length | 0.407331 | 0.845515 | 1 | 0.487507 | 0.791898 |
+| logistic_drop | node_length | 0.379475 | 0.858672 | 1 | 0.487895 | 0.792593 |
+| logistic_drop_flipped | node_length | 0.407398 | 0.845503 | 1 | 0.487507 | 0.791898 |
 
 Coverage weighting raises L1. `initial_colouring_coverage` is 0.455632 against 0.383564 for length weighting. It was not adopted.
 
-Hard colouring has the lowest L1 of the graph rows. `probability_sum`, `gated_neighbour`, and `bayesian_edge` are about 0.02 worse on L1 and slightly worse on node F1. With 56 edges on 10072 nodes, neighbour updates do not improve both scores. No resolver parameter was changed.
+`logistic_drop` has the lowest length-weighted L1 of the graph rows (0.379475 against 0.383564 for hard colouring). Its node F1 is 0.487895, below hard colouring. The other graph rows stay about 0.02 worse on L1 than hard colouring. With 56 edges on 10072 nodes, neighbour updates do not improve both scores. No resolver parameter was changed.
 
 ## Where the estimates fail
 

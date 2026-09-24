@@ -21,8 +21,15 @@ Truth is the lognormal read fraction rolled to species. The two Shigella flexner
 | lca | node_length | 1.55331 | 0.00604007 | 0.882353 | 0.220458 | 0.21463 |
 | gated_neighbour | node_length | 0.642243 | 0.253658 | 0.972973 | 0.399332 | 0.474453 |
 | bayesian_edge | node_length | 0.642794 | 0.254571 | 0.972973 | 0.398747 | 0.472278 |
+| edge_union | node_length | 0.644131 | 0.252646 | 0.972973 | 0.399391 | 0.474608 |
+| leakage | node_length | 0.643938 | 0.252386 | 0.972973 | 0.399391 | 0.474608 |
+| leakage_flipped | node_length | 0.644348 | 0.252889 | 0.972973 | 0.399332 | 0.474453 |
+| label_drop | node_length | 0.642632 | 0.253107 | 0.972973 | 0.399307 | 0.474297 |
+| label_drop_flipped | node_length | 0.644089 | 0.252664 | 0.972973 | 0.399391 | 0.474608 |
+| logistic_drop | node_length | 0.617258 | 0.283926 | 0.972973 | 0.399487 | 0.474918 |
+| logistic_drop_flipped | node_length | 0.643722 | 0.252992 | 0.972973 | 0.399391 | 0.474608 |
 
-Coverage-weighted rows (`length_times_multi`, MEGAHIT `_cov_` on the node id) are in `work/metrics.tsv`. The lowest L1 in that file is `bayesian_edge_coverage` at 0.619239. Its node F1 is 0.398747, below `initial_colouring`. `initial_colouring_coverage` L1 is 0.63391, worse than length weighting. Coverage weight is not adopted as the library profile.
+Coverage-weighted rows (`length_times_multi`, MEGAHIT `_cov_` on the node id) are in `work/metrics.tsv`. The lowest L1 in that file is `logistic_drop_coverage` at 0.604717. Its node F1 is 0.399487, below `initial_colouring`. `initial_colouring_coverage` L1 is 0.63391, worse than length weighting. Coverage weight is not adopted as the library profile.
 
 On samovar10, `probability_sum` is the only hypothesis that improves both abundance L1 and species macro F1 relative to hard colouring. On this graph it does not: L1 rises from 0.629774 to 0.643788 and node F1 falls from 0.408121 to 0.399307. `gated_neighbour` and `bayesian_edge` move L1 by about 0.01 on 24 edges among 6439 nodes. No resolver parameter was changed.
 

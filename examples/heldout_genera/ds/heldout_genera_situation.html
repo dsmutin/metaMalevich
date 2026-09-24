@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    #vis.vega-embed {
+      width: 100%;
+      display: flex;
+    }
+
+    #vis.vega-embed details,
+    #vis.vega-embed details summary {
+      position: relative;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@6"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-lite@6.4.1"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@7"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "data": {"name": "data-11197385ceed1e34b30b07a57c13e3bc"}, "mark": {"type": "bar"}, "encoding": {"color": {"field": "base_error_rate", "title": "Base error rate", "type": "quantitative"}, "tooltip": [{"field": "situation", "type": "nominal"}, {"field": "n", "type": "quantitative"}, {"field": "bases", "type": "quantitative"}, {"field": "base_error_rate", "type": "quantitative"}, {"field": "same_genus_bases", "type": "quantitative"}, {"field": "unclassified_bases", "type": "quantitative"}], "x": {"field": "situation", "title": "Neighbour vote vs soft call", "type": "nominal"}, "y": {"field": "bases", "title": "Bases", "type": "quantitative"}}, "height": 260, "title": "heldout_genera: where the neighbour vote sits", "width": 420, "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json", "datasets": {"data-11197385ceed1e34b30b07a57c13e3bc": [{"dataset": "heldout_genera", "situation": "isolated", "n": 6423, "bases": 2614287, "node_error_rate": 0.5254553946753854, "base_error_rate": 0.5263427466073923, "same_genus_bases": 513939, "other_genus_bases": 212545, "unclassified_bases": 649527}, {"dataset": "heldout_genera", "situation": "vote_matches_call", "n": 7, "bases": 5845, "node_error_rate": 0.0, "base_error_rate": 0.0, "same_genus_bases": 0, "other_genus_bases": 0, "unclassified_bases": 0}, {"dataset": "heldout_genera", "situation": "vote_matches_truth", "n": 2, "bases": 2575, "node_error_rate": 1.0, "base_error_rate": 1.0, "same_genus_bases": 2575, "other_genus_bases": 0, "unclassified_bases": 0}, {"dataset": "heldout_genera", "situation": "vote_matches_wrong_call", "n": 3, "bases": 4721, "node_error_rate": 1.0, "base_error_rate": 1.0, "same_genus_bases": 562, "other_genus_bases": 4159, "unclassified_bases": 0}, {"dataset": "heldout_genera", "situation": "vote_other", "n": 4, "bases": 4913, "node_error_rate": 0.25, "base_error_rate": 0.1278241400366375, "same_genus_bases": 628, "other_genus_bases": 0, "unclassified_bases": 0}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>

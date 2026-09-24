@@ -37,6 +37,7 @@ ROOT = Path(__file__).resolve().parents[2]
 EXAMPLE = Path(__file__).resolve().parent
 WORK = EXAMPLE / "work"
 GRAPH_ID = "heldout_genera"
+REPORT_PATH = ROOT / "data" / "raw" / "assembly_data_report.jsonl"
 TOTAL_READS = 100_000
 SEED = 42
 SIGMA = 1.5
@@ -475,7 +476,7 @@ def _build_kaiju_from_pinned_fasta(log_path: Path) -> None:
     from samovar.build_database import add_database_kaiju, build_database_kaiju, get_taxonomy_db
 
     identities = {}
-    report_path = ROOT / "data" / "raw" / "assembly_data_report.jsonl"
+    report_path = REPORT_PATH
     for line in report_path.read_text(encoding="utf-8").splitlines():
         if line.strip():
             accession, _name, tax_id = _report_identity(json.loads(line))
@@ -720,7 +721,7 @@ def _kaiju_counts(path: Path) -> dict[int, int]:
 def _truth(parents: dict[int, int], ranks: dict[int, str]) -> dict[int, float]:
     """Species read fractions from the abundance table and the assembly-report taxids."""
     reports = {}
-    for line in (ROOT / "data" / "raw" / "assembly_data_report.jsonl").read_text(encoding="utf-8").splitlines():
+    for line in REPORT_PATH.read_text(encoding="utf-8").splitlines():
         if line.strip():
             record = json.loads(line)
             accession, _name, _tax = _report_identity(record)
@@ -860,7 +861,14 @@ def _export_assembly_tocumg(sequences, edges, evidence, edge_dist, scientific) -
 def _assembly_profiles(parents, ranks, scientific, truth) -> list[tuple[str, list[str]]]:
     """Colour the assembly graph and profile it with the current resolvers."""
     sys.path.insert(0, str(ROOT / "src"))
-    from metamalevich.bench import _evidence_distributions, _group_counts, _lca_distribution, _one_hot_call, _relative_from_profile
+    from metamalevich.bench import (
+        _evidence_distributions,
+        _group_counts,
+        _lca_distribution,
+        _one_hot_call,
+        _relative_from_profile,
+        graph_variants,
+    )
     from metamalevich.evaluate import classification_scores
     from metamalevich.native import kraken_counts
     from metamalevich.reprofile import profile_nodes
@@ -908,10 +916,10 @@ def _assembly_profiles(parents, ranks, scientific, truth) -> list[tuple[str, lis
         "initial_colouring": hard_assignment(calls_dist),
         "probability_sum": evidence,
         "lca": {node_id: _lca_distribution(counts.get(node_id, {}), taxonomy) for node_id in evidence},
+        "gated_neighbour": resolve(evidence, edges, "gated_neighbour", edge_dist) if edges else hard_assignment(evidence),
+        "bayesian_edge": resolve(evidence, edges, "bayesian_edge", edge_dist) if edges else hard_assignment(evidence),
+        **graph_variants(evidence, edges),
     }
-    if edges:
-        resolved["gated_neighbour"] = resolve(evidence, edges, "gated_neighbour", edge_dist)
-        resolved["bayesian_edge"] = resolve(evidence, edges, "bayesian_edge", edge_dist)
     lengths = {node_id: len(sequence) for node_id, sequence in sequences.items()}
     coverages = {}
     for node_id, sequence in sequences.items():
@@ -919,6 +927,7 @@ def _assembly_profiles(parents, ranks, scientific, truth) -> list[tuple[str, lis
         if coverage is not None and coverage > 0:
             coverages[node_id] = max(1, int(round(len(sequence) * coverage)))
     node_truth = _contig_species(fasta, parents, ranks)
+    _write_node_assignments(resolved, lengths, node_truth or {})
     rows = []
     for hypothesis, distributions in resolved.items():
         rows.append(
@@ -959,6 +968,33 @@ def _assembly_profiles(parents, ranks, scientific, truth) -> list[tuple[str, lis
                 )
             )
     return rows
+
+
+def _write_node_assignments(resolved, lengths, node_truth) -> None:
+    """Save one argmax table per hypothesis so later error analysis can reuse it."""
+    from metamalevich.resolve import argmax_taxon
+    from metamalevich.tables import write_tsv
+
+    destination = WORK / "reprofile" / "assignments"
+    destination.mkdir(parents=True, exist_ok=True)
+    for hypothesis, distributions in resolved.items():
+        rows = []
+        for node_id, dist in sorted(distributions.items()):
+            taxon_id, probability = argmax_taxon(dist)
+            rows.append(
+                {
+                    "node_id": node_id,
+                    "taxon_id": taxon_id,
+                    "probability": f"{probability:.6f}",
+                    "truth_taxon_id": node_truth.get(node_id, ""),
+                    "length": lengths.get(node_id, 0),
+                }
+            )
+        write_tsv(
+            destination / f"{hypothesis}.tsv",
+            rows,
+            ["node_id", "taxon_id", "probability", "truth_taxon_id", "length"],
+        )
 
 
 def _profile_row(
@@ -1031,7 +1067,7 @@ def _contig_species(fasta: Path, parents: dict[int, int], ranks: dict[int, str])
         if previous is None or matches > previous[0]:
             best[query] = (matches, target)
     reports = {}
-    for line in (ROOT / "data" / "raw" / "assembly_data_report.jsonl").read_text(encoding="utf-8").splitlines():
+    for line in REPORT_PATH.read_text(encoding="utf-8").splitlines():
         if line.strip():
             record = json.loads(line)
             accession, _name, _tax = _report_identity(record)

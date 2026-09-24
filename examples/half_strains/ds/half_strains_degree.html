@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    #vis.vega-embed {
+      width: 100%;
+      display: flex;
+    }
+
+    #vis.vega-embed details,
+    #vis.vega-embed details summary {
+      position: relative;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@6"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-lite@6.4.1"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@7"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "data": {"name": "data-4dd738b37fbd15c8439feb86d1689c6c"}, "mark": {"type": "bar"}, "encoding": {"color": {"field": "hypothesis", "title": "Hypothesis", "type": "nominal"}, "tooltip": [{"field": "hypothesis", "type": "nominal"}, {"field": "bin", "type": "nominal"}, {"field": "n", "type": "quantitative"}, {"field": "base_error_rate", "type": "quantitative"}], "x": {"field": "bin", "sort": ["0", "1-2", "3-8", "9+"], "title": "Outgoing degree", "type": "nominal"}, "xOffset": {"field": "hypothesis", "type": "nominal"}, "y": {"field": "base_error_rate", "title": "Base-weighted error rate", "type": "quantitative"}}, "height": 260, "title": "half_strains: error rate by node degree", "width": 420, "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json", "datasets": {"data-4dd738b37fbd15c8439feb86d1689c6c": [{"dataset": "half_strains", "hypothesis": "initial_colouring", "bin": "0", "n": 10035, "node_error_rate": 0.20797209765819633, "base_error_rate": 0.18511943287733496}, {"dataset": "half_strains", "hypothesis": "initial_colouring", "bin": "1-2", "n": 34, "node_error_rate": 0.29411764705882354, "base_error_rate": 0.18569996354356544}, {"dataset": "half_strains", "hypothesis": "initial_colouring", "bin": "3-8", "n": 3, "node_error_rate": 0.3333333333333333, "base_error_rate": 0.4819277108433735}, {"dataset": "half_strains", "hypothesis": "probability_sum", "bin": "0", "n": 10035, "node_error_rate": 0.20707523667164923, "base_error_rate": 0.1838502393796664}, {"dataset": "half_strains", "hypothesis": "probability_sum", "bin": "1-2", "n": 34, "node_error_rate": 0.29411764705882354, "base_error_rate": 0.18569996354356544}, {"dataset": "half_strains", "hypothesis": "probability_sum", "bin": "3-8", "n": 3, "node_error_rate": 0.3333333333333333, "base_error_rate": 0.4819277108433735}, {"dataset": "half_strains", "hypothesis": "lca", "bin": "0", "n": 10035, "node_error_rate": 0.5226706527154957, "base_error_rate": 0.4845130380882315}, {"dataset": "half_strains", "hypothesis": "lca", "bin": "1-2", "n": 34, "node_error_rate": 0.5588235294117647, "base_error_rate": 0.5521327014218009}, {"dataset": "half_strains", "hypothesis": "lca", "bin": "3-8", "n": 3, "node_error_rate": 1.0, "base_error_rate": 1.0}, {"dataset": "half_strains", "hypothesis": "gated_neighbour", "bin": "0", "n": 10035, "node_error_rate": 0.20707523667164923, "base_error_rate": 0.1838502393796664}, {"dataset": "half_strains", "hypothesis": "gated_neighbour", "bin": "1-2", "n": 34, "node_error_rate": 0.35294117647058826, "base_error_rate": 0.44403937294932555}, {"dataset": "half_strains", "hypothesis": "gated_neighbour", "bin": "3-8", "n": 3, "node_error_rate": 0.3333333333333333, "base_error_rate": 0.4819277108433735}, {"dataset": "half_strains", "hypothesis": "bayesian_edge", "bin": "0", "n": 10035, "node_error_rate": 0.20707523667164923, "base_error_rate": 0.1838502393796664}, {"dataset": "half_strains", "hypothesis": "bayesian_edge", "bin": "1-2", "n": 34, "node_error_rate": 0.35294117647058826, "base_error_rate": 0.44403937294932555}, {"dataset": "half_strains", "hypothesis": "bayesian_edge", "bin": "3-8", "n": 3, "node_error_rate": 0.3333333333333333, "base_error_rate": 0.4819277108433735}, {"dataset": "half_strains", "hypothesis": "edge_union", "bin": "0", "n": 10035, "node_error_rate": 0.20707523667164923, "base_error_rate": 0.1838502393796664}, {"dataset": "half_strains", "hypothesis": "edge_union", "bin": "1-2", "n": 34, "node_error_rate": 0.35294117647058826, "base_error_rate": 0.44403937294932555}, {"dataset": "half_strains", "hypothesis": "edge_union", "bin": "3-8", "n": 3, "node_error_rate": 0.3333333333333333, "base_error_rate": 0.4819277108433735}, {"dataset": "half_strains", "hypothesis": "leakage", "bin": "0", "n": 10035, "node_error_rate": 0.20707523667164923, "base_error_rate": 0.1838502393796664}, {"dataset": "half_strains", "hypothesis": "leakage", "bin": "1-2", "n": 34, "node_error_rate": 0.2647058823529412, "base_error_rate": 0.1712085308056872}, {"dataset": "half_strains", "hypothesis": "leakage", "bin": "3-8", "n": 3, "node_error_rate": 0.3333333333333333, "base_error_rate": 0.4819277108433735}, {"dataset": "half_strains", "hypothesis": "leakage_flipped", "bin": "0", "n": 10035, "node_error_rate": 0.20707523667164923, "base_error_rate": 0.1838502393796664}, {"dataset": "half_strains", "hypothesis": "leakage_flipped", "bin": "1-2", "n": 34, "node_error_rate": 0.35294117647058826, "base_error_rate": 0.44403937294932555}, {"dataset": "half_strains", "hypothesis": "leakage_flipped", "bin": "3-8", "n": 3, "node_error_rate": 0.3333333333333333, "base_error_rate": 0.4819277108433735}, {"dataset": "half_strains", "hypothesis": "label_drop", "bin": "0", "n": 10035, "node_error_rate": 0.20707523667164923, "base_error_rate": 0.1838502393796664}, {"dataset": "half_strains", "hypothesis": "label_drop", "bin": "1-2", "n": 34, "node_error_rate": 0.29411764705882354, "base_error_rate": 0.18569996354356544}, {"dataset": "half_strains", "hypothesis": "label_drop", "bin": "3-8", "n": 3, "node_error_rate": 0.3333333333333333, "base_error_rate": 0.4819277108433735}, {"dataset": "half_strains", "hypothesis": "logistic_drop", "bin": "0", "n": 10035, "node_error_rate": 0.20707523667164923, "base_error_rate": 0.1838502393796664}, {"dataset": "half_strains", "hypothesis": "logistic_drop", "bin": "1-2", "n": 34, "node_error_rate": 0.29411764705882354, "base_error_rate": 0.18569996354356544}, {"dataset": "half_strains", "hypothesis": "logistic_drop", "bin": "3-8", "n": 3, "node_error_rate": 0.3333333333333333, "base_error_rate": 0.4819277108433735}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>

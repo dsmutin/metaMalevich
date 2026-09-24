@@ -1,0 +1,332 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+  "config": {
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-a504e8631852957e39b0ad7366de0fa6"
+  },
+  "datasets": {
+    "data-a504e8631852957e39b0ad7366de0fa6": [
+      {
+        "dataset": "half_strains",
+        "error": 0.11319318,
+        "estimated": 0.11319318,
+        "hypothesis": "initial_colouring",
+        "name": "unclassified",
+        "truth": 0.0
+      },
+      {
+        "dataset": "half_strains",
+        "error": -0.053340549,
+        "estimated": 0.019359451,
+        "hypothesis": "initial_colouring",
+        "name": "Pseudomonas aeruginosa",
+        "truth": 0.0727
+      },
+      {
+        "dataset": "half_strains",
+        "error": 0.005068929,
+        "estimated": 0.010478929,
+        "hypothesis": "initial_colouring",
+        "name": "Pseudomonas fluorescens",
+        "truth": 0.00541
+      },
+      {
+        "dataset": "half_strains",
+        "error": -0.05971382,
+        "estimated": 0.14486618,
+        "hypothesis": "initial_colouring",
+        "name": "Escherichia coli",
+        "truth": 0.20458
+      },
+      {
+        "dataset": "half_strains",
+        "error": -0.0045635963,
+        "estimated": 0.0026464037,
+        "hypothesis": "initial_colouring",
+        "name": "Shigella dysenteriae",
+        "truth": 0.00721
+      },
+      {
+        "dataset": "half_strains",
+        "error": -0.015001625,
+        "estimated": 0.010318375,
+        "hypothesis": "initial_colouring",
+        "name": "Shigella sonnei",
+        "truth": 0.02532
+      },
+      {
+        "dataset": "half_strains",
+        "error": 0.07352002000000002,
+        "estimated": 0.25703002,
+        "hypothesis": "initial_colouring",
+        "name": "Streptococcus mutans",
+        "truth": 0.18351
+      },
+      {
+        "dataset": "half_strains",
+        "error": -0.01815613979,
+        "estimated": 0.00098386021,
+        "hypothesis": "initial_colouring",
+        "name": "Streptococcus pyogenes",
+        "truth": 0.01914
+      },
+      {
+        "dataset": "half_strains",
+        "error": -0.013138085,
+        "estimated": 0.031871915,
+        "hypothesis": "initial_colouring",
+        "name": "Escherichia albertii",
+        "truth": 0.04501
+      },
+      {
+        "dataset": "half_strains",
+        "error": -0.023558440000000014,
+        "estimated": 0.39878156,
+        "hypothesis": "initial_colouring",
+        "name": "Pseudomonas protegens",
+        "truth": 0.42234
+      },
+      {
+        "dataset": "half_strains",
+        "error": -0.0043098749999999995,
+        "estimated": 0.010470125,
+        "hypothesis": "initial_colouring",
+        "name": "Escherichia marmotae",
+        "truth": 0.01478
+      },
+      {
+        "dataset": "half_strains",
+        "error": 0.1100976,
+        "estimated": 0.1100976,
+        "hypothesis": "probability_sum",
+        "name": "unclassified",
+        "truth": 0.0
+      },
+      {
+        "dataset": "half_strains",
+        "error": -0.047783235,
+        "estimated": 0.024916765,
+        "hypothesis": "probability_sum",
+        "name": "Pseudomonas aeruginosa",
+        "truth": 0.0727
+      },
+      {
+        "dataset": "half_strains",
+        "error": 0.019640943,
+        "estimated": 0.025050943,
+        "hypothesis": "probability_sum",
+        "name": "Pseudomonas fluorescens",
+        "truth": 0.00541
+      },
+      {
+        "dataset": "half_strains",
+        "error": -0.06209317,
+        "estimated": 0.14248683,
+        "hypothesis": "probability_sum",
+        "name": "Escherichia coli",
+        "truth": 0.20458
+      },
+      {
+        "dataset": "half_strains",
+        "error": -0.0036951158000000004,
+        "estimated": 0.0035148842,
+        "hypothesis": "probability_sum",
+        "name": "Shigella dysenteriae",
+        "truth": 0.00721
+      },
+      {
+        "dataset": "half_strains",
+        "error": -0.012435568999999999,
+        "estimated": 0.012884431,
+        "hypothesis": "probability_sum",
+        "name": "Shigella sonnei",
+        "truth": 0.02532
+      },
+      {
+        "dataset": "half_strains",
+        "error": 0.07333181,
+        "estimated": 0.25684181,
+        "hypothesis": "probability_sum",
+        "name": "Streptococcus mutans",
+        "truth": 0.18351
+      },
+      {
+        "dataset": "half_strains",
+        "error": -0.0177674731,
+        "estimated": 0.0013725269,
+        "hypothesis": "probability_sum",
+        "name": "Streptococcus pyogenes",
+        "truth": 0.01914
+      },
+      {
+        "dataset": "half_strains",
+        "error": -0.01353969,
+        "estimated": 0.03147031,
+        "hypothesis": "probability_sum",
+        "name": "Escherichia albertii",
+        "truth": 0.04501
+      },
+      {
+        "dataset": "half_strains",
+        "error": -0.04200809999999999,
+        "estimated": 0.3803319,
+        "hypothesis": "probability_sum",
+        "name": "Pseudomonas protegens",
+        "truth": 0.42234
+      },
+      {
+        "dataset": "half_strains",
+        "error": -0.0037480039999999992,
+        "estimated": 0.011031996,
+        "hypothesis": "probability_sum",
+        "name": "Escherichia marmotae",
+        "truth": 0.01478
+      },
+      {
+        "dataset": "half_strains",
+        "error": 0.1100976,
+        "estimated": 0.1100976,
+        "hypothesis": "logistic_drop",
+        "name": "unclassified",
+        "truth": 0.0
+      },
+      {
+        "dataset": "half_strains",
+        "error": -0.052572995,
+        "estimated": 0.020127005,
+        "hypothesis": "logistic_drop",
+        "name": "Pseudomonas aeruginosa",
+        "truth": 0.0727
+      },
+      {
+        "dataset": "half_strains",
+        "error": 0.0058830129999999994,
+        "estimated": 0.011293013,
+        "hypothesis": "logistic_drop",
+        "name": "Pseudomonas fluorescens",
+        "truth": 0.00541
+      },
+      {
+        "dataset": "half_strains",
+        "error": -0.05804771,
+        "estimated": 0.14653229,
+        "hypothesis": "logistic_drop",
+        "name": "Escherichia coli",
+        "truth": 0.20458
+      },
+      {
+        "dataset": "half_strains",
+        "error": -0.0045441035000000005,
+        "estimated": 0.0026658965,
+        "hypothesis": "logistic_drop",
+        "name": "Shigella dysenteriae",
+        "truth": 0.00721
+      },
+      {
+        "dataset": "half_strains",
+        "error": -0.015608834399999999,
+        "estimated": 0.0097111656,
+        "hypothesis": "logistic_drop",
+        "name": "Shigella sonnei",
+        "truth": 0.02532
+      },
+      {
+        "dataset": "half_strains",
+        "error": 0.07375707999999997,
+        "estimated": 0.25726708,
+        "hypothesis": "logistic_drop",
+        "name": "Streptococcus mutans",
+        "truth": 0.18351
+      },
+      {
+        "dataset": "half_strains",
+        "error": -0.01815613979,
+        "estimated": 0.00098386021,
+        "hypothesis": "logistic_drop",
+        "name": "Streptococcus pyogenes",
+        "truth": 0.01914
+      },
+      {
+        "dataset": "half_strains",
+        "error": -0.013293399000000004,
+        "estimated": 0.031716601,
+        "hypothesis": "logistic_drop",
+        "name": "Escherichia albertii",
+        "truth": 0.04501
+      },
+      {
+        "dataset": "half_strains",
+        "error": -0.02320464,
+        "estimated": 0.39913536,
+        "hypothesis": "logistic_drop",
+        "name": "Pseudomonas protegens",
+        "truth": 0.42234
+      },
+      {
+        "dataset": "half_strains",
+        "error": -0.0043098749999999995,
+        "estimated": 0.010470125,
+        "hypothesis": "logistic_drop",
+        "name": "Escherichia marmotae",
+        "truth": 0.01478
+      }
+    ]
+  },
+  "encoding": {
+    "color": {
+      "field": "hypothesis",
+      "title": "Hypothesis",
+      "type": "nominal"
+    },
+    "tooltip": [
+      {
+        "field": "hypothesis",
+        "type": "nominal"
+      },
+      {
+        "field": "name",
+        "type": "nominal"
+      },
+      {
+        "field": "truth",
+        "type": "quantitative"
+      },
+      {
+        "field": "estimated",
+        "type": "quantitative"
+      },
+      {
+        "field": "error",
+        "type": "quantitative"
+      }
+    ],
+    "x": {
+      "axis": {
+        "labelAngle": -40
+      },
+      "field": "name",
+      "title": "Taxon",
+      "type": "nominal"
+    },
+    "xOffset": {
+      "field": "hypothesis",
+      "type": "nominal"
+    },
+    "y": {
+      "field": "error",
+      "title": "Estimated minus truth",
+      "type": "quantitative"
+    }
+  },
+  "height": 280,
+  "mark": {
+    "type": "bar"
+  },
+  "title": "half_strains: taxon abundance error",
+  "width": 520
+}

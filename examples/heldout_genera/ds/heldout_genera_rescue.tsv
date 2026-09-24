@@ -1,0 +1,10 @@
+dataset	hypothesis	rescued_nodes	harmed_nodes	rescued_bases	harmed_bases	net_bases
+heldout_genera	initial_colouring	44	52	19345	23933	-4588
+heldout_genera	lca	0	1676	0	706351	-706351
+heldout_genera	gated_neighbour	2	1	2575	362	2213
+heldout_genera	bayesian_edge	2	2	2575	3923	-1348
+heldout_genera	edge_union	2	0	2575	0	2575
+heldout_genera	leakage	2	0	2575	0	2575
+heldout_genera	leakage_flipped	2	1	2575	362	2213
+heldout_genera	label_drop	0	0	0	0	0
+heldout_genera	logistic_drop	0	0	0	0	0

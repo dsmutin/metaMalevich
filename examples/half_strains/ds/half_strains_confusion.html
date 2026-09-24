@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    #vis.vega-embed {
+      width: 100%;
+      display: flex;
+    }
+
+    #vis.vega-embed details,
+    #vis.vega-embed details summary {
+      position: relative;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@6"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-lite@6.4.1"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@7"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "data": {"name": "data-ae41b06c63a2b978460196596116f5f1"}, "mark": {"type": "bar"}, "encoding": {"tooltip": [{"field": "truth_name", "type": "nominal"}, {"field": "call_name", "type": "nominal"}, {"field": "bases", "type": "quantitative"}], "x": {"field": "bases", "title": "Wrong bases", "type": "quantitative"}, "y": {"field": "pair", "sort": "-x", "title": "Truth \u2192 probability_sum call", "type": "nominal"}}, "height": 280, "title": "half_strains: largest species confusions", "width": 420, "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json", "datasets": {"data-ae41b06c63a2b978460196596116f5f1": [{"dataset": "half_strains", "truth_name": "Pseudomonas protegens", "call_name": "unclassified", "bases": 334831, "pair": "Pseudomonas protegens \u2192 unclassified"}, {"dataset": "half_strains", "truth_name": "Escherichia coli", "call_name": "unclassified", "bases": 107647, "pair": "Escherichia coli \u2192 unclassified"}, {"dataset": "half_strains", "truth_name": "Escherichia coli", "call_name": "Escherichia albertii", "bases": 91231, "pair": "Escherichia coli \u2192 Escherichia albertii"}, {"dataset": "half_strains", "truth_name": "Pseudomonas protegens", "call_name": "Pseudomonas aeruginosa", "bases": 76588, "pair": "Pseudomonas protegens \u2192 Pseudomonas aeruginosa"}, {"dataset": "half_strains", "truth_name": "Pseudomonas protegens", "call_name": "Pseudomonas fluorescens", "bases": 53879, "pair": "Pseudomonas protegens \u2192 Pseudomonas fluorescens"}, {"dataset": "half_strains", "truth_name": "Shigella sonnei", "call_name": "unclassified", "bases": 42195, "pair": "Shigella sonnei \u2192 unclassified"}, {"dataset": "half_strains", "truth_name": "Escherichia coli", "call_name": "Escherichia marmotae", "bases": 30705, "pair": "Escherichia coli \u2192 Escherichia marmotae"}, {"dataset": "half_strains", "truth_name": "Streptococcus mutans", "call_name": "unclassified", "bases": 28003, "pair": "Streptococcus mutans \u2192 unclassified"}, {"dataset": "half_strains", "truth_name": "Shigella sonnei", "call_name": "Escherichia albertii", "bases": 21528, "pair": "Shigella sonnei \u2192 Escherichia albertii"}, {"dataset": "half_strains", "truth_name": "Escherichia coli", "call_name": "Shigella sonnei", "bases": 14852, "pair": "Escherichia coli \u2192 Shigella sonnei"}, {"dataset": "half_strains", "truth_name": "Shigella sonnei", "call_name": "Escherichia coli", "bases": 12300, "pair": "Shigella sonnei \u2192 Escherichia coli"}, {"dataset": "half_strains", "truth_name": "Shigella dysenteriae", "call_name": "Escherichia coli", "bases": 9088, "pair": "Shigella dysenteriae \u2192 Escherichia coli"}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>

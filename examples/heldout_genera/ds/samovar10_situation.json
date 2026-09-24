@@ -1,0 +1,109 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+  "config": {
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-82f2edf3bfaad68f3f7709f7c5adf23a"
+  },
+  "datasets": {
+    "data-82f2edf3bfaad68f3f7709f7c5adf23a": [
+      {
+        "base_error_rate": 0.0,
+        "bases": 34706240,
+        "dataset": "samovar10",
+        "n": 350,
+        "node_error_rate": 0.0,
+        "other_genus_bases": 0,
+        "same_genus_bases": 0,
+        "situation": "vote_matches_call",
+        "unclassified_bases": 0
+      },
+      {
+        "base_error_rate": 1.0,
+        "bases": 853044,
+        "dataset": "samovar10",
+        "n": 9,
+        "node_error_rate": 1.0,
+        "other_genus_bases": 0,
+        "same_genus_bases": 453044,
+        "situation": "vote_matches_truth",
+        "unclassified_bases": 400000
+      },
+      {
+        "base_error_rate": 1.0,
+        "bases": 1973006,
+        "dataset": "samovar10",
+        "n": 20,
+        "node_error_rate": 1.0,
+        "other_genus_bases": 0,
+        "same_genus_bases": 1973006,
+        "situation": "vote_matches_wrong_call",
+        "unclassified_bases": 0
+      },
+      {
+        "base_error_rate": 0.016800771788661274,
+        "bases": 1753848,
+        "dataset": "samovar10",
+        "n": 20,
+        "node_error_rate": 0.05,
+        "other_genus_bases": 29466,
+        "same_genus_bases": 0,
+        "situation": "vote_other",
+        "unclassified_bases": 0
+      }
+    ]
+  },
+  "encoding": {
+    "color": {
+      "field": "base_error_rate",
+      "title": "Base error rate",
+      "type": "quantitative"
+    },
+    "tooltip": [
+      {
+        "field": "situation",
+        "type": "nominal"
+      },
+      {
+        "field": "n",
+        "type": "quantitative"
+      },
+      {
+        "field": "bases",
+        "type": "quantitative"
+      },
+      {
+        "field": "base_error_rate",
+        "type": "quantitative"
+      },
+      {
+        "field": "same_genus_bases",
+        "type": "quantitative"
+      },
+      {
+        "field": "unclassified_bases",
+        "type": "quantitative"
+      }
+    ],
+    "x": {
+      "field": "situation",
+      "title": "Neighbour vote vs soft call",
+      "type": "nominal"
+    },
+    "y": {
+      "field": "bases",
+      "title": "Bases",
+      "type": "quantitative"
+    }
+  },
+  "height": 260,
+  "mark": {
+    "type": "bar"
+  },
+  "title": "samovar10: where the neighbour vote sits",
+  "width": 420
+}

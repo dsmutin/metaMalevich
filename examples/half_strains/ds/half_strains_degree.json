@@ -1,0 +1,307 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+  "config": {
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-4dd738b37fbd15c8439feb86d1689c6c"
+  },
+  "datasets": {
+    "data-4dd738b37fbd15c8439feb86d1689c6c": [
+      {
+        "base_error_rate": 0.18511943287733496,
+        "bin": "0",
+        "dataset": "half_strains",
+        "hypothesis": "initial_colouring",
+        "n": 10035,
+        "node_error_rate": 0.20797209765819633
+      },
+      {
+        "base_error_rate": 0.18569996354356544,
+        "bin": "1-2",
+        "dataset": "half_strains",
+        "hypothesis": "initial_colouring",
+        "n": 34,
+        "node_error_rate": 0.29411764705882354
+      },
+      {
+        "base_error_rate": 0.4819277108433735,
+        "bin": "3-8",
+        "dataset": "half_strains",
+        "hypothesis": "initial_colouring",
+        "n": 3,
+        "node_error_rate": 0.3333333333333333
+      },
+      {
+        "base_error_rate": 0.1838502393796664,
+        "bin": "0",
+        "dataset": "half_strains",
+        "hypothesis": "probability_sum",
+        "n": 10035,
+        "node_error_rate": 0.20707523667164923
+      },
+      {
+        "base_error_rate": 0.18569996354356544,
+        "bin": "1-2",
+        "dataset": "half_strains",
+        "hypothesis": "probability_sum",
+        "n": 34,
+        "node_error_rate": 0.29411764705882354
+      },
+      {
+        "base_error_rate": 0.4819277108433735,
+        "bin": "3-8",
+        "dataset": "half_strains",
+        "hypothesis": "probability_sum",
+        "n": 3,
+        "node_error_rate": 0.3333333333333333
+      },
+      {
+        "base_error_rate": 0.4845130380882315,
+        "bin": "0",
+        "dataset": "half_strains",
+        "hypothesis": "lca",
+        "n": 10035,
+        "node_error_rate": 0.5226706527154957
+      },
+      {
+        "base_error_rate": 0.5521327014218009,
+        "bin": "1-2",
+        "dataset": "half_strains",
+        "hypothesis": "lca",
+        "n": 34,
+        "node_error_rate": 0.5588235294117647
+      },
+      {
+        "base_error_rate": 1.0,
+        "bin": "3-8",
+        "dataset": "half_strains",
+        "hypothesis": "lca",
+        "n": 3,
+        "node_error_rate": 1.0
+      },
+      {
+        "base_error_rate": 0.1838502393796664,
+        "bin": "0",
+        "dataset": "half_strains",
+        "hypothesis": "gated_neighbour",
+        "n": 10035,
+        "node_error_rate": 0.20707523667164923
+      },
+      {
+        "base_error_rate": 0.44403937294932555,
+        "bin": "1-2",
+        "dataset": "half_strains",
+        "hypothesis": "gated_neighbour",
+        "n": 34,
+        "node_error_rate": 0.35294117647058826
+      },
+      {
+        "base_error_rate": 0.4819277108433735,
+        "bin": "3-8",
+        "dataset": "half_strains",
+        "hypothesis": "gated_neighbour",
+        "n": 3,
+        "node_error_rate": 0.3333333333333333
+      },
+      {
+        "base_error_rate": 0.1838502393796664,
+        "bin": "0",
+        "dataset": "half_strains",
+        "hypothesis": "bayesian_edge",
+        "n": 10035,
+        "node_error_rate": 0.20707523667164923
+      },
+      {
+        "base_error_rate": 0.44403937294932555,
+        "bin": "1-2",
+        "dataset": "half_strains",
+        "hypothesis": "bayesian_edge",
+        "n": 34,
+        "node_error_rate": 0.35294117647058826
+      },
+      {
+        "base_error_rate": 0.4819277108433735,
+        "bin": "3-8",
+        "dataset": "half_strains",
+        "hypothesis": "bayesian_edge",
+        "n": 3,
+        "node_error_rate": 0.3333333333333333
+      },
+      {
+        "base_error_rate": 0.1838502393796664,
+        "bin": "0",
+        "dataset": "half_strains",
+        "hypothesis": "edge_union",
+        "n": 10035,
+        "node_error_rate": 0.20707523667164923
+      },
+      {
+        "base_error_rate": 0.44403937294932555,
+        "bin": "1-2",
+        "dataset": "half_strains",
+        "hypothesis": "edge_union",
+        "n": 34,
+        "node_error_rate": 0.35294117647058826
+      },
+      {
+        "base_error_rate": 0.4819277108433735,
+        "bin": "3-8",
+        "dataset": "half_strains",
+        "hypothesis": "edge_union",
+        "n": 3,
+        "node_error_rate": 0.3333333333333333
+      },
+      {
+        "base_error_rate": 0.1838502393796664,
+        "bin": "0",
+        "dataset": "half_strains",
+        "hypothesis": "leakage",
+        "n": 10035,
+        "node_error_rate": 0.20707523667164923
+      },
+      {
+        "base_error_rate": 0.1712085308056872,
+        "bin": "1-2",
+        "dataset": "half_strains",
+        "hypothesis": "leakage",
+        "n": 34,
+        "node_error_rate": 0.2647058823529412
+      },
+      {
+        "base_error_rate": 0.4819277108433735,
+        "bin": "3-8",
+        "dataset": "half_strains",
+        "hypothesis": "leakage",
+        "n": 3,
+        "node_error_rate": 0.3333333333333333
+      },
+      {
+        "base_error_rate": 0.1838502393796664,
+        "bin": "0",
+        "dataset": "half_strains",
+        "hypothesis": "leakage_flipped",
+        "n": 10035,
+        "node_error_rate": 0.20707523667164923
+      },
+      {
+        "base_error_rate": 0.44403937294932555,
+        "bin": "1-2",
+        "dataset": "half_strains",
+        "hypothesis": "leakage_flipped",
+        "n": 34,
+        "node_error_rate": 0.35294117647058826
+      },
+      {
+        "base_error_rate": 0.4819277108433735,
+        "bin": "3-8",
+        "dataset": "half_strains",
+        "hypothesis": "leakage_flipped",
+        "n": 3,
+        "node_error_rate": 0.3333333333333333
+      },
+      {
+        "base_error_rate": 0.1838502393796664,
+        "bin": "0",
+        "dataset": "half_strains",
+        "hypothesis": "label_drop",
+        "n": 10035,
+        "node_error_rate": 0.20707523667164923
+      },
+      {
+        "base_error_rate": 0.18569996354356544,
+        "bin": "1-2",
+        "dataset": "half_strains",
+        "hypothesis": "label_drop",
+        "n": 34,
+        "node_error_rate": 0.29411764705882354
+      },
+      {
+        "base_error_rate": 0.4819277108433735,
+        "bin": "3-8",
+        "dataset": "half_strains",
+        "hypothesis": "label_drop",
+        "n": 3,
+        "node_error_rate": 0.3333333333333333
+      },
+      {
+        "base_error_rate": 0.1838502393796664,
+        "bin": "0",
+        "dataset": "half_strains",
+        "hypothesis": "logistic_drop",
+        "n": 10035,
+        "node_error_rate": 0.20707523667164923
+      },
+      {
+        "base_error_rate": 0.18569996354356544,
+        "bin": "1-2",
+        "dataset": "half_strains",
+        "hypothesis": "logistic_drop",
+        "n": 34,
+        "node_error_rate": 0.29411764705882354
+      },
+      {
+        "base_error_rate": 0.4819277108433735,
+        "bin": "3-8",
+        "dataset": "half_strains",
+        "hypothesis": "logistic_drop",
+        "n": 3,
+        "node_error_rate": 0.3333333333333333
+      }
+    ]
+  },
+  "encoding": {
+    "color": {
+      "field": "hypothesis",
+      "title": "Hypothesis",
+      "type": "nominal"
+    },
+    "tooltip": [
+      {
+        "field": "hypothesis",
+        "type": "nominal"
+      },
+      {
+        "field": "bin",
+        "type": "nominal"
+      },
+      {
+        "field": "n",
+        "type": "quantitative"
+      },
+      {
+        "field": "base_error_rate",
+        "type": "quantitative"
+      }
+    ],
+    "x": {
+      "field": "bin",
+      "sort": [
+        "0",
+        "1-2",
+        "3-8",
+        "9+"
+      ],
+      "title": "Outgoing degree",
+      "type": "nominal"
+    },
+    "xOffset": {
+      "field": "hypothesis",
+      "type": "nominal"
+    },
+    "y": {
+      "field": "base_error_rate",
+      "title": "Base-weighted error rate",
+      "type": "quantitative"
+    }
+  },
+  "height": 260,
+  "mark": {
+    "type": "bar"
+  },
+  "title": "half_strains: error rate by node degree",
+  "width": 420
+}

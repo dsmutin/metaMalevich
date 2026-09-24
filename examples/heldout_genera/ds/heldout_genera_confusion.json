@@ -1,0 +1,133 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+  "config": {
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-1b387ee18d993b0bb7f60b115cd9c9de"
+  },
+  "datasets": {
+    "data-1b387ee18d993b0bb7f60b115cd9c9de": [
+      {
+        "bases": 394939,
+        "call_name": "unclassified",
+        "dataset": "heldout_genera",
+        "pair": "Pseudomonas fluorescens → unclassified",
+        "truth_name": "Pseudomonas fluorescens"
+      },
+      {
+        "bases": 188276,
+        "call_name": "Pseudomonas protegens",
+        "dataset": "heldout_genera",
+        "pair": "Pseudomonas fluorescens → Pseudomonas protegens",
+        "truth_name": "Pseudomonas fluorescens"
+      },
+      {
+        "bases": 81061,
+        "call_name": "unclassified",
+        "dataset": "heldout_genera",
+        "pair": "Pseudomonas putida → unclassified",
+        "truth_name": "Pseudomonas putida"
+      },
+      {
+        "bases": 72051,
+        "call_name": "Pseudomonas putida",
+        "dataset": "heldout_genera",
+        "pair": "Pseudomonas fluorescens → Pseudomonas putida",
+        "truth_name": "Pseudomonas fluorescens"
+      },
+      {
+        "bases": 67078,
+        "call_name": "unclassified",
+        "dataset": "heldout_genera",
+        "pair": "Shigella boydii → unclassified",
+        "truth_name": "Shigella boydii"
+      },
+      {
+        "bases": 54442,
+        "call_name": "Escherichia marmotae",
+        "dataset": "heldout_genera",
+        "pair": "Shigella boydii → Escherichia marmotae",
+        "truth_name": "Shigella boydii"
+      },
+      {
+        "bases": 48254,
+        "call_name": "Pseudomonas aeruginosa",
+        "dataset": "heldout_genera",
+        "pair": "Pseudomonas fluorescens → Pseudomonas aeruginosa",
+        "truth_name": "Pseudomonas fluorescens"
+      },
+      {
+        "bases": 46555,
+        "call_name": "Shigella flexneri",
+        "dataset": "heldout_genera",
+        "pair": "Shigella boydii → Shigella flexneri",
+        "truth_name": "Shigella boydii"
+      },
+      {
+        "bases": 40112,
+        "call_name": "Escherichia marmotae",
+        "dataset": "heldout_genera",
+        "pair": "Shigella flexneri → Escherichia marmotae",
+        "truth_name": "Shigella flexneri"
+      },
+      {
+        "bases": 37665,
+        "call_name": "unclassified",
+        "dataset": "heldout_genera",
+        "pair": "Shigella flexneri → unclassified",
+        "truth_name": "Shigella flexneri"
+      },
+      {
+        "bases": 27684,
+        "call_name": "Pseudomonas syringae",
+        "dataset": "heldout_genera",
+        "pair": "Pseudomonas fluorescens → Pseudomonas syringae",
+        "truth_name": "Pseudomonas fluorescens"
+      },
+      {
+        "bases": 22699,
+        "call_name": "unclassified",
+        "dataset": "heldout_genera",
+        "pair": "Shigella sonnei → unclassified",
+        "truth_name": "Shigella sonnei"
+      }
+    ]
+  },
+  "encoding": {
+    "tooltip": [
+      {
+        "field": "truth_name",
+        "type": "nominal"
+      },
+      {
+        "field": "call_name",
+        "type": "nominal"
+      },
+      {
+        "field": "bases",
+        "type": "quantitative"
+      }
+    ],
+    "x": {
+      "field": "bases",
+      "title": "Wrong bases",
+      "type": "quantitative"
+    },
+    "y": {
+      "field": "pair",
+      "sort": "-x",
+      "title": "Truth → probability_sum call",
+      "type": "nominal"
+    }
+  },
+  "height": 280,
+  "mark": {
+    "type": "bar"
+  },
+  "title": "heldout_genera: largest species confusions",
+  "width": 420
+}

@@ -1,0 +1,307 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+  "config": {
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-98e9e96145706bfa35a5963152e065ea"
+  },
+  "datasets": {
+    "data-98e9e96145706bfa35a5963152e065ea": [
+      {
+        "base_error_rate": 0.5280977184218871,
+        "bin": "0",
+        "dataset": "heldout_genera",
+        "hypothesis": "initial_colouring",
+        "n": 6423,
+        "node_error_rate": 0.5267009185738751
+      },
+      {
+        "base_error_rate": 0.45663574021782977,
+        "bin": "1-2",
+        "dataset": "heldout_genera",
+        "hypothesis": "initial_colouring",
+        "n": 14,
+        "node_error_rate": 0.42857142857142855
+      },
+      {
+        "base_error_rate": 0.0,
+        "bin": "3-8",
+        "dataset": "heldout_genera",
+        "hypothesis": "initial_colouring",
+        "n": 2,
+        "node_error_rate": 0.0
+      },
+      {
+        "base_error_rate": 0.5263427466073923,
+        "bin": "0",
+        "dataset": "heldout_genera",
+        "hypothesis": "probability_sum",
+        "n": 6423,
+        "node_error_rate": 0.5254553946753854
+      },
+      {
+        "base_error_rate": 0.45663574021782977,
+        "bin": "1-2",
+        "dataset": "heldout_genera",
+        "hypothesis": "probability_sum",
+        "n": 14,
+        "node_error_rate": 0.42857142857142855
+      },
+      {
+        "base_error_rate": 0.0,
+        "bin": "3-8",
+        "dataset": "heldout_genera",
+        "hypothesis": "probability_sum",
+        "n": 2,
+        "node_error_rate": 0.0
+      },
+      {
+        "base_error_rate": 0.7927121238027807,
+        "bin": "0",
+        "dataset": "heldout_genera",
+        "hypothesis": "lca",
+        "n": 6423,
+        "node_error_rate": 0.7849914370231978
+      },
+      {
+        "base_error_rate": 1.0,
+        "bin": "1-2",
+        "dataset": "heldout_genera",
+        "hypothesis": "lca",
+        "n": 14,
+        "node_error_rate": 1.0
+      },
+      {
+        "base_error_rate": 0.7931526390870185,
+        "bin": "3-8",
+        "dataset": "heldout_genera",
+        "hypothesis": "lca",
+        "n": 2,
+        "node_error_rate": 0.5
+      },
+      {
+        "base_error_rate": 0.5263427466073923,
+        "bin": "0",
+        "dataset": "heldout_genera",
+        "hypothesis": "gated_neighbour",
+        "n": 6423,
+        "node_error_rate": 0.5254553946753854
+      },
+      {
+        "base_error_rate": 0.3291073589581052,
+        "bin": "1-2",
+        "dataset": "heldout_genera",
+        "hypothesis": "gated_neighbour",
+        "n": 14,
+        "node_error_rate": 0.35714285714285715
+      },
+      {
+        "base_error_rate": 0.0,
+        "bin": "3-8",
+        "dataset": "heldout_genera",
+        "hypothesis": "gated_neighbour",
+        "n": 2,
+        "node_error_rate": 0.0
+      },
+      {
+        "base_error_rate": 0.5263427466073923,
+        "bin": "0",
+        "dataset": "heldout_genera",
+        "hypothesis": "bayesian_edge",
+        "n": 6423,
+        "node_error_rate": 0.5254553946753854
+      },
+      {
+        "base_error_rate": 0.5343168328242955,
+        "bin": "1-2",
+        "dataset": "heldout_genera",
+        "hypothesis": "bayesian_edge",
+        "n": 14,
+        "node_error_rate": 0.42857142857142855
+      },
+      {
+        "base_error_rate": 0.0,
+        "bin": "3-8",
+        "dataset": "heldout_genera",
+        "hypothesis": "bayesian_edge",
+        "n": 2,
+        "node_error_rate": 0.0
+      },
+      {
+        "base_error_rate": 0.5263427466073923,
+        "bin": "0",
+        "dataset": "heldout_genera",
+        "hypothesis": "edge_union",
+        "n": 6423,
+        "node_error_rate": 0.5254553946753854
+      },
+      {
+        "base_error_rate": 0.30824641272402464,
+        "bin": "1-2",
+        "dataset": "heldout_genera",
+        "hypothesis": "edge_union",
+        "n": 14,
+        "node_error_rate": 0.2857142857142857
+      },
+      {
+        "base_error_rate": 0.0,
+        "bin": "3-8",
+        "dataset": "heldout_genera",
+        "hypothesis": "edge_union",
+        "n": 2,
+        "node_error_rate": 0.0
+      },
+      {
+        "base_error_rate": 0.5263427466073923,
+        "bin": "0",
+        "dataset": "heldout_genera",
+        "hypothesis": "leakage",
+        "n": 6423,
+        "node_error_rate": 0.5254553946753854
+      },
+      {
+        "base_error_rate": 0.30824641272402464,
+        "bin": "1-2",
+        "dataset": "heldout_genera",
+        "hypothesis": "leakage",
+        "n": 14,
+        "node_error_rate": 0.2857142857142857
+      },
+      {
+        "base_error_rate": 0.0,
+        "bin": "3-8",
+        "dataset": "heldout_genera",
+        "hypothesis": "leakage",
+        "n": 2,
+        "node_error_rate": 0.0
+      },
+      {
+        "base_error_rate": 0.5263427466073923,
+        "bin": "0",
+        "dataset": "heldout_genera",
+        "hypothesis": "leakage_flipped",
+        "n": 6423,
+        "node_error_rate": 0.5254553946753854
+      },
+      {
+        "base_error_rate": 0.3291073589581052,
+        "bin": "1-2",
+        "dataset": "heldout_genera",
+        "hypothesis": "leakage_flipped",
+        "n": 14,
+        "node_error_rate": 0.35714285714285715
+      },
+      {
+        "base_error_rate": 0.0,
+        "bin": "3-8",
+        "dataset": "heldout_genera",
+        "hypothesis": "leakage_flipped",
+        "n": 2,
+        "node_error_rate": 0.0
+      },
+      {
+        "base_error_rate": 0.5263427466073923,
+        "bin": "0",
+        "dataset": "heldout_genera",
+        "hypothesis": "label_drop",
+        "n": 6423,
+        "node_error_rate": 0.5254553946753854
+      },
+      {
+        "base_error_rate": 0.45663574021782977,
+        "bin": "1-2",
+        "dataset": "heldout_genera",
+        "hypothesis": "label_drop",
+        "n": 14,
+        "node_error_rate": 0.42857142857142855
+      },
+      {
+        "base_error_rate": 0.0,
+        "bin": "3-8",
+        "dataset": "heldout_genera",
+        "hypothesis": "label_drop",
+        "n": 2,
+        "node_error_rate": 0.0
+      },
+      {
+        "base_error_rate": 0.5263427466073923,
+        "bin": "0",
+        "dataset": "heldout_genera",
+        "hypothesis": "logistic_drop",
+        "n": 6423,
+        "node_error_rate": 0.5254553946753854
+      },
+      {
+        "base_error_rate": 0.45663574021782977,
+        "bin": "1-2",
+        "dataset": "heldout_genera",
+        "hypothesis": "logistic_drop",
+        "n": 14,
+        "node_error_rate": 0.42857142857142855
+      },
+      {
+        "base_error_rate": 0.0,
+        "bin": "3-8",
+        "dataset": "heldout_genera",
+        "hypothesis": "logistic_drop",
+        "n": 2,
+        "node_error_rate": 0.0
+      }
+    ]
+  },
+  "encoding": {
+    "color": {
+      "field": "hypothesis",
+      "title": "Hypothesis",
+      "type": "nominal"
+    },
+    "tooltip": [
+      {
+        "field": "hypothesis",
+        "type": "nominal"
+      },
+      {
+        "field": "bin",
+        "type": "nominal"
+      },
+      {
+        "field": "n",
+        "type": "quantitative"
+      },
+      {
+        "field": "base_error_rate",
+        "type": "quantitative"
+      }
+    ],
+    "x": {
+      "field": "bin",
+      "sort": [
+        "0",
+        "1-2",
+        "3-8",
+        "9+"
+      ],
+      "title": "Outgoing degree",
+      "type": "nominal"
+    },
+    "xOffset": {
+      "field": "hypothesis",
+      "type": "nominal"
+    },
+    "y": {
+      "field": "base_error_rate",
+      "title": "Base-weighted error rate",
+      "type": "quantitative"
+    }
+  },
+  "height": 260,
+  "mark": {
+    "type": "bar"
+  },
+  "title": "heldout_genera: error rate by node degree",
+  "width": 420
+}

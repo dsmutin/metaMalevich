@@ -1,0 +1,6 @@
+dataset	situation	n	bases	node_error_rate	base_error_rate	same_genus_bases	other_genus_bases	unclassified_bases
+heldout_genera	isolated	6423	2614287	0.5254553946753854	0.5263427466073923	513939	212545	649527
+heldout_genera	vote_matches_call	7	5845	0.0	0.0	0	0	0
+heldout_genera	vote_matches_truth	2	2575	1.0	1.0	2575	0	0
+heldout_genera	vote_matches_wrong_call	3	4721	1.0	1.0	562	4159	0
+heldout_genera	vote_other	4	4913	0.25	0.1278241400366375	628	0	0

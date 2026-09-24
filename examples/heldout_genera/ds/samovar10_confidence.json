@@ -1,0 +1,311 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+  "config": {
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-bc76a2290128c7312d2cc737f7dcb93d"
+  },
+  "datasets": {
+    "data-bc76a2290128c7312d2cc737f7dcb93d": [
+      {
+        "base_error_rate": 0.535282441390596,
+        "bin": "0.5-0.8",
+        "dataset": "samovar10",
+        "hypothesis": "initial_colouring",
+        "n": 33,
+        "node_error_rate": 0.5454545454545454
+      },
+      {
+        "base_error_rate": 0.6242645383407673,
+        "bin": "0.8-0.95",
+        "dataset": "samovar10",
+        "hypothesis": "initial_colouring",
+        "n": 10,
+        "node_error_rate": 0.6
+      },
+      {
+        "base_error_rate": 0.02244110932939456,
+        "bin": "0.95-1",
+        "dataset": "samovar10",
+        "hypothesis": "initial_colouring",
+        "n": 356,
+        "node_error_rate": 0.028089887640449437
+      },
+      {
+        "base_error_rate": 0.5183168425725897,
+        "bin": "0.5-0.8",
+        "dataset": "samovar10",
+        "hypothesis": "probability_sum",
+        "n": 33,
+        "node_error_rate": 0.5151515151515151
+      },
+      {
+        "base_error_rate": 0.5202204486173061,
+        "bin": "0.8-0.95",
+        "dataset": "samovar10",
+        "hypothesis": "probability_sum",
+        "n": 10,
+        "node_error_rate": 0.5
+      },
+      {
+        "base_error_rate": 0.019446258452231573,
+        "bin": "0.95-1",
+        "dataset": "samovar10",
+        "hypothesis": "probability_sum",
+        "n": 356,
+        "node_error_rate": 0.02247191011235955
+      },
+      {
+        "base_error_rate": 1.0,
+        "bin": "0.5-0.8",
+        "dataset": "samovar10",
+        "hypothesis": "lca",
+        "n": 33,
+        "node_error_rate": 1.0
+      },
+      {
+        "base_error_rate": 1.0,
+        "bin": "0.8-0.95",
+        "dataset": "samovar10",
+        "hypothesis": "lca",
+        "n": 10,
+        "node_error_rate": 1.0
+      },
+      {
+        "base_error_rate": 0.7807496543887782,
+        "bin": "0.95-1",
+        "dataset": "samovar10",
+        "hypothesis": "lca",
+        "n": 356,
+        "node_error_rate": 0.7837078651685393
+      },
+      {
+        "base_error_rate": 0.6592071236864371,
+        "bin": "0.5-0.8",
+        "dataset": "samovar10",
+        "hypothesis": "gated_neighbour",
+        "n": 33,
+        "node_error_rate": 0.6666666666666666
+      },
+      {
+        "base_error_rate": 0.6242645383407673,
+        "bin": "0.8-0.95",
+        "dataset": "samovar10",
+        "hypothesis": "gated_neighbour",
+        "n": 10,
+        "node_error_rate": 0.6
+      },
+      {
+        "base_error_rate": 0.012236460758737725,
+        "bin": "0.95-1",
+        "dataset": "samovar10",
+        "hypothesis": "gated_neighbour",
+        "n": 356,
+        "node_error_rate": 0.014044943820224719
+      },
+      {
+        "base_error_rate": 0.5972447825385165,
+        "bin": "0.5-0.8",
+        "dataset": "samovar10",
+        "hypothesis": "bayesian_edge",
+        "n": 33,
+        "node_error_rate": 0.6060606060606061
+      },
+      {
+        "base_error_rate": 0.6242645383407673,
+        "bin": "0.8-0.95",
+        "dataset": "samovar10",
+        "hypothesis": "bayesian_edge",
+        "n": 10,
+        "node_error_rate": 0.6
+      },
+      {
+        "base_error_rate": 0.02229548534300703,
+        "bin": "0.95-1",
+        "dataset": "samovar10",
+        "hypothesis": "bayesian_edge",
+        "n": 356,
+        "node_error_rate": 0.025280898876404494
+      },
+      {
+        "base_error_rate": 0.5972447825385165,
+        "bin": "0.5-0.8",
+        "dataset": "samovar10",
+        "hypothesis": "edge_union",
+        "n": 33,
+        "node_error_rate": 0.6060606060606061
+      },
+      {
+        "base_error_rate": 0.5202204486173061,
+        "bin": "0.8-0.95",
+        "dataset": "samovar10",
+        "hypothesis": "edge_union",
+        "n": 10,
+        "node_error_rate": 0.5
+      },
+      {
+        "base_error_rate": 0.019446258452231573,
+        "bin": "0.95-1",
+        "dataset": "samovar10",
+        "hypothesis": "edge_union",
+        "n": 356,
+        "node_error_rate": 0.02247191011235955
+      },
+      {
+        "base_error_rate": 0.5972447825385165,
+        "bin": "0.5-0.8",
+        "dataset": "samovar10",
+        "hypothesis": "leakage",
+        "n": 33,
+        "node_error_rate": 0.6060606060606061
+      },
+      {
+        "base_error_rate": 0.5202204486173061,
+        "bin": "0.8-0.95",
+        "dataset": "samovar10",
+        "hypothesis": "leakage",
+        "n": 10,
+        "node_error_rate": 0.5
+      },
+      {
+        "base_error_rate": 0.019446258452231573,
+        "bin": "0.95-1",
+        "dataset": "samovar10",
+        "hypothesis": "leakage",
+        "n": 356,
+        "node_error_rate": 0.02247191011235955
+      },
+      {
+        "base_error_rate": 0.5972447825385165,
+        "bin": "0.5-0.8",
+        "dataset": "samovar10",
+        "hypothesis": "leakage_flipped",
+        "n": 33,
+        "node_error_rate": 0.6060606060606061
+      },
+      {
+        "base_error_rate": 0.6242645383407673,
+        "bin": "0.8-0.95",
+        "dataset": "samovar10",
+        "hypothesis": "leakage_flipped",
+        "n": 10,
+        "node_error_rate": 0.6
+      },
+      {
+        "base_error_rate": 0.009637851865274877,
+        "bin": "0.95-1",
+        "dataset": "samovar10",
+        "hypothesis": "leakage_flipped",
+        "n": 356,
+        "node_error_rate": 0.014044943820224719
+      },
+      {
+        "base_error_rate": 0.5183168425725897,
+        "bin": "0.5-0.8",
+        "dataset": "samovar10",
+        "hypothesis": "label_drop",
+        "n": 33,
+        "node_error_rate": 0.5151515151515151
+      },
+      {
+        "base_error_rate": 0.5202204486173061,
+        "bin": "0.8-0.95",
+        "dataset": "samovar10",
+        "hypothesis": "label_drop",
+        "n": 10,
+        "node_error_rate": 0.5
+      },
+      {
+        "base_error_rate": 0.019446258452231573,
+        "bin": "0.95-1",
+        "dataset": "samovar10",
+        "hypothesis": "label_drop",
+        "n": 356,
+        "node_error_rate": 0.02247191011235955
+      },
+      {
+        "base_error_rate": 0.5183168425725897,
+        "bin": "0.5-0.8",
+        "dataset": "samovar10",
+        "hypothesis": "logistic_drop",
+        "n": 33,
+        "node_error_rate": 0.5151515151515151
+      },
+      {
+        "base_error_rate": 0.5202204486173061,
+        "bin": "0.8-0.95",
+        "dataset": "samovar10",
+        "hypothesis": "logistic_drop",
+        "n": 10,
+        "node_error_rate": 0.5
+      },
+      {
+        "base_error_rate": 0.019446258452231573,
+        "bin": "0.95-1",
+        "dataset": "samovar10",
+        "hypothesis": "logistic_drop",
+        "n": 356,
+        "node_error_rate": 0.02247191011235955
+      }
+    ]
+  },
+  "encoding": {
+    "color": {
+      "field": "hypothesis",
+      "title": "Hypothesis",
+      "type": "nominal"
+    },
+    "tooltip": [
+      {
+        "field": "hypothesis",
+        "type": "nominal"
+      },
+      {
+        "field": "bin",
+        "type": "nominal"
+      },
+      {
+        "field": "n",
+        "type": "quantitative"
+      },
+      {
+        "field": "base_error_rate",
+        "type": "quantitative"
+      },
+      {
+        "field": "node_error_rate",
+        "type": "quantitative"
+      }
+    ],
+    "x": {
+      "field": "bin",
+      "sort": [
+        "0-0.5",
+        "0.5-0.8",
+        "0.8-0.95",
+        "0.95-1"
+      ],
+      "title": "Soft argmax probability",
+      "type": "nominal"
+    },
+    "xOffset": {
+      "field": "hypothesis",
+      "type": "nominal"
+    },
+    "y": {
+      "field": "base_error_rate",
+      "title": "Base-weighted error rate",
+      "type": "quantitative"
+    }
+  },
+  "height": 260,
+  "mark": {
+    "type": "bar"
+  },
+  "title": "samovar10: error rate by call confidence",
+  "width": 420
+}

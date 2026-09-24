@@ -1,0 +1,140 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+  "config": {
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-b40c0dbf3d27e58fb67a7ed774ca3fd4"
+  },
+  "datasets": {
+    "data-b40c0dbf3d27e58fb67a7ed774ca3fd4": [
+      {
+        "dataset": "samovar10",
+        "harmed_bases": 259872,
+        "harmed_nodes": 4,
+        "hypothesis": "initial_colouring",
+        "net_bases": -259872,
+        "rescued_bases": 0,
+        "rescued_nodes": 0
+      },
+      {
+        "dataset": "samovar10",
+        "harmed_bases": 28735540,
+        "harmed_nodes": 292,
+        "hypothesis": "lca",
+        "net_bases": -28735540,
+        "rescued_bases": 0,
+        "rescued_nodes": 0
+      },
+      {
+        "dataset": "samovar10",
+        "harmed_bases": 1154761,
+        "harmed_nodes": 12,
+        "hypothesis": "gated_neighbour",
+        "net_bases": -301717,
+        "rescued_bases": 853044,
+        "rescued_nodes": 9
+      },
+      {
+        "dataset": "samovar10",
+        "harmed_bases": 754761,
+        "harmed_nodes": 8,
+        "hypothesis": "bayesian_edge",
+        "net_bases": -454761,
+        "rescued_bases": 300000,
+        "rescued_nodes": 3
+      },
+      {
+        "dataset": "samovar10",
+        "harmed_bases": 554761,
+        "harmed_nodes": 6,
+        "hypothesis": "edge_union",
+        "net_bases": -254761,
+        "rescued_bases": 300000,
+        "rescued_nodes": 3
+      },
+      {
+        "dataset": "samovar10",
+        "harmed_bases": 554761,
+        "harmed_nodes": 6,
+        "hypothesis": "leakage",
+        "net_bases": -254761,
+        "rescued_bases": 300000,
+        "rescued_nodes": 3
+      },
+      {
+        "dataset": "samovar10",
+        "harmed_bases": 863557,
+        "harmed_nodes": 10,
+        "hypothesis": "leakage_flipped",
+        "net_bases": -10513,
+        "rescued_bases": 853044,
+        "rescued_nodes": 9
+      },
+      {
+        "dataset": "samovar10",
+        "harmed_bases": 0,
+        "harmed_nodes": 0,
+        "hypothesis": "label_drop",
+        "net_bases": 0,
+        "rescued_bases": 0,
+        "rescued_nodes": 0
+      },
+      {
+        "dataset": "samovar10",
+        "harmed_bases": 0,
+        "harmed_nodes": 0,
+        "hypothesis": "logistic_drop",
+        "net_bases": 0,
+        "rescued_bases": 0,
+        "rescued_nodes": 0
+      }
+    ]
+  },
+  "encoding": {
+    "tooltip": [
+      {
+        "field": "hypothesis",
+        "type": "nominal"
+      },
+      {
+        "field": "rescued_nodes",
+        "type": "quantitative"
+      },
+      {
+        "field": "harmed_nodes",
+        "type": "quantitative"
+      },
+      {
+        "field": "rescued_bases",
+        "type": "quantitative"
+      },
+      {
+        "field": "harmed_bases",
+        "type": "quantitative"
+      }
+    ],
+    "x": {
+      "axis": {
+        "labelAngle": -40
+      },
+      "field": "hypothesis",
+      "title": "Hypothesis",
+      "type": "nominal"
+    },
+    "y": {
+      "field": "net_bases",
+      "title": "Rescued minus harmed bases vs probability_sum",
+      "type": "quantitative"
+    }
+  },
+  "height": 260,
+  "mark": {
+    "type": "bar"
+  },
+  "title": "samovar10: graph methods versus the soft profile",
+  "width": 420
+}

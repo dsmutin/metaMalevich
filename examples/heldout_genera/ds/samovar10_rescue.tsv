@@ -1,0 +1,10 @@
+dataset	hypothesis	rescued_nodes	harmed_nodes	rescued_bases	harmed_bases	net_bases
+samovar10	initial_colouring	0	4	0	259872	-259872
+samovar10	lca	0	292	0	28735540	-28735540
+samovar10	gated_neighbour	9	12	853044	1154761	-301717
+samovar10	bayesian_edge	3	8	300000	754761	-454761
+samovar10	edge_union	3	6	300000	554761	-254761
+samovar10	leakage	3	6	300000	554761	-254761
+samovar10	leakage_flipped	9	10	853044	863557	-10513
+samovar10	label_drop	0	0	0	0	0
+samovar10	logistic_drop	0	0	0	0	0

@@ -1,0 +1,112 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+  "config": {
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-32088ec951d5e1e0a4e9a295fd629223"
+  },
+  "datasets": {
+    "data-32088ec951d5e1e0a4e9a295fd629223": [
+      {
+        "bases": 1973006,
+        "call_name": "Enterococcus faecalis",
+        "dataset": "samovar10",
+        "pair": "Enterococcus sp. DIV2432 → Enterococcus faecalis",
+        "truth_name": "Enterococcus sp. DIV2432"
+      },
+      {
+        "bases": 300000,
+        "call_name": "unclassified",
+        "dataset": "samovar10",
+        "pair": "Enterobacter ludwigii → unclassified",
+        "truth_name": "Enterobacter ludwigii"
+      },
+      {
+        "bases": 100000,
+        "call_name": "Enterococcus sp. DIV0176",
+        "dataset": "samovar10",
+        "pair": "Enterococcus sp. DIV0180 → Enterococcus sp. DIV0176",
+        "truth_name": "Enterococcus sp. DIV0180"
+      },
+      {
+        "bases": 100000,
+        "call_name": "Enterobacter asburiae",
+        "dataset": "samovar10",
+        "pair": "Enterobacter ludwigii → Enterobacter asburiae",
+        "truth_name": "Enterobacter ludwigii"
+      },
+      {
+        "bases": 100000,
+        "call_name": "Enterobacter cloacae complex sp. FDA-CDC-AR_0132",
+        "dataset": "samovar10",
+        "pair": "Enterobacter ludwigii → Enterobacter cloacae complex sp. FDA-CDC-AR_0132",
+        "truth_name": "Enterobacter ludwigii"
+      },
+      {
+        "bases": 100000,
+        "call_name": "Enterobacter hormaechei",
+        "dataset": "samovar10",
+        "pair": "Enterobacter ludwigii → Enterobacter hormaechei",
+        "truth_name": "Enterobacter ludwigii"
+      },
+      {
+        "bases": 100000,
+        "call_name": "unclassified",
+        "dataset": "samovar10",
+        "pair": "Flagellimonas sp. → unclassified",
+        "truth_name": "Flagellimonas sp."
+      },
+      {
+        "bases": 53044,
+        "call_name": "Enterococcus sp. DIV0210g",
+        "dataset": "samovar10",
+        "pair": "Enterococcus sp. DIV0180 → Enterococcus sp. DIV0210g",
+        "truth_name": "Enterococcus sp. DIV0180"
+      },
+      {
+        "bases": 29466,
+        "call_name": "Escherichia coli",
+        "dataset": "samovar10",
+        "pair": "Klebsiella pneumoniae → Escherichia coli",
+        "truth_name": "Klebsiella pneumoniae"
+      }
+    ]
+  },
+  "encoding": {
+    "tooltip": [
+      {
+        "field": "truth_name",
+        "type": "nominal"
+      },
+      {
+        "field": "call_name",
+        "type": "nominal"
+      },
+      {
+        "field": "bases",
+        "type": "quantitative"
+      }
+    ],
+    "x": {
+      "field": "bases",
+      "title": "Wrong bases",
+      "type": "quantitative"
+    },
+    "y": {
+      "field": "pair",
+      "sort": "-x",
+      "title": "Truth → probability_sum call",
+      "type": "nominal"
+    }
+  },
+  "height": 280,
+  "mark": {
+    "type": "bar"
+  },
+  "title": "samovar10: largest species confusions",
+  "width": 420
+}

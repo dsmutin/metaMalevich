@@ -1,0 +1,548 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+  "config": {
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-8e8101fc2123903ee9bbfb2fd25e2773"
+  },
+  "datasets": {
+    "data-8e8101fc2123903ee9bbfb2fd25e2773": [
+      {
+        "dataset": "heldout_genera",
+        "error": 0.26950954,
+        "estimated": 0.26950954,
+        "hypothesis": "initial_colouring",
+        "name": "unclassified",
+        "truth": 0.0
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": -0.044917555,
+        "estimated": 0.039072445,
+        "hypothesis": "initial_colouring",
+        "name": "Pseudomonas aeruginosa",
+        "truth": 0.08399
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": -0.12661195000000003,
+        "estimated": 0.15537805,
+        "hypothesis": "initial_colouring",
+        "name": "Pseudomonas fluorescens",
+        "truth": 0.28199
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": -0.05275816999999999,
+        "estimated": 0.11101183,
+        "hypothesis": "initial_colouring",
+        "name": "Pseudomonas putida",
+        "truth": 0.16377
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": 0.006685815999999999,
+        "estimated": 0.011065816,
+        "hypothesis": "initial_colouring",
+        "name": "Pseudomonas syringae",
+        "truth": 0.00438
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": 0.0008222141,
+        "estimated": 0.0028522141,
+        "hypothesis": "initial_colouring",
+        "name": "Escherichia coli",
+        "truth": 0.00203
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": -0.0019271295000000003,
+        "estimated": 0.0022428705,
+        "hypothesis": "initial_colouring",
+        "name": "Escherichia fergusonii",
+        "truth": 0.00417
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": -0.06348101,
+        "estimated": 0.05576899,
+        "hypothesis": "initial_colouring",
+        "name": "Shigella boydii",
+        "truth": 0.11925
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": 0.0010716830000000004,
+        "estimated": 0.006481683,
+        "hypothesis": "initial_colouring",
+        "name": "Shigella dysenteriae",
+        "truth": 0.00541
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": -0.0037684600000000013,
+        "estimated": 0.06858154,
+        "hypothesis": "initial_colouring",
+        "name": "Shigella flexneri",
+        "truth": 0.07235
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": 0.0047397044,
+        "estimated": 0.0062697044,
+        "hypothesis": "initial_colouring",
+        "name": "Shigella sonnei",
+        "truth": 0.00153
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": -0.00212,
+        "estimated": 0.0,
+        "hypothesis": "initial_colouring",
+        "name": "Streptococcus thermophilus",
+        "truth": 0.00212
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": -0.00201285971,
+        "estimated": 0.00013714029,
+        "hypothesis": "initial_colouring",
+        "name": "Streptococcus mutans",
+        "truth": 0.00215
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": -0.00299660207,
+        "estimated": 0.00028339793,
+        "hypothesis": "initial_colouring",
+        "name": "Streptococcus agalactiae",
+        "truth": 0.00328
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": 0.01887949700000001,
+        "estimated": 0.098429497,
+        "hypothesis": "initial_colouring",
+        "name": "Streptococcus pneumoniae",
+        "truth": 0.07955
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": -0.013429433000000001,
+        "estimated": 0.001840567,
+        "hypothesis": "initial_colouring",
+        "name": "Streptococcus pyogenes",
+        "truth": 0.01527
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": -0.0008638900000000008,
+        "estimated": 0.01184611,
+        "hypothesis": "initial_colouring",
+        "name": "Escherichia albertii",
+        "truth": 0.01271
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": 0.007361831999999999,
+        "estimated": 0.088501832,
+        "hypothesis": "initial_colouring",
+        "name": "Pseudomonas protegens",
+        "truth": 0.08114
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": 0.0033339080000000035,
+        "estimated": 0.061093908,
+        "hypothesis": "initial_colouring",
+        "name": "Escherichia marmotae",
+        "truth": 0.05776
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": 0.0024828704999999996,
+        "estimated": 0.0096328705,
+        "hypothesis": "initial_colouring",
+        "name": "Escherichia ruysiae",
+        "truth": 0.00715
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": 0.24674881,
+        "estimated": 0.24674881,
+        "hypothesis": "probability_sum",
+        "name": "unclassified",
+        "truth": 0.0
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": -0.041222950999999994,
+        "estimated": 0.042767049,
+        "hypothesis": "probability_sum",
+        "name": "Pseudomonas aeruginosa",
+        "truth": 0.08399
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": -0.13555036,
+        "estimated": 0.14643964,
+        "hypothesis": "probability_sum",
+        "name": "Pseudomonas fluorescens",
+        "truth": 0.28199
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": -0.053355059999999996,
+        "estimated": 0.11041494,
+        "hypothesis": "probability_sum",
+        "name": "Pseudomonas putida",
+        "truth": 0.16377
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": 0.014484761,
+        "estimated": 0.018864761,
+        "hypothesis": "probability_sum",
+        "name": "Pseudomonas syringae",
+        "truth": 0.00438
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": 0.0033647157,
+        "estimated": 0.0053947157,
+        "hypothesis": "probability_sum",
+        "name": "Escherichia coli",
+        "truth": 0.00203
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": -0.0001821351000000004,
+        "estimated": 0.0039878649,
+        "hypothesis": "probability_sum",
+        "name": "Escherichia fergusonii",
+        "truth": 0.00417
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": -0.06450240299999999,
+        "estimated": 0.054747597,
+        "hypothesis": "probability_sum",
+        "name": "Shigella boydii",
+        "truth": 0.11925
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": 0.0013382158000000005,
+        "estimated": 0.0067482158,
+        "hypothesis": "probability_sum",
+        "name": "Shigella dysenteriae",
+        "truth": 0.00541
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": -0.006950050999999999,
+        "estimated": 0.065399949,
+        "hypothesis": "probability_sum",
+        "name": "Shigella flexneri",
+        "truth": 0.07235
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": 0.0046877244,
+        "estimated": 0.0062177244,
+        "hypothesis": "probability_sum",
+        "name": "Shigella sonnei",
+        "truth": 0.00153
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": -0.00212,
+        "estimated": 0.0,
+        "hypothesis": "probability_sum",
+        "name": "Streptococcus thermophilus",
+        "truth": 0.00212
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": -0.00207928704,
+        "estimated": 7.071296e-05,
+        "hypothesis": "probability_sum",
+        "name": "Streptococcus mutans",
+        "truth": 0.00215
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": -0.00288942494,
+        "estimated": 0.00039057506,
+        "hypothesis": "probability_sum",
+        "name": "Streptococcus agalactiae",
+        "truth": 0.00328
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": 0.018859528,
+        "estimated": 0.098409528,
+        "hypothesis": "probability_sum",
+        "name": "Streptococcus pneumoniae",
+        "truth": 0.07955
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": -0.0130422121,
+        "estimated": 0.0022277879,
+        "hypothesis": "probability_sum",
+        "name": "Streptococcus pyogenes",
+        "truth": 0.01527
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": 0.0032294019999999975,
+        "estimated": 0.015939402,
+        "hypothesis": "probability_sum",
+        "name": "Escherichia albertii",
+        "truth": 0.01271
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": 0.015142203999999992,
+        "estimated": 0.096282204,
+        "hypothesis": "probability_sum",
+        "name": "Pseudomonas protegens",
+        "truth": 0.08114
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": 0.008690563000000005,
+        "estimated": 0.066450563,
+        "hypothesis": "probability_sum",
+        "name": "Escherichia marmotae",
+        "truth": 0.05776
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": 0.005347971,
+        "estimated": 0.012497971,
+        "hypothesis": "probability_sum",
+        "name": "Escherichia ruysiae",
+        "truth": 0.00715
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": 0.24674881,
+        "estimated": 0.24674881,
+        "hypothesis": "logistic_drop",
+        "name": "unclassified",
+        "truth": 0.0
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": -0.04310092099999999,
+        "estimated": 0.040889079,
+        "hypothesis": "logistic_drop",
+        "name": "Pseudomonas aeruginosa",
+        "truth": 0.08399
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": -0.12068675000000001,
+        "estimated": 0.16130325,
+        "hypothesis": "logistic_drop",
+        "name": "Pseudomonas fluorescens",
+        "truth": 0.28199
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": -0.051338190000000006,
+        "estimated": 0.11243181,
+        "hypothesis": "logistic_drop",
+        "name": "Pseudomonas putida",
+        "truth": 0.16377
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": 0.007374176,
+        "estimated": 0.011754176,
+        "hypothesis": "logistic_drop",
+        "name": "Pseudomonas syringae",
+        "truth": 0.00438
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": 0.0026054177,
+        "estimated": 0.0046354177,
+        "hypothesis": "logistic_drop",
+        "name": "Escherichia coli",
+        "truth": 0.00203
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": -0.0009682872,
+        "estimated": 0.0032017128,
+        "hypothesis": "logistic_drop",
+        "name": "Escherichia fergusonii",
+        "truth": 0.00417
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": -0.065553309,
+        "estimated": 0.053696691,
+        "hypothesis": "logistic_drop",
+        "name": "Shigella boydii",
+        "truth": 0.11925
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": 0.0009318835000000003,
+        "estimated": 0.0063418835,
+        "hypothesis": "logistic_drop",
+        "name": "Shigella dysenteriae",
+        "truth": 0.00541
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": -0.006422751000000004,
+        "estimated": 0.065927249,
+        "hypothesis": "logistic_drop",
+        "name": "Shigella flexneri",
+        "truth": 0.07235
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": 0.0043430993,
+        "estimated": 0.0058730993,
+        "hypothesis": "logistic_drop",
+        "name": "Shigella sonnei",
+        "truth": 0.00153
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": -0.00212,
+        "estimated": 0.0,
+        "hypothesis": "logistic_drop",
+        "name": "Streptococcus thermophilus",
+        "truth": 0.00212
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": -0.00201285971,
+        "estimated": 0.00013714029,
+        "hypothesis": "logistic_drop",
+        "name": "Streptococcus mutans",
+        "truth": 0.00215
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": -0.00299660207,
+        "estimated": 0.00028339793,
+        "hypothesis": "logistic_drop",
+        "name": "Streptococcus agalactiae",
+        "truth": 0.00328
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": 0.019287499,
+        "estimated": 0.098837499,
+        "hypothesis": "logistic_drop",
+        "name": "Streptococcus pneumoniae",
+        "truth": 0.07955
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": -0.013429433000000001,
+        "estimated": 0.001840567,
+        "hypothesis": "logistic_drop",
+        "name": "Streptococcus pyogenes",
+        "truth": 0.01527
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": 0.0011510459999999993,
+        "estimated": 0.013861046,
+        "hypothesis": "logistic_drop",
+        "name": "Escherichia albertii",
+        "truth": 0.01271
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": 0.007568112000000002,
+        "estimated": 0.088708112,
+        "hypothesis": "logistic_drop",
+        "name": "Pseudomonas protegens",
+        "truth": 0.08114
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": 0.013323116000000003,
+        "estimated": 0.071083116,
+        "hypothesis": "logistic_drop",
+        "name": "Escherichia marmotae",
+        "truth": 0.05776
+      },
+      {
+        "dataset": "heldout_genera",
+        "error": 0.005295955999999999,
+        "estimated": 0.012445956,
+        "hypothesis": "logistic_drop",
+        "name": "Escherichia ruysiae",
+        "truth": 0.00715
+      }
+    ]
+  },
+  "encoding": {
+    "color": {
+      "field": "hypothesis",
+      "title": "Hypothesis",
+      "type": "nominal"
+    },
+    "tooltip": [
+      {
+        "field": "hypothesis",
+        "type": "nominal"
+      },
+      {
+        "field": "name",
+        "type": "nominal"
+      },
+      {
+        "field": "truth",
+        "type": "quantitative"
+      },
+      {
+        "field": "estimated",
+        "type": "quantitative"
+      },
+      {
+        "field": "error",
+        "type": "quantitative"
+      }
+    ],
+    "x": {
+      "axis": {
+        "labelAngle": -40
+      },
+      "field": "name",
+      "title": "Taxon",
+      "type": "nominal"
+    },
+    "xOffset": {
+      "field": "hypothesis",
+      "type": "nominal"
+    },
+    "y": {
+      "field": "error",
+      "title": "Estimated minus truth",
+      "type": "quantitative"
+    }
+  },
+  "height": 280,
+  "mark": {
+    "type": "bar"
+  },
+  "title": "heldout_genera: taxon abundance error",
+  "width": 520
+}

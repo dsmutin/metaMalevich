@@ -1,0 +1,56 @@
+dataset	hypothesis	name	truth	estimated	error
+half_strains	kraken2	unclassified	0.0	0.18181	0.18181
+half_strains	kraken2	Pseudomonas aeruginosa	0.0727	0.07408	0.0013799999999999923
+half_strains	kraken2	Pseudomonas fluorescens	0.00541	0.01477	0.00936
+half_strains	kraken2	Escherichia coli	0.20458	0.14185	-0.06273000000000001
+half_strains	kraken2	Shigella dysenteriae	0.00721	0.00415	-0.0030600000000000002
+half_strains	kraken2	Shigella sonnei	0.02532	0.02	-0.005319999999999998
+half_strains	kraken2	Streptococcus mutans	0.18351	0.17939	-0.0041200000000000125
+half_strains	kraken2	Streptococcus pyogenes	0.01914	0.01777	-0.0013699999999999997
+half_strains	kraken2	Escherichia albertii	0.04501	0.04294	-0.0020700000000000024
+half_strains	kraken2	Pseudomonas protegens	0.42234	0.30966	-0.11268
+half_strains	kraken2	Escherichia marmotae	0.01478	0.01358	-0.0011999999999999997
+half_strains	initial_colouring	unclassified	0.0	0.11319318	0.11319318
+half_strains	initial_colouring	Pseudomonas aeruginosa	0.0727	0.019359451	-0.053340549
+half_strains	initial_colouring	Pseudomonas fluorescens	0.00541	0.010478929	0.005068929
+half_strains	initial_colouring	Escherichia coli	0.20458	0.14486618	-0.05971382
+half_strains	initial_colouring	Shigella dysenteriae	0.00721	0.0026464037	-0.0045635963
+half_strains	initial_colouring	Shigella sonnei	0.02532	0.010318375	-0.015001625
+half_strains	initial_colouring	Streptococcus mutans	0.18351	0.25703002	0.07352002000000002
+half_strains	initial_colouring	Streptococcus pyogenes	0.01914	0.00098386021	-0.01815613979
+half_strains	initial_colouring	Escherichia albertii	0.04501	0.031871915	-0.013138085
+half_strains	initial_colouring	Pseudomonas protegens	0.42234	0.39878156	-0.023558440000000014
+half_strains	initial_colouring	Escherichia marmotae	0.01478	0.010470125	-0.0043098749999999995
+half_strains	probability_sum	unclassified	0.0	0.1100976	0.1100976
+half_strains	probability_sum	Pseudomonas aeruginosa	0.0727	0.024916765	-0.047783235
+half_strains	probability_sum	Pseudomonas fluorescens	0.00541	0.025050943	0.019640943
+half_strains	probability_sum	Escherichia coli	0.20458	0.14248683	-0.06209317
+half_strains	probability_sum	Shigella dysenteriae	0.00721	0.0035148842	-0.0036951158000000004
+half_strains	probability_sum	Shigella sonnei	0.02532	0.012884431	-0.012435568999999999
+half_strains	probability_sum	Streptococcus mutans	0.18351	0.25684181	0.07333181
+half_strains	probability_sum	Streptococcus pyogenes	0.01914	0.0013725269	-0.0177674731
+half_strains	probability_sum	Escherichia albertii	0.04501	0.03147031	-0.01353969
+half_strains	probability_sum	Pseudomonas protegens	0.42234	0.3803319	-0.04200809999999999
+half_strains	probability_sum	Escherichia marmotae	0.01478	0.011031996	-0.0037480039999999992
+half_strains	leakage	unclassified	0.0	0.11051328	0.11051328
+half_strains	leakage	Pseudomonas aeruginosa	0.0727	0.02491652	-0.04778348
+half_strains	leakage	Pseudomonas fluorescens	0.00541	0.025051108	0.019641107999999997
+half_strains	leakage	Escherichia coli	0.20458	0.14210953	-0.06247047
+half_strains	leakage	Shigella dysenteriae	0.00721	0.0035259894	-0.0036840106000000004
+half_strains	leakage	Shigella sonnei	0.02532	0.012889016	-0.012430983999999999
+half_strains	leakage	Streptococcus mutans	0.18351	0.25684181	0.07333181
+half_strains	leakage	Streptococcus pyogenes	0.01914	0.0013725269	-0.0177674731
+half_strains	leakage	Escherichia albertii	0.04501	0.031470876	-0.013539124
+half_strains	leakage	Pseudomonas protegens	0.42234	0.38031652	-0.04202348
+half_strains	leakage	Escherichia marmotae	0.01478	0.010992824	-0.0037871759999999997
+half_strains	logistic_drop	unclassified	0.0	0.1100976	0.1100976
+half_strains	logistic_drop	Pseudomonas aeruginosa	0.0727	0.020127005	-0.052572995
+half_strains	logistic_drop	Pseudomonas fluorescens	0.00541	0.011293013	0.0058830129999999994
+half_strains	logistic_drop	Escherichia coli	0.20458	0.14653229	-0.05804771
+half_strains	logistic_drop	Shigella dysenteriae	0.00721	0.0026658965	-0.0045441035000000005
+half_strains	logistic_drop	Shigella sonnei	0.02532	0.0097111656	-0.015608834399999999
+half_strains	logistic_drop	Streptococcus mutans	0.18351	0.25726708	0.07375707999999997
+half_strains	logistic_drop	Streptococcus pyogenes	0.01914	0.00098386021	-0.01815613979
+half_strains	logistic_drop	Escherichia albertii	0.04501	0.031716601	-0.013293399000000004
+half_strains	logistic_drop	Pseudomonas protegens	0.42234	0.39913536	-0.02320464
+half_strains	logistic_drop	Escherichia marmotae	0.01478	0.010470125	-0.0043098749999999995

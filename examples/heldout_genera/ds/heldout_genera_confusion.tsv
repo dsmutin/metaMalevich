@@ -1,0 +1,13 @@
+dataset	truth_name	call_name	bases
+heldout_genera	Pseudomonas fluorescens	unclassified	394939
+heldout_genera	Pseudomonas fluorescens	Pseudomonas protegens	188276
+heldout_genera	Pseudomonas putida	unclassified	81061
+heldout_genera	Pseudomonas fluorescens	Pseudomonas putida	72051
+heldout_genera	Shigella boydii	unclassified	67078
+heldout_genera	Shigella boydii	Escherichia marmotae	54442
+heldout_genera	Pseudomonas fluorescens	Pseudomonas aeruginosa	48254
+heldout_genera	Shigella boydii	Shigella flexneri	46555
+heldout_genera	Shigella flexneri	Escherichia marmotae	40112
+heldout_genera	Shigella flexneri	unclassified	37665
+heldout_genera	Pseudomonas fluorescens	Pseudomonas syringae	27684
+heldout_genera	Shigella sonnei	unclassified	22699

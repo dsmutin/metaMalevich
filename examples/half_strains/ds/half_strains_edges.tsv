@@ -1,0 +1,3 @@
+dataset	endpoints	n_edges	prediction_disagree	disagree_fraction
+half_strains	same_truth	48	14	0.2916666666666667
+half_strains	different_truth	8	8	1.0
