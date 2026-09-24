@@ -17,4 +17,4 @@ The k141 graph has 51535 nodes and 1292 edges. Neighbour agreement on that graph
 
 Of the 1292 final-graph edges, 1286 join contigs of the same true genus and 6 join different genera. Edges with Kraken labels on both ends agree 498 times and disagree 34 times. Edges with one label match the unlabelled contig's true genus 112 times and miss it 26 times. The shallow k21 graph had the opposite rescue balance, 750 matches against 1010 misses. Rows are in `ds/k141_edges.tsv`.
 
-On the 100000-read community, Kaiju plus the 4-mer graph was 0.78304. Here the same rule is 0.544312.
+On the 100000-read community, Kaiju plus the 4-mer graph was 0.78304. Here the same rule is 0.544312. Raising the cosine gate to 0.5 or 0.7 leaves that L1 unchanged. At 0.95 it rises to 0.679454. Preferring the overlap-graph genus when neighbours agree, and using the 4-mer label otherwise, changes Kaiju L1 only from 0.544312 to 0.544012.
