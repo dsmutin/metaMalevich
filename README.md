@@ -1,4 +1,4 @@
-# metaMalevich <img src="data/metaMalevich.png" align="right" width="150" alt="metaMalevich logo">
+# metaMalevich <img src="metaMalevich.png" align="right" width="150" alt="metaMalevich logo">
 ### Taxonomic re-profiling on a coloured assembly graph
 
 [![version](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2Fdsmutin%2FmetaMalevich%2Fmaster%2FVERSION&query=%24&label=version&color=blue)](VERSION)
