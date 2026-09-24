@@ -26,9 +26,9 @@ Replace baseline bodies with real implementations. Keep the documented return ke
 | Kind | Marker | Command | When |
 |------|--------|---------|------|
 | Required | `mandatory` | `pytest -m mandatory` | every commit; GitHub Action `required-tests` |
-| Optional | `optional` | `pytest` (all) | release or workflow_dispatch; Action `full-tests` |
-| Examples | — | `python examples/toy/run.py` | full CI; after features that touch the CLI |
-| Vignettes | — | any `vignettes/` or extra `examples/*` | full CI when those files exist |
+| Optional | `optional` | `pytest` (all) | release, workflow_dispatch, or an edit of Action `full-tests` |
+| Light examples | — | `examples/*/run.py` and `vignettes/*` | full CI. `examples/toy/run.py` is the one in this tree |
+| Communities | — | `examples/*/run_example.py` | not in CI; they download, classify, and assemble |
 
 Do not mark a contract test `optional`. Optional tests are slow, extra, or nice-to-have.
 
