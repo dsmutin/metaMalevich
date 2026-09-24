@@ -1,0 +1,57 @@
+example	rank	group	method	l1	r2	f1	unclassified
+low75	genus	baseline	Kraken2	1.54014	0.00013906	0.880597	0.76599
+low75	genus	method	Kraken2 + k141	1.4811	1.55218e-05	0.880597	0.73633
+low75	genus	method	Kraken2 + k21	1.46336	2.10456e-07	0.880597	0.72692
+low75	genus	method	Kraken2 + 4-mer	1.20352	0.0210059	0.880597	0.52264
+low75	genus	baseline	Kaiju	1.01624	0.0203014	0.979592	0.49412
+low75	genus	method	Kaiju + k141	0.97872	0.0231246	0.979592	0.47532
+low75	genus	method	Kaiju + k21	0.9688	0.0243722	0.979592	0.46864
+low75	genus	method	Kaiju + 4-mer	0.78304	0.142151	0.979592	0.31074
+low75half	genus	baseline	Kraken2	1.56126	0.00101028	0.882353	0.77663
+low75half	genus	method	Kraken2 + k141	1.401	6.1994e-05	0.882353	0.69635
+low75half	genus	method	Kraken2 + k21	1.37908	2.98489e-07	0.882353	0.68474
+low75half	genus	method	Kraken2 + 4-mer	1.09142	0.0561222	0.882353	0.4105
+low75half	genus	baseline	Kaiju	1.1342	0.00795008	0.972973	0.5583
+low75half	genus	method	Kaiju + k141	1.02576	0.0141089	0.972973	0.50392
+low75half	genus	method	Kaiju + k21	1.01604	0.0154808	0.972973	0.4983
+low75half	genus	method	Kaiju + 4-mer	0.75986	0.25217	0.972973	0.24982
+low75_enriched	genus	baseline	Kraken2	1.54117	0.000155932	0.897059	0.766586
+low75_enriched	genus	method	Kraken2 + k141	1.05219	0.0450859	0.897059	0.517713
+low75_enriched	genus	method	Kraken2 + k21	1.13088	0.0236557	0.897059	0.555312
+low75_enriched	genus	method	Kraken2 + 4-mer	0.696196	0.466322	0.897059	0.171638
+low75_enriched	genus	baseline	Kaiju	1.0121	0.0209185	0.979592	0.492109
+low75_enriched	genus	method	Kaiju + k141	0.785012	0.104755	0.979592	0.374918
+low75_enriched	genus	method	Kaiju + k21	0.831512	0.0749411	0.979592	0.395649
+low75_enriched	genus	method	Kaiju + 4-mer	0.544312	0.616357	0.979592	0.111869
+low75half_enriched	genus	baseline	Kraken2	1.56177	0.00101609	0.898551	0.776901
+low75half_enriched	genus	method	Kraken2 + k141	0.88787	0.100524	0.898551	0.423337
+low75half_enriched	genus	method	Kraken2 + k21	1.14558	0.0103938	0.898551	0.563693
+low75half_enriched	genus	method	Kraken2 + 4-mer	0.48872	0.760558	0.898551	0.07285
+low75half_enriched	genus	baseline	Kaiju	1.13852	0.00767954	1	0.560632
+low75half_enriched	genus	method	Kaiju + k141	0.717654	0.177469	1	0.331246
+low75half_enriched	genus	method	Kaiju + k21	0.911108	0.0406203	1	0.439982
+low75half_enriched	genus	method	Kaiju + 4-mer	0.42235	0.815196	1	0.044543
+high100	family	baseline	Kraken2	1.6323	3.68844e-05	0.901099	0.81317
+high100	family	method	Kraken2 + k141	1.61056	4.97886e-05	0.901099	0.79923
+high100	family	method	Kraken2 + k21	1.6111	9.14391e-05	0.901099	0.8022
+high100	family	method	Kraken2 + 4-mer	1.56398	0.000422863	0.901099	0.64707
+high100	family	baseline	Kaiju	1.2605	0.00554601	0.95288	0.61366
+high100	family	method	Kaiju + k141	1.24614	0.00587887	0.95288	0.60173
+high100	family	method	Kaiju + k21	1.23956	0.00637117	0.95288	0.60137
+high100	family	method	Kaiju + 4-mer	1.2089	0.0119899	0.95288	0.47124
+high100_enriched	family	baseline	Kraken2	1.63308	3.36851e-05	0.907104	0.814037
+high100_enriched	family	method	Kraken2 + k141	1.40679	0.00364834	0.907104	0.687671
+high100_enriched	family	method	Kraken2 + k21	1.51839	0.000808433	0.907104	0.753645
+high100_enriched	family	method	Kraken2 + 4-mer	1.03465	0.0817529	0.907104	0.349426
+high100_enriched	family	baseline	Kaiju	1.26107	0.00548591	0.95288	0.613819
+high100_enriched	family	method	Kaiju + k141	1.13009	0.0154884	0.95288	0.533185
+high100_enriched	family	method	Kaiju + k21	1.20249	0.00850302	0.95288	0.579648
+high100_enriched	family	method	Kaiju + 4-mer	0.835244	0.16959	0.95288	0.257421
+half100half_enriched	family	baseline	Kraken2	1.67935	0.00297725	0.901099	0.838908
+half100half_enriched	family	method	Kraken2 + k141	1.05056	0.0421961	0.901099	0.501546
+half100half_enriched	family	method	Kraken2 + k21	1.41503	3.6203e-05	0.901099	0.697784
+half100half_enriched	family	method	Kraken2 + 4-mer	0.713726	0.457259	0.901099	0.156717
+half100half_enriched	family	baseline	Kaiju	1.3402	1.10282e-05	0.93617	0.663717
+half100half_enriched	family	method	Kaiju + k141	0.92092	0.0650275	0.93617	0.426942
+half100half_enriched	family	method	Kaiju + k21	1.20726	0.00159664	0.93617	0.584535
+half100half_enriched	family	method	Kaiju + 4-mer	0.635004	0.535105	0.93617	0.118426
