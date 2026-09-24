@@ -1,0 +1,7 @@
+dataset	graph	kind	edges	edge_share	rescue_matches_truth	rescue_wrong_genus
+low75_enriched	k141	both_labelled_same	498	0.385449		
+low75_enriched	k141	both_labelled_different	34	0.0263158		
+low75_enriched	k141	one_labelled	138	0.106811	112	26
+low75_enriched	k141	both_unlabelled	622	0.481424		
+low75_enriched	k141	truth_same	1286	0.995356		
+low75_enriched	k141	truth_different	6	0.00464396		

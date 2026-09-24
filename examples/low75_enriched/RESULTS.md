@@ -15,4 +15,6 @@ Same 75 genera as `examples/low75`, with 1000000 paired fragments instead of 100
 
 The k141 graph has 51535 nodes and 1292 edges. Neighbour agreement on that graph lowers Kaiju genus L1 from 1.0121 to 0.785012. At 100000 reads the same rule could not move labels: that FASTG had 24 edges. The k21 graph has 527112 nodes and 668818 edges. Its neighbour fill reaches Kaiju L1 0.831512, which is worse than the final-graph fill. The 4-mer graph on the final contigs is the lowest L1.
 
+Of the 1292 final-graph edges, 1286 join contigs of the same true genus and 6 join different genera. Edges with Kraken labels on both ends agree 498 times and disagree 34 times. Edges with one label match the unlabelled contig's true genus 112 times and miss it 26 times. The shallow k21 graph had the opposite rescue balance, 750 matches against 1010 misses. Rows are in `ds/k141_edges.tsv`.
+
 On the 100000-read community, Kaiju plus the 4-mer graph was 0.78304. Here the same rule is 0.544312.
