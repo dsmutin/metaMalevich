@@ -47,3 +47,5 @@ The same table is in `examples/low75/ds/genus_metrics.tsv`.
 | kaiju_k21_neighbour | 1.01604 | 0.4983 |
 
 A 4-mer cosine filter of 0.5 on those edges leaves Kaiju L1 at 1.0163. The final-contig 4-mer graph is still the larger gain.
+
+The same logistic model, trained on `low75` and tested here, has training accuracy 0.609. Held-out Kaiju genus L1 is 1.01812 and Kraken2 is 1.38288. Correct bases are 0.225.

@@ -49,3 +49,5 @@ Charts and the half-strain rows are in `ds/`. Twenty-nine of 75 genera have no a
 | kaiju_k21_neighbour | 0.9688 | 0.46864 |
 
 Requiring 4-mer cosine at least 0.5 on the same edges leaves Kaiju L1 at 0.96896. That is a smaller gain than the 4-mer graph on the final contigs. Tables are in `ds/initial_graph_*.tsv` and `ds/edge_4mer.tsv`.
+
+A logistic model trained on `low75half` and applied here uses 4-mer cosine, length, MEGAHIT coverage, and Kraken k-mer support to pick one labelled neighbour. Training accuracy on the other community is 0.703. Held-out Kaiju genus L1 is 0.96896 and Kraken2 is 1.46358. Correct bases stay near 0.183. The features do not yet separate a true neighbour from a false one well enough to beat the 4-mer graph. Rows are in `ds/colour_features.tsv`.
