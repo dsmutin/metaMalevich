@@ -1,8 +1,9 @@
 name: full tests
 
 # All pytest, then the light integrative examples.
-# Community runners (examples/*/run_example.py) download genomes, build
-# databases, and assemble. They are not part of this workflow.
+# Community runners (examples/*/run_example.py) call `metametro benchbuild`.
+# They download genomes and assemble, so they stay out of this workflow.
+# The toy example does not need a bench build.
 # A push of this file is included so Actions registers the workflow and the
 # status badge has a run. Ordinary commits do not start it.
 
