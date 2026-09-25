@@ -1,0 +1,14 @@
+---
+description: The simulated taxon id stays out of the GCN graph and its colours.
+alwaysApply: true
+---
+
+# No simulated-taxon leakage
+
+The taxon id from the simulation design is a score label. It stays out of the graph a resolver or a GCN trains or predicts on.
+
+That graph's node features, edge features, node colours, and edge colours are built from sequences, assembly links, coverage, k-mer composition, and classifier evidence. They do not contain the simulated taxon id, a one-hot of it, or a training target copied from it.
+
+A table written after inference may store the id beside the prediction. That table is not an input.
+
+MetaMetro keeps this split on a CGT: colours are the uint8 mask (and an optional float32 weight on those same columns); `node_labels` is separate; colours are not copied into the feature matrix. A GCN in this repository uses that split. `examples/low75/ds/colour_features.py` fits a logistic model on minimap-derived genus truth. Do not copy that supervision into the graph colouring or into a GCN.

@@ -19,6 +19,8 @@ alwaysApply: true
 - follow-contributing
 - example-rank
 - no-mock-graphs
+- benchmark-truth
+- no-truth-leakage
 
 User-level publication-figures applies when producing plots.
 

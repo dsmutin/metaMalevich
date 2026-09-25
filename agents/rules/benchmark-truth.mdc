@@ -1,0 +1,14 @@
+---
+description: Benchmark scores use the taxon id assigned to each read before simulation.
+alwaysApply: true
+---
+
+# Benchmark truth
+
+Abundance and read-level scores use the taxon id assigned to each read before the metagenome was generated.
+
+That id is the simulation design: the genome chosen for the read, written down before the reads exist. In this tree that record is an abundance table (`taxid,N_sample` or accession plus count) or `samovar10/reads/simulation_manifest.tsv` (one FASTQ per genome id). It is the label the simulator was given.
+
+Do not score against a mock taxon, a classifier call, or a taxon inferred after assembly. Kraken2, Kaiju, minimap2, and blobtools are predictions. They are not the truth.
+
+A contig score may attach that same pre-generation genome id to a contig. The attachment does not invent a taxon. If the pre-generation read label is missing, stop. Do not substitute a prediction.

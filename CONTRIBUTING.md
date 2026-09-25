@@ -34,6 +34,18 @@ Do not mark a contract test `optional`. Optional tests are slow, extra, or nice-
 
 After **any new feature**, run the **mandatory** suite (and toy if the CLI changed) before you stop.
 
+## Benchmark truth
+
+Abundance and read-level scores use the taxon id assigned to each read before the metagenome was generated. That record is the simulation design (an abundance table, or `samovar10/reads/simulation_manifest.tsv`). A mock taxon, a Kraken2 or Kaiju call, or a taxon inferred after assembly (minimap2, blobtools) is not the truth. If that pre-generation label is missing, stop.
+
+The same id may be attached to a contig for a node score. The attachment does not invent a taxon.
+
+## No simulated-taxon leakage
+
+The simulated taxon id is a score label. It stays out of the graph a resolver or a GCN trains or predicts on: node features, edge features, node colours, and edge colours. A table written after inference may store the id beside the prediction. That table is not an input.
+
+On a MetaMetro CGT, colours stay on the colour mask and labels stay on `node_labels`. Colours are not copied into the feature matrix. `examples/low75/ds/colour_features.py` fits a logistic model on minimap-derived genus truth. Do not copy that supervision into the graph colouring or into a GCN.
+
 ## Feature checklist (`todo.md`)
 
 Track work in `todo.md` (checkboxes). One line per feature or fix. Check it off only when mandatory tests pass. This is a **feature list**, not a `/do` analysis graph.
