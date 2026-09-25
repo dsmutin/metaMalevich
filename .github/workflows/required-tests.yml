@@ -29,6 +29,10 @@ jobs:
           auto-update-conda: true
           activate-environment: metamalevich
           environment-file: environment.yml
+      - name: Install MetaMetro from the submodule
+        run: |
+          python -m pip install --no-deps --no-build-isolation -e external/MetaMetro
+          python -c "import metametro; print(metametro.__version__)"
       - name: Mandatory pytest
         timeout-minutes: 30
         run: pytest -m mandatory --tb=short

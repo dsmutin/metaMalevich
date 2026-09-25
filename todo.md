@@ -11,6 +11,7 @@ Current expectation of the implementation. Check a box only after mandatory test
 - [x] `probability_sum`: species k-mer fractions, no graph
 - [x] `lca`: taxa at or above 5% of the k-mer mass, then their LCA
 - [x] Colourings come from MetaMetro ToCUMG namespaces (`--colouring`); decaying leakage is the MetaMetro update
+- [x] `solve` builds a MetaMetro bench and runs `gated_neighbour` on `composition_kmeans` and `decaying`. Full CI does this for `bubble_strain_2` and `synthetic_reads_2`, and benchbuilds `phage_10` (`phage_species_5_x10`). That phage assembly needs samovar, MEGAHIT, and five genome FASTA files, which the GitHub runner does not have, so the job records the contract
 
 ## Colour the graph, then add to that colouring
 

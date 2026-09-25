@@ -59,7 +59,7 @@ conda env create -f environment.yml
 conda activate metamalevich
 ```
 
-`environment.yml` sets `PYTHONPATH=src:external/MetaMetro/src`. Run commands from the repository root. The submodule `external/MetaMetro` is [dsmutin/MetaMetro](https://github.com/dsmutin/MetaMetro) at the commit recorded in this repository. Colourings and `benchbuild` communities live there. MetaMetro's `full-tests` workflow runs `metametro benchbuild --all`.
+`environment.yml` sets `PYTHONPATH=src:external/MetaMetro/src`. Run commands from the repository root. The submodule `external/MetaMetro` is [dsmutin/MetaMetro](https://github.com/dsmutin/MetaMetro) at the commit recorded in this repository. GitHub Actions checks that submodule out and installs it into the conda env. Colourings and `benchbuild` communities live there. MetaMetro's `full-tests` workflow runs `metametro benchbuild --all`.
 
 ```bash
 git clone --recurse-submodules https://github.com/dsmutin/metaMalevich
@@ -74,7 +74,10 @@ python -m metamalevich --version
 python -m metamalevich
 python examples/toy/run.py
 python -m metamalevich bench --data-root . --benchmark benchmark
+python -m metamalevich solve --bench bubble_strain_2 --bench phage_10
 ```
+
+`solve` builds the named MetaMetro benches and runs `gated_neighbour` on `composition_kmeans` and `decaying`. It does not read `ground_truth/`. `phage_10` is the five-phage bench at 10× read depth (`phage_species_5_x10`). That assembly runs when samovar, MEGAHIT, and the five genome FASTA files are already present. Otherwise the command records the MetaMetro contract for that bench.
 
 With no command, the CLI runs a three-node toy and prints JSON. `bench` reads Kraken2 output already stored for `samovar10`, builds the 4-mer graph, colours nodes and edges, and writes each hypothesis under `benchmark/{hypothesis}/{dataset}/`. Reusable counts and edges go to `./intermediate`. `samovar10_ont1b` repeats the same FASTA, Kraken2 output, and ground truth, so it is not a second dataset. On `samovar10`, `genome_abundance` matches the base share, so the benchmark scores how bases are classified.
 

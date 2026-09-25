@@ -28,6 +28,7 @@ Replace baseline bodies with real implementations. Keep the documented return ke
 | Required | `mandatory` | `pytest -m mandatory` | every commit; GitHub Action `required-tests` |
 | Optional | `optional` | `pytest` (all) | release, workflow_dispatch, or an edit of Action `full-tests` |
 | Light examples | — | `examples/*/run.py` and `vignettes/*` | full CI. `examples/toy/run.py` is the one in this tree |
+| MetaMetro solve | — | `python -m metamalevich solve --bench bubble_strain_2 --bench synthetic_reads_2 --bench phage_10` | full CI. In-process benches are solved. `phage_10` is assembled only when its programs and genome FASTA files are already present |
 | Communities | — | `examples/*/run_example.py` | not in CI; they download, classify, and assemble |
 
 Do not mark a contract test `optional`. Optional tests are slow, extra, or nice-to-have.

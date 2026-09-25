@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
+import tempfile
 from pathlib import Path
 
 from metamalevich import __version__
@@ -18,7 +20,12 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument("--version", action="store_true", help="print version and exit")
     parser.add_argument("-o", "--output", default="-", help="output path or - for stdout")
-    parser.add_argument("command", nargs="?", choices=["bench", "pipeline"], help="run the dataset benchmark")
+    parser.add_argument(
+        "command",
+        nargs="?",
+        choices=["bench", "pipeline", "solve"],
+        help="bench scores samovar10; solve builds MetaMetro benches and resolves their colours",
+    )
     parser.add_argument("--data-root", default=".", help="directory that contains samovar10")
     parser.add_argument("--dataset", action="append", dest="datasets", help="dataset name; repeat to run several")
     parser.add_argument("--benchmark", default="benchmark", help="directory for hypothesis outputs")
@@ -39,10 +46,29 @@ def main(argv: list[str] | None = None) -> int:
         dest="colourings",
         help="ToCUMG colouring or namespace to keep; repeat. Default: all layers on the bench",
     )
+    parser.add_argument(
+        "--bench",
+        action="append",
+        dest="benches",
+        help="MetaMetro bench name for solve; repeat. Legacy names such as phage_10 are accepted",
+    )
+    parser.add_argument(
+        "--execute",
+        action="store_true",
+        help="Assemble an external MetaMetro bench. Phage benches also assemble when samovar, MEGAHIT, and the genome FASTA files are already present",
+    )
+    parser.add_argument(
+        "--workdir",
+        type=Path,
+        default=None,
+        help="Directory for solve benchbuild output. Default: a temporary directory",
+    )
     args = parser.parse_args(argv)
     if args.version:
         print(__version__)
         return 0
+    if args.command == "solve":
+        return _solve(args)
     if args.metametro_bench is not None:
         from metamalevich.tocumg import load_selected
 
@@ -75,6 +101,32 @@ def main(argv: list[str] | None = None) -> int:
     result = run_pipeline(None)
     _emit(json.dumps(result, indent=2), args.output)
     return 0
+
+
+def _solve(args: argparse.Namespace) -> int:
+    """Build the requested MetaMetro benches and print the solve summary."""
+    from metametro.errors import ContractError
+
+    from metamalevich.solve import solve_benches
+
+    if not args.benches:
+        print("solve requires at least one --bench name", file=sys.stderr)
+        return 2
+    try:
+        if args.workdir is None:
+            with tempfile.TemporaryDirectory(prefix="metamalevich-solve-") as tmp:
+                summary = solve_benches(
+                    args.benches, Path(tmp), args.colourings, execute=args.execute
+                )
+        else:
+            summary = solve_benches(
+                args.benches, args.workdir, args.colourings, execute=args.execute
+            )
+    except (ValueError, ContractError) as exc:
+        print(exc, file=sys.stderr)
+        return 1
+    _emit(json.dumps(summary, indent=2), args.output)
+    return 0 if summary["ok"] else 1
 
 
 def _emit(text: str, output: str) -> None:
