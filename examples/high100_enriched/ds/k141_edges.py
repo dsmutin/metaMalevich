@@ -7,7 +7,6 @@ best minimap2 alignment of each contig to the simulated genomes.
 from __future__ import annotations
 
 import csv
-import importlib.util
 import shutil
 import subprocess
 import sys
@@ -17,21 +16,18 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "examples" / "heldout_genera"))
 sys.path.insert(0, str(ROOT / "src"))
+sys.path.insert(0, str(ROOT / "examples"))
+from ncbi_taxonomy import ncbi_parser  # noqa: E402
 
 from community import assembly_graph_from_fastg  # noqa: E402
 from metamalevich.tables import write_tsv  # noqa: E402
 
 EXAMPLE = ROOT / "examples" / "high100_enriched"
 WORK = EXAMPLE / "work"
-TAXDUMP = Path("/mnt/tank/scratch/partition-metagenomics/databases/taxdump/nodes.dmp")
-ENGINE = Path("/mnt/tank/scratch/dsmutin/tools/my/samovar/samovar/src/samovar/taxonomy_engine.py")
 
 
 def _parser():
-    spec = importlib.util.spec_from_file_location("taxonomy_engine", ENGINE)
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-    return module.NCBITaxonomyParser(str(TAXDUMP))
+    return ncbi_parser()
 
 
 def _genus(parser, taxon_id: int) -> int:

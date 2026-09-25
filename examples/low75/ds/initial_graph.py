@@ -10,7 +10,6 @@ node inherit that genus.
 from __future__ import annotations
 
 import csv
-import importlib.util
 import shutil
 import subprocess
 import sys
@@ -20,23 +19,17 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "examples" / "heldout_genera"))
 sys.path.insert(0, str(ROOT / "src"))
+sys.path.insert(0, str(ROOT / "examples"))
+from ncbi_taxonomy import kraken2_bin, ncbi_parser  # noqa: E402
 
 from community import assembly_graph_from_fastg  # noqa: E402
 from metamalevich.tables import write_tsv  # noqa: E402
 
-TAXDUMP = Path("/mnt/tank/scratch/partition-metagenomics/databases/taxdump/nodes.dmp")
-ENGINE = Path("/mnt/tank/scratch/dsmutin/tools/my/samovar/samovar/src/samovar/taxonomy_engine.py")
-KRAKEN = Path("/nfs/home/dsmutin/miniconda3/bin/kraken2")
 AGREE = 0.8
 
 
 def _parser():
-    if not TAXDUMP.is_file() or TAXDUMP.stat().st_size == 0:
-        raise SystemExit(f"missing NCBI nodes.dmp: {TAXDUMP}")
-    spec = importlib.util.spec_from_file_location("taxonomy_engine", ENGINE)
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-    return module.NCBITaxonomyParser(str(TAXDUMP))
+    return ncbi_parser()
 
 
 def _genus(parser, taxon_id: int) -> int:
@@ -58,11 +51,9 @@ def _write_fasta(sequences: dict[str, str], path: Path) -> None:
 
 def _kraken(fasta: Path, database: Path, output: Path) -> dict[str, int]:
     if not output.is_file() or output.stat().st_size == 0:
-        if not KRAKEN.is_file():
-            raise SystemExit(f"missing kraken2: {KRAKEN}")
         report = output.with_suffix(".report")
         completed = subprocess.run(
-            [str(KRAKEN), "--db", str(database), "--threads", "8", "--report", str(report), "--output", str(output), str(fasta)],
+            [str(kraken2_bin()), "--db", str(database), "--threads", "8", "--report", str(report), "--output", str(output), str(fasta)],
             check=False,
             capture_output=True,
             text=True,

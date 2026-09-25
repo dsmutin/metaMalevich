@@ -65,9 +65,13 @@ Starting value: `0.0.1`.
 ## Install (conda only)
 
 ```bash
+git clone --recurse-submodules https://github.com/dsmutin/metaMalevich
+cd metaMalevich
 conda env create -f environment.yml
 conda activate metamalevich
 ```
+
+`environment.yml` puts `external/MetaMetro/src` on `PYTHONPATH`. That submodule is [dsmutin/MetaMetro](https://github.com/dsmutin/MetaMetro). Benches and colouring methods are implemented there. Example scripts that walk NCBI read `TAXDUMP` and `SAMOVAR_SRC`. If either is unset, they stop.
 
 ## GitHub
 

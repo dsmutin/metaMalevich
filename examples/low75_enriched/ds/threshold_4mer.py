@@ -9,7 +9,6 @@ otherwise the 4-mer label at the same threshold.
 from __future__ import annotations
 
 import csv
-import importlib.util
 import sys
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -19,21 +18,18 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "examples" / "heldout_genera"))
 sys.path.insert(0, str(ROOT / "src"))
+sys.path.insert(0, str(ROOT / "examples"))
+from ncbi_taxonomy import ncbi_parser  # noqa: E402
 
 from community import assembly_graph_from_fastg  # noqa: E402
 from metamalevich.composition_genus import canonical_4mer  # noqa: E402
 from metamalevich.tables import write_tsv  # noqa: E402
 
-TAXDUMP = Path("/mnt/tank/scratch/partition-metagenomics/databases/taxdump/nodes.dmp")
-ENGINE = Path("/mnt/tank/scratch/dsmutin/tools/my/samovar/samovar/src/samovar/taxonomy_engine.py")
 THRESHOLDS = (0.0, 0.5, 0.7, 0.85, 0.95)
 
 
 def _parser():
-    spec = importlib.util.spec_from_file_location("taxonomy_engine", ENGINE)
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-    return module.NCBITaxonomyParser(str(TAXDUMP))
+    return ncbi_parser()
 
 
 def _rank(parser, taxon_id: int, rank: str) -> int:

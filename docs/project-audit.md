@@ -52,7 +52,7 @@
 | Issue | Evidence | Impact | Priority |
 |-------|----------|--------|----------|
 | Example tools are not in `environment.yml` | `environment.yml` lists Python, pytest, numpy, pyyaml, pandas, altair, and `gxx_linux-64=16.2.0`. MEGAHIT 1.2.9, minimap2 2.31, Kraken2 2.0.7-beta, Kaiju 1.10.1, and Samovar are named in `examples/heldout_genera/README.md` only. | A fresh conda env from `environment.yml` does not assemble or classify this example. | P1 |
-| Samovar is an external binary | README records `git@github.com:ctlab/samovar.git`. The run log calls `/mnt/tank/scratch/dsmutin/tools/my/samovar/samovar/bin/samovar`. | Another machine needs its own Samovar checkout. | P1 |
+| Samovar is an external binary | README records `git@github.com:ctlab/samovar.git`. The run log calls a Samovar binary outside this repository. | Another machine needs its own Samovar checkout. | P1 |
 | Seed and read count are fixed in the example | `run_example.py` uses `TOTAL_READS = 100000` and `SEED = 42`. | The simulation design is recoverable from the script. | — |
 
 ## 4. Inconsistent methods

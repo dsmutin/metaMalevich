@@ -12,7 +12,6 @@ Outputs land in this directory and in ``examples/low75half/ds/``.
 from __future__ import annotations
 
 import csv
-import importlib.util
 import shutil
 import subprocess
 import sys
@@ -23,24 +22,16 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "src"))
+sys.path.insert(0, str(ROOT / "examples"))
+from ncbi_taxonomy import ncbi_parser  # noqa: E402
 
 from metamalevich.composition_genus import composition_genus_graph  # noqa: E402
 from metamalevich.tables import write_tsv  # noqa: E402
 
-TAXDUMP = Path("/mnt/tank/scratch/partition-metagenomics/databases/taxdump/nodes.dmp")
-ENGINE = Path("/mnt/tank/scratch/dsmutin/tools/my/samovar/samovar/src/samovar/taxonomy_engine.py")
 
 
 def _parser():
-    """Samovar NCBI walker. A missing rank returns None."""
-    if not TAXDUMP.is_file() or TAXDUMP.stat().st_size == 0:
-        raise SystemExit(f"missing NCBI nodes.dmp: {TAXDUMP}")
-    if not ENGINE.is_file():
-        raise SystemExit(f"missing Samovar taxonomy engine: {ENGINE}")
-    spec = importlib.util.spec_from_file_location("taxonomy_engine", ENGINE)
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-    return module.NCBITaxonomyParser(str(TAXDUMP))
+    return ncbi_parser()
 
 
 def _genus(parser, taxon_id: int) -> int:

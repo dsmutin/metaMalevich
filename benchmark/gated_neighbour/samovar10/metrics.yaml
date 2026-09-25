@@ -20,8 +20,8 @@ coverage: unused; relative abundance is the share of contig bases
 software_version: 0.4.1
 graph_note: samovar10/graph/graph_meta.txt records top_k=8 and min_sim=0.15
 tocumg:
-  cfa: /mnt/tank/scratch/partition-metagenomics/smuteam/vaegbin_improved/intermediate/samovar10/tocumg/cfa
-  cdbg: /mnt/tank/scratch/partition-metagenomics/smuteam/vaegbin_improved/intermediate/samovar10/tocumg/cdbg
+  cfa: intermediate/samovar10/tocumg/cfa
+  cdbg: intermediate/samovar10/tocumg/cdbg
   n_nodes: 399
   n_edges: 4450
   n_colours: 17

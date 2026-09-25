@@ -17,7 +17,7 @@ Report the design rank in `RESULTS.md` and in any comparison table. A coarser or
 
 ## Taxonomy
 
-Walk NCBI parents with Samovar. Load `nodes.dmp` and `names.dmp` from `/mnt/tank/scratch/partition-metagenomics/databases/taxdump`. If either file is missing or empty, stop. Do not download a replacement dump.
+Walk NCBI parents with Samovar. `TAXDUMP` is `nodes.dmp` or the directory that contains `nodes.dmp` and `names.dmp`. `SAMOVAR_SRC` is the Samovar checkout that contains `taxonomy_engine.py`. If either variable is unset, or either file is missing or empty, stop. Do not download a replacement dump. Do not hard-code a machine path.
 
 Use `samovar.taxonomy_engine.NCBITaxonomyParser.get_ancestor_by_rank`. A missing rank returns `None`; count that call as unclassified. Do not use `samovar.parse_annotators.resolve_taxid_at_rank` for these scores: when the requested rank is absent it keeps a finer taxid, which would count a species id as a family or genus hit.
 

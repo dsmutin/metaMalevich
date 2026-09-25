@@ -9,7 +9,6 @@ Unclassified reads mapped to a node then inherit that genus.
 from __future__ import annotations
 
 import csv
-import importlib.util
 import sys
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -19,23 +18,20 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "examples" / "heldout_genera"))
 sys.path.insert(0, str(ROOT / "src"))
+sys.path.insert(0, str(ROOT / "examples"))
+from ncbi_taxonomy import ncbi_parser  # noqa: E402
 
 from community import assembly_graph_from_fastg  # noqa: E402
 from metamalevich.composition_genus import canonical_4mer  # noqa: E402
 from metamalevich.tables import write_tsv  # noqa: E402
 
-TAXDUMP = Path("/mnt/tank/scratch/partition-metagenomics/databases/taxdump/nodes.dmp")
-ENGINE = Path("/mnt/tank/scratch/dsmutin/tools/my/samovar/samovar/src/samovar/taxonomy_engine.py")
 MIN_SIM = 0.5
 AGREE = 0.8
 ROUNDS = 8
 
 
 def _parser():
-    spec = importlib.util.spec_from_file_location("taxonomy_engine", ENGINE)
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-    return module.NCBITaxonomyParser(str(TAXDUMP))
+    return ncbi_parser()
 
 
 def _genus(parser, taxon_id: int) -> int:
