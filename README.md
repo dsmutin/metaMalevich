@@ -16,8 +16,8 @@ The Python package and the conda environment are named `metamalevich`. Concepts 
 1. Read whole-contig Kraken2 output. `cpp/kraken_count` sums `taxid:count` pairs. Counts at species or below roll to species. Genus-or-coarser k-mers and taxid 0 are dropped, not pushed onto child species. The hard colouring is a one-hot of the rolled Kraken call.
 2. Build the graph the resolver is allowed to use. The `samovar10` bench rebuilds a canonical 4-mer cosine k-nearest-neighbour graph (`top_k=8`, `min_sim=0.15`) with `cpp/kmer_knn`. Example communities use the MEGAHIT assembly graph (`megahit_toolkit contig2fastg` on the kept `k<int>.contigs.fa`). That FASTG is the assembler edge list. A second graph, when one is built, is computed from those contig sequences and is labelled as such.
 3. Store node colours and edge colours separately. An edge colour is the renormalized minimum of the two endpoint distributions. [MetaMetro](https://github.com/dsmutin/MetaMetro) writes the coloured graph as a CFA and then a CDBG. Topology is checked after colouring.
-4. Run a named resolver. Each one returns a full distribution per node. Graph-free methods are the hard call, `probability_sum`, and LCA. Graph methods include gated neighbour smoothing, an edge Bayesian update, decaying leakage, label drop, and a small set of lock, rescue, and mixture rules. Parameters are recorded with the hypothesis.
-5. Write a length-weighted profile. Relative abundance is the share of contig bases. Coverage is not an input. Nodes are split into unique, shared, ambiguous, and unclassified. On `samovar10`, a hypothesis beats the hard colouring only when L1 falls and macro F1 rises. Example communities report the same hypotheses at the rank in the table below.
+4. Run a named resolver. Each one returns a full distribution per node. Graph-free methods are the hard call, `probability_sum`, and LCA. Graph methods add an edge colour, a decaying neighbour signal, a line-graph flip, a logistic filter fit on pseudo-labels, and the lock, rescue, and mixture rules in `todo.md`. The library machine-learning method is that logistic filter. A GCN is not in this tree. Parameters are recorded with the hypothesis.
+5. Write a length-weighted profile. Relative abundance is the share of contig bases. Coverage is not an input and is not a colour channel. Nodes are split into unique, shared, ambiguous, and unclassified. On `samovar10`, a hypothesis beats the hard colouring only when L1 falls and macro F1 rises. Example communities report the same hypotheses at the rank in the table below. Read-level baselines are Kraken2 and Kaiju, scored against the simulation abundance table.
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '16px', 'fontFamily': 'arial', 'primaryColor': '#fff', 'primaryTextColor': '#000', 'primaryBorderColor': '#000', 'lineColor': '#000', 'secondaryColor': '#fff', 'tertiaryColor': '#fff'}}}%%
@@ -29,6 +29,24 @@ graph TD
     M --> R[Named resolver]
     R --> P[Length-weighted profile]
 ```
+
+## Method expectation
+
+`todo.md` is the checklist. A checked row has code and a committed score. The `samovar10` manifests record `software_version: 0.4.1`; `VERSION` is newer, and that bench has not been regenerated since.
+
+| Stage | In this tree |
+|-------|----------------|
+| Annotators alone | Kraken2 and Kaiju on the reads; contig hypotheses `initial_colouring`, `probability_sum`, `lca` |
+| Edge colour | Renormalized minimum of the endpoint distributions; `edge_union`, `bayesian_edge`, `gated_neighbour` |
+| Node k-mer composition | Canonical 4-mer cosine kNN on `samovar10`; `composition_genus` on that space. Example communities keep the MEGAHIT FASTG |
+| Decaying neighbour signal | `leakage` |
+| Line-graph flip | `leakage_flipped`, `label_drop_flipped`, `logistic_drop_flipped` |
+| Logistic filter | `logistic_drop`, pseudo-labels from neighbour agreement |
+| Bayesian reprofile | `bayesian_edge` |
+| Further scored resolvers | `label_drop`, `confident_lock`, `unanimous_rescue`, `cut_then_leak`, `genus_plurality`, `margin_mixture` |
+| Absent | Coverage as a node colour; GCN, GraphSAGE, GAT; path-aware resolution; read-to-graph reassignment |
+
+Abundance scores are required to use the taxon id assigned to each read before simulation. The `samovar10` bench scores the shipped contig table and does not open `samovar10/reads/`. Example node F1 uses minimap2. The simulated taxon id stays out of any GCN graph and its colours; no GCN is built. `examples/low75/ds/colour_features.py` fits a logistic model on minimap-derived genus truth, and that fit is not a graph colouring.
 
 ## Install
 
