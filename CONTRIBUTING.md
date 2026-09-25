@@ -73,6 +73,18 @@ conda activate metamalevich
 
 Never `git push` unless the human explicitly asks. CI runs on GitHub after they push.
 
+## Benchmarks
+
+Do not add a new benchmark or pinned community in this repository. Add it in MetaMetro (`metametro benchbuild`) and open a pull request there. `examples/*/run_example.py` only forwards to that generator.
+
+Do not hard-code a machine path. Use the MetaMetro bench directory, a CLI argument, or `METAMETRO_SRC`. If it is missing, stop.
+
+Do not mock a benchmark graph, a taxonomy label, or a metric. A tiny graph that exists only inside a test file stays in that test. Example assembly graphs are MEGAHIT FASTG files, not substitutes.
+
+Do not copy an evaluation target into graph features, colours, or any file a model reads as input. Ground truth stays in `ground_truth/` and is used only by the scorer. A table written after inference may store the id beside the prediction. That table is not an input.
+
+Strong100 and the samovar10 bundles are prebuilt. They are not generators to copy into MetaMetro.
+
 ## Citations
 
 Add a `.bib` entry in `cite/` only for tools this package actually integrates. Do not invent papers.

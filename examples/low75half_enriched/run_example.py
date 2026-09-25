@@ -1,62 +1,38 @@
-"""low75half at ten times the read depth: 1000000 paired fragments.
+"""Build this community in MetaMetro.
 
-The accession table is every other low75 genus. Indexes are the low75half
-indexes. Reads and the assembly stay in this example's ``work/``.
+The accession pin and the generator live in MetaMetro. This script forwards
+``--stage`` to that generator. Set ``METAMETRO_SRC`` to the MetaMetro ``src``
+directory when the package is not already importable.
 """
 
 from __future__ import annotations
 
+import os
 import sys
 from pathlib import Path
 
-HERE = Path(__file__).resolve().parent
-ROOT = HERE.parents[1]
-PARENT = ROOT / "examples" / "low75half"
-HELD = ROOT / "examples" / "heldout_genera"
-sys.path.insert(0, str(HELD))
 
-import run_example as heldout  # noqa: E402
-from community import load_pairs  # noqa: E402
-
-heldout.EXAMPLE = HERE
-heldout.WORK = HERE / "work"
-heldout.GRAPH_ID = "low75half_enriched"
-heldout.TOTAL_READS = 1_000_000
-heldout.REPORT_PATH = ROOT / "data" / "raw" / "low75_assembly_data_report.jsonl"
-
-
-def stage_download() -> None:
-    """Require the low75half FASTA pin. This example does not download again."""
-    pinned = load_pairs(HERE / "accessions.tsv")
-    parent = load_pairs(PARENT / "accessions.tsv")
-    if pinned != parent:
-        raise SystemExit("examples/low75half_enriched/accessions.tsv is not the low75half pin")
-    missing = [
-        row["accession"]
-        for row in pinned
-        if not (ROOT / "data" / "raw" / "fasta" / f"{row['accession']}.fna").is_file()
-    ]
-    if missing:
-        raise SystemExit("missing FASTA for low75half_enriched: " + ", ".join(missing))
-
-
-def stage_databases() -> None:
-    """Reuse the low75half indexes. The genomes are the same pin."""
-    for name in ("kraken_db", "kaiju_db"):
-        dest = HERE / "work" / name
-        source = PARENT / "work" / name
-        if dest.exists():
-            continue
-        if not source.is_dir():
-            raise SystemExit(f"missing parent index {source}")
-        dest.symlink_to(source)
-    heldout_databases()
-
-
-heldout_databases = heldout.stage_databases
-heldout.stage_download = stage_download
-heldout.stage_databases = stage_databases
+def _import_metametro() -> None:
+    try:
+        import metametro.bench.legacy  # noqa: F401
+        return
+    except ImportError:
+        pass
+    env = os.environ.get("METAMETRO_SRC", "")
+    candidates = []
+    if env:
+        candidates.append(Path(env))
+    here = Path(__file__).resolve()
+    candidates.extend(parent / "metametro" / "src" for parent in here.parents)
+    for candidate in candidates:
+        if (candidate / "metametro" / "bench").is_dir():
+            sys.path.insert(0, str(candidate))
+            return
+    raise SystemExit("metametro is not importable and METAMETRO_SRC is unset")
 
 
 if __name__ == "__main__":
-    heldout.main()
+    _import_metametro()
+    from metametro.bench.legacy import main_for
+
+    raise SystemExit(main_for("3domain_genus_75_half_x10"))

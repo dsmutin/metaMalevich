@@ -17,6 +17,7 @@ alwaysApply: true
 - english-docs
 - no-push
 - follow-contributing
+- benchmarks
 - example-rank
 - no-mock-graphs
 - benchmark-truth

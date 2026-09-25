@@ -1,49 +1,38 @@
-"""Run the held-out pipeline on every other downloaded strain.
+"""Build this community in MetaMetro.
 
-The accession table is the even positions of ``examples/heldout_genera/accessions.tsv``
-(ten strains, both assemblies of each). FASTA files come from the download
-already stored under ``data/raw/fasta``. This script does not download again
-and does not rewrite that download's manifest.
+The accession pin and the generator live in MetaMetro. This script forwards
+``--stage`` to that generator. Set ``METAMETRO_SRC`` to the MetaMetro ``src``
+directory when the package is not already importable.
 """
 
 from __future__ import annotations
 
+import os
 import sys
 from pathlib import Path
 
-HERE = Path(__file__).resolve().parent
-ROOT = HERE.parents[1]
-HELD = ROOT / "examples" / "heldout_genera"
-sys.path.insert(0, str(HELD))
 
-import run_example as heldout  # noqa: E402
-from community import half_strains, load_pairs  # noqa: E402
-
-heldout.EXAMPLE = HERE
-heldout.WORK = HERE / "work"
-heldout.GRAPH_ID = "half_strains"
-
-
-def stage_download() -> None:
-    """Require the selected FASTA files from the full held-out download."""
-    pinned = load_pairs(HERE / "accessions.tsv")
-    expected = half_strains(load_pairs(HELD / "accessions.tsv"))
-    if pinned != expected:
-        raise SystemExit("examples/half_strains/accessions.tsv is not every other held-out strain")
-    missing = []
-    for row in pinned:
-        path = ROOT / "data" / "raw" / "fasta" / f"{row['accession']}.fna"
-        if not path.is_file() or path.stat().st_size == 0:
-            missing.append(row["accession"])
-    if missing:
-        raise SystemExit(
-            "missing FASTA for the half-strain example; run examples/heldout_genera/run_example.py --stage download first: "
-            + ", ".join(missing)
-        )
-
-
-heldout.stage_download = stage_download
+def _import_metametro() -> None:
+    try:
+        import metametro.bench.legacy  # noqa: F401
+        return
+    except ImportError:
+        pass
+    env = os.environ.get("METAMETRO_SRC", "")
+    candidates = []
+    if env:
+        candidates.append(Path(env))
+    here = Path(__file__).resolve()
+    candidates.extend(parent / "metametro" / "src" for parent in here.parents)
+    for candidate in candidates:
+        if (candidate / "metametro" / "bench").is_dir():
+            sys.path.insert(0, str(candidate))
+            return
+    raise SystemExit("metametro is not importable and METAMETRO_SRC is unset")
 
 
 if __name__ == "__main__":
-    heldout.main()
+    _import_metametro()
+    from metametro.bench.legacy import main_for
+
+    raise SystemExit(main_for("bacteria_strain_10"))
