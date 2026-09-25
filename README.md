@@ -59,13 +59,13 @@ conda env create -f environment.yml
 conda activate metamalevich
 ```
 
-`environment.yml` sets `PYTHONPATH=src`. Run commands from the repository root. ToCUMG export needs a MetaMetro checkout:
+`environment.yml` sets `PYTHONPATH=src:external/MetaMetro/src`. Run commands from the repository root. The submodule `external/MetaMetro` is [dsmutin/MetaMetro](https://github.com/dsmutin/MetaMetro) at the commit recorded in this repository. Colourings and `benchbuild` communities live there. MetaMetro's `full-tests` workflow runs `metametro benchbuild --all`.
 
 ```bash
-git clone --depth 1 https://github.com/dsmutin/MetaMetro external/MetaMetro
+git clone --recurse-submodules https://github.com/dsmutin/metaMalevich
 ```
 
-The bench also accepts `METAMETRO_SRC`. Details: [How to install](https://github.com/dsmutin/metaMalevich/wiki/How-to-install).
+`METAMETRO_SRC` overrides the submodule when it points at a MetaMetro `src` directory. Details: [How to install](https://github.com/dsmutin/metaMalevich/wiki/How-to-install).
 
 ## Usage
 

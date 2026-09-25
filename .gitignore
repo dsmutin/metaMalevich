@@ -53,8 +53,10 @@ conda-bld/
 /examples/high100_enriched/work/
 /examples/half100half_enriched/work/
 
-# third-party checkouts and large reusable intermediates
-/external/
+# third-party checkouts and large reusable intermediates.
+# external/MetaMetro is the pinned submodule and stays tracked.
+/external/*
+!/external/MetaMetro
 /intermediate/
 
 # native tools built from cpp/

@@ -13,4 +13,5 @@ dependencies:
   - altair=6.2.2
   - gxx_linux-64=16.2.0
 variables:
-  PYTHONPATH: src
+  # src is this package. external/MetaMetro is the submodule of github.com/dsmutin/MetaMetro.
+  PYTHONPATH: src:external/MetaMetro/src
