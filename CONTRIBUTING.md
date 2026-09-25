@@ -83,6 +83,20 @@ Do not mock a benchmark graph, a taxonomy label, or a metric. A tiny graph that 
 
 Do not copy an evaluation target into graph features, colours, or any file a model reads as input. Ground truth stays in `ground_truth/` and is used only by the scorer. A table written after inference may store the id beside the prediction. That table is not an input.
 
+## Colourings
+
+Do not add a new colouring method in this repository. Add it in MetaMetro and open a pull request there. Resolvers (gated neighbour, decaying leakage as inference) stay here; they consume colours, they do not invent a palette.
+
+Do not mock a colouring. Kraken2 and Kaiju colours come from those tools on a MetaMetro graph, or from a MetaMetro bench that already applied them.
+
+Check that a selected colouring exists on the current ToCUMG (`manifest.yaml` / `metametro benchbuild --list-colourings`). If it is missing, stop.
+
+Use MetaMetro to pick layers:
+
+```bash
+metamalevich --metametro-bench path/to/bench --colouring kraken2 --colouring decaying
+```
+
 Strong100 and the samovar10 bundles are prebuilt. They are not generators to copy into MetaMetro.
 
 ## Citations

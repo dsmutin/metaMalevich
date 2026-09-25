@@ -22,6 +22,7 @@ alwaysApply: true
 - no-mock-graphs
 - benchmark-truth
 - no-truth-leakage
+- colourings
 
 User-level publication-figures applies when producing plots.
 

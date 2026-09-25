@@ -10,6 +10,7 @@ Current expectation of the implementation. Check a box only after mandatory test
 - [x] `initial_colouring`: one-hot of the Kraken contig call, rolled to species
 - [x] `probability_sum`: species k-mer fractions, no graph
 - [x] `lca`: taxa at or above 5% of the k-mer mass, then their LCA
+- [x] Colourings come from MetaMetro ToCUMG namespaces (`--colouring`); decaying leakage is the MetaMetro update
 
 ## Colour the graph, then add to that colouring
 

@@ -19,6 +19,7 @@ alwaysApply: true
 - follow-contributing
 - example-rank
 - no-mock-graphs
+- colourings
 - benchmark-truth
 - no-truth-leakage
 - benchmarks

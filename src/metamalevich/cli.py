@@ -27,9 +27,37 @@ def main(argv: list[str] | None = None) -> int:
         default="intermediate",
         help="directory for reusable Kraken counts, k-mer edges, and ToCUMG files",
     )
+    parser.add_argument(
+        "--metametro-bench",
+        type=Path,
+        default=None,
+        help="MetaMetro benchbuild directory whose ToCUMG this run should read",
+    )
+    parser.add_argument(
+        "--colouring",
+        action="append",
+        dest="colourings",
+        help="ToCUMG colouring or namespace to keep; repeat. Default: all layers on the bench",
+    )
     args = parser.parse_args(argv)
     if args.version:
         print(__version__)
+        return 0
+    if args.metametro_bench is not None:
+        from metamalevich.tocumg import load_selected
+
+        graph = load_selected(args.metametro_bench, args.colourings)
+        namespaces = sorted({row["namespace"] for row in graph.colors or []})
+        summary = {
+            "status": "ok",
+            "ok": True,
+            "input_path": str(args.metametro_bench),
+            "n_unitigs": len(graph.unitigs),
+            "n_links": len(graph.links),
+            "namespaces": namespaces,
+            "colourings": list(args.colourings or []),
+        }
+        _emit(json.dumps(summary, indent=2), args.output)
         return 0
     if args.command in {"bench", "pipeline"}:
         from metamalevich.bench import DATASETS, run_benchmark
