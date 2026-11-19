@@ -12,6 +12,9 @@ dependencies:
   - pandas=3.0.6
   - altair=6.2.2
   - gxx_linux-64=16.2.0
-variables:
-  # src is this package. external/MetaMetro is the submodule of github.com/dsmutin/MetaMetro.
-  PYTHONPATH: src:external/MetaMetro/src
+  - git
+  - pip
+  - pip:
+    # MetaMetro is installed from the external/MetaMetro submodule. Its version must match the pin in pyproject.toml.
+    - -e ./external/MetaMetro
+    - -e .

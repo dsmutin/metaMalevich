@@ -8,45 +8,9 @@ compaction rule.
 from __future__ import annotations
 
 import math
-import os
-import sys
 from pathlib import Path
 
 from metamalevich.tables import sanitize_sequence
-
-
-def metametro_src(root: Path) -> Path:
-    """Locate a MetaMetro checkout.
-
-    Search ``METAMETRO_SRC``, then ``external/MetaMetro`` under ``root`` and
-    under the current directory.
-    """
-    candidates = []
-    if os.environ.get("METAMETRO_SRC"):
-        candidates.append(Path(os.environ["METAMETRO_SRC"]))
-    candidates.append(root / "external" / "MetaMetro" / "src")
-    candidates.append(Path("external") / "MetaMetro" / "src")
-    seen: set[Path] = set()
-    for path in candidates:
-        try:
-            key = path.resolve()
-        except OSError:
-            key = path
-        if key in seen:
-            continue
-        seen.add(key)
-        if (path / "metametro" / "__init__.py").is_file():
-            return path
-    raise FileNotFoundError(
-        "MetaMetro source was not found. Set METAMETRO_SRC or clone it to external/MetaMetro."
-    )
-
-
-def ensure_metametro(root: Path) -> None:
-    """Put MetaMetro on ``sys.path`` once."""
-    src = str(metametro_src(root))
-    if src not in sys.path:
-        sys.path.insert(0, src)
 
 
 def _composition(sequence: str) -> tuple[str, str]:
@@ -70,7 +34,6 @@ def _display_path(path: Path, relative_to: Path | None) -> str:
 
 def export_tocumg(
     *,
-    root: Path,
     graph_id: str,
     sequences: dict[str, str],
     edges: list[dict],
@@ -86,7 +49,6 @@ def export_tocumg(
     that root contains the destination. Colouring must leave node and edge
     order unchanged.
     """
-    ensure_metametro(root)
     from metametro.contracts.colouring import colour_cfa
     from metametro.converters import cfa_to_cdbg
     from metametro.formats.cdbg import dump_cdbg

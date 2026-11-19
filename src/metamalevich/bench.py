@@ -407,7 +407,6 @@ def run_dataset(data_root: Path, name: str, *, intermediate: Path, benchmark: Pa
     node_taxa = {node_id: [taxon_id for taxon_id in dist if taxon_id != 0] for node_id, dist in evidence.items()}
     edge_taxa = {edge_id: [taxon_id for taxon_id in dist if taxon_id != 0] for edge_id, dist in edge_dist.items()}
     tocumg = export_tocumg(
-        root=Path(__file__).resolve().parents[2],
         graph_id=name,
         sequences=sequences,
         edges=edges,

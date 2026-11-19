@@ -53,19 +53,13 @@ Abundance scores are required to use the taxon id assigned to each read before s
 Conda is the supported install. Python dependencies and `gxx_linux-64` are pinned in `environment.yml`. The compiler builds `cpp/kraken_count` and `cpp/kmer_knn` on first use.
 
 ```bash
-git clone https://github.com/dsmutin/metaMalevich
+git clone --recurse-submodules https://github.com/dsmutin/metaMalevich
 cd metaMalevich
 conda env create -f environment.yml
 conda activate metamalevich
 ```
 
-`environment.yml` sets `PYTHONPATH=src:external/MetaMetro/src`. Run commands from the repository root. The submodule `external/MetaMetro` is [dsmutin/MetaMetro](https://github.com/dsmutin/MetaMetro) at the commit recorded in this repository. GitHub Actions checks that submodule out and installs it into the conda env. Colourings and `benchbuild` communities live there. MetaMetro's `full-tests` workflow runs `metametro benchbuild --all`.
-
-```bash
-git clone --recurse-submodules https://github.com/dsmutin/metaMalevich
-```
-
-`METAMETRO_SRC` overrides the submodule when it points at a MetaMetro `src` directory. Details: [How to install](https://github.com/dsmutin/metaMalevich/wiki/How-to-install).
+`metametro` ([dsmutin/MetaMetro](https://github.com/dsmutin/MetaMetro)) is a required dependency with an exact version in `pyproject.toml`. `environment.yml` installs it from the `external/MetaMetro` submodule and then installs this package, both in editable mode. Colourings and `benchbuild` communities live there. MetaMetro's `full-tests` workflow runs `metametro benchbuild --all`. Details: [How to install](https://github.com/dsmutin/metaMalevich/wiki/How-to-install).
 
 ## Usage
 

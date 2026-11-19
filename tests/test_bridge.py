@@ -1,4 +1,4 @@
-"""Optional ToCUMG export. Requires a local MetaMetro checkout."""
+"""Optional ToCUMG export through the installed MetaMetro package."""
 
 from __future__ import annotations
 
@@ -6,21 +6,15 @@ from pathlib import Path
 
 import pytest
 
-from metamalevich.bridge import export_tocumg, metametro_src
+from metamalevich.bridge import export_tocumg
 
 pytestmark = pytest.mark.optional
 
 
 def test_tocumg_colouring_keeps_topology(tmp_path: Path) -> None:
     """colour_cfa then cfa_to_cdbg leaves the node and edge order unchanged."""
-    root = Path(__file__).resolve().parents[1]
-    try:
-        metametro_src(root)
-    except FileNotFoundError:
-        pytest.skip("MetaMetro checkout is not available")
     destination = tmp_path / "tocumg"
     result = export_tocumg(
-        root=root,
         graph_id="toy",
         sequences={"a": "ACGTACGT", "b": "GGGGCCCC"},
         edges=[{"edge_id": "e1", "source": "a", "target": "b", "orientation": "++", "weight": 0.5}],

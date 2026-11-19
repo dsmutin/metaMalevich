@@ -2,11 +2,12 @@
 
 from __future__ import annotations
 
+import re
+from importlib import metadata
 from pathlib import Path
 
 import pytest
 
-from metamalevich.bridge import metametro_src
 from metamalevich.native import tool_source
 
 pytestmark = pytest.mark.mandatory
@@ -26,10 +27,10 @@ def test_tool_source_finds_the_repository_sources() -> None:
     assert source.is_file()
 
 
-def test_metametro_search_rejects_a_missing_checkout(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
-    """A missing MetaMetro checkout fails with setup instructions and no machine path."""
-    monkeypatch.delenv("METAMETRO_SRC", raising=False)
-    monkeypatch.chdir(tmp_path)
-    with pytest.raises(FileNotFoundError, match="external/MetaMetro") as caught:
-        metametro_src(tmp_path)
-    assert "/mnt/" not in str(caught.value)
+def test_installed_metametro_matches_the_pin() -> None:
+    """MetaMetro is a declared dependency with an exact version, and the installed one matches it."""
+    requirements = [req for req in metadata.requires("metamalevich") or [] if req.startswith("metametro")]
+    assert len(requirements) == 1
+    pinned = re.fullmatch(r"metametro==(\S+)", requirements[0].replace(" ", ""))
+    assert pinned, requirements[0]
+    assert metadata.version("metametro") == pinned.group(1)
