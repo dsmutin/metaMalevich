@@ -14,7 +14,7 @@ dependencies = [
   "pyyaml==6.0.3",
   "pandas==3.0.6",
   "altair==6.2.2",
-  "metametro==0.22.0",
+  "metametro==0.22.1",
 ]
 
 [project.scripts]
