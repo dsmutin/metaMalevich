@@ -445,7 +445,7 @@ def test_inprocess_bench_with_a_pin_is_built(
 def test_inprocess_solve_stands_beside_a_phage_contract(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch, taxdump: Path, bubble_kraken: Path
 ) -> None:
-    """A built in-process graph can be solved while phage_10 stays a contract."""
+    """A built in-process graph is solved while phage_10 stays a contract; the batch is not ok."""
     _phage_not_ready(monkeypatch, _GENOME_ERRORS, [])
     summary = solve_benches(
         ["bubble_strain_2", "phage_10"],
@@ -453,12 +453,36 @@ def test_inprocess_solve_stands_beside_a_phage_contract(
         kraken_output=bubble_kraken,
         taxdump=taxdump,
     )
-    assert summary["ok"] is True
+    assert summary["ok"] is False
+    assert summary["status"] == "incomplete"
     built, phage = summary["benches"]
     assert built["solved"] is True
     assert phage["canonical_name"] == "phage_species_5_x10"
+    assert phage["build_status"] == "contract"
     assert phage["solved"] is False
     assert phage["missing"] == _GENOME_ERRORS
+
+
+def test_skipped_benches_do_not_mask_a_phage_contract(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    """The CI call without MEGAHIT: two skipped benches and a phage contract is not ok, exit 1."""
+    _phage_not_ready(monkeypatch, [], _PROGRAM_ERRORS)
+    monkeypatch.delenv("TAXDUMP", raising=False)
+    code = main(
+        [
+            "solve",
+            "--bench", "bubble_strain_2",
+            "--bench", "synthetic_reads_2",
+            "--bench", "phage_10",
+            "--workdir", str(tmp_path / "work"),
+        ]
+    )
+    summary = json.loads(capsys.readouterr().out)
+    assert code == 1
+    assert summary["ok"] is False
+    assert summary["status"] == "incomplete"
+    assert [row["build_status"] for row in summary["benches"]] == ["skipped", "skipped", "contract"]
 
 
 def _patch_gold(monkeypatch: pytest.MonkeyPatch, nodes: dict[str, str] | None) -> None:

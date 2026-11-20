@@ -1,12 +1,13 @@
 name: full tests
 
 # All pytest, light examples, then a solve on MetaMetro benches.
-# The pinned phage_10 genomes are fetched with `metametro benchfetch` first.
-# In-process benches are skipped with a reason: they have toy sequences and
-# no pinned Kraken2 output. phage_10 uses MetaMetro's pinned Kraken2 output. phage_10 (phage_species_5_x10) is assembled only when
-# MetaMetro's checks pass (pinned genomes, samovar, MEGAHIT). The GitHub
-# runner has no samovar or MEGAHIT, so that bench records its contract and
-# the errors MetaMetro raised.
+# The job installs MEGAHIT 1.2.9 (bioconda) into the env and SAMOVAR
+# (ctlab/samovar at a pinned commit, its own conda env and install.sh), and
+# fetches the pinned phage_10 genomes with `metametro benchfetch`. phage_10
+# (phage_species_5_x10) is then assembled and solved with MetaMetro's pinned
+# Kraken2 output and TAXDUMP; the job checks that its row is built and
+# solved. In-process benches are skipped with a reason: they have toy
+# sequences and no pinned Kraken2 output.
 # Community runners (examples/*/run_example.py) download genomes and stay out.
 # A push of this file is included so Actions registers the workflow and the
 # status badge has a run. Ordinary commits do not start it.
@@ -66,13 +67,50 @@ jobs:
             echo "no light integrative example found" >&2
             exit 1
           fi
+      - name: Install MEGAHIT
+        timeout-minutes: 15
+        run: conda install -y -n metamalevich -c conda-forge -c bioconda megahit=1.2.9
+      - name: Install SAMOVAR
+        timeout-minutes: 40
+        env:
+          CI: "true"
+          NCBI_EMAIL: test@samovar.com
+          SAMOVAR_UPDATE_SHELL: "0"
+          SAMOVAR_COMMIT: d6bb8246f9e31c7890f4393aa92bc7e0aa53d593
+        run: |
+          set -euo pipefail
+          git clone https://github.com/ctlab/samovar "$RUNNER_TEMP/samovar"
+          git -C "$RUNNER_TEMP/samovar" checkout "$SAMOVAR_COMMIT"
+          conda env create -n samovar -f "$RUNNER_TEMP/samovar/environment.yml"
+          conda activate samovar
+          cd "$RUNNER_TEMP/samovar"
+          chmod +x install.sh
+          ./install.sh
+          echo "$RUNNER_TEMP/samovar/bin" >> "$GITHUB_PATH"
+      - name: Check assembly programs
+        run: |
+          which samovar megahit megahit_toolkit
+          megahit --version
       - name: Fetch pinned phage genomes
         timeout-minutes: 10
         run: metametro benchfetch phage_10
       - name: Solve simple MetaMetro benches
         timeout-minutes: 30
         run: |
+          set -euo pipefail
           python -m metamalevich solve \
             --bench bubble_strain_2 \
             --bench synthetic_reads_2 \
-            --bench phage_10
+            --bench phage_10 \
+            --workdir "$RUNNER_TEMP/solve" \
+            -o "$RUNNER_TEMP/solve.json"
+          python - "$RUNNER_TEMP/solve.json" <<'PY'
+          import json, sys
+          summary = json.load(open(sys.argv[1]))
+          rows = {row["bench"]: row for row in summary["benches"]}
+          phage = rows["phage_10"]
+          print(json.dumps({k: v for k, v in phage.items() if k != "profile_fractions"}, indent=2))
+          assert phage["build_status"] == "built", phage
+          assert phage["solved"] is True, phage
+          assert summary["ok"] is True, summary["status"]
+          PY

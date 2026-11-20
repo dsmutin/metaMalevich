@@ -204,7 +204,10 @@ def solve_benches(
         row["bench"] for row in rows if row["build_status"] == "built" and not row["solved"]
     ]
     errors = [row for row in rows if row["build_status"] == "error"]
-    ok = not unresolved_graph and not errors and bool(solved or skipped_rows)
+    unbuilt = [row for row in rows if row["build_status"] not in {"built", "skipped"}]
+    # A requested bench that was not built (contract, error) is never masked by
+    # a skipped or solved neighbour.
+    ok = not unresolved_graph and not errors and not unbuilt and bool(solved or skipped_rows)
     if not ok:
         status = "incomplete"
     elif solved:
