@@ -363,10 +363,10 @@ def test_pinned_taxdump_is_recorded_on_the_row(tmp_path: Path, monkeypatch: pyte
     assert row["taxdump_source"] == "pin"
 
 
-def test_pin_without_a_taxdump_stops_before_assembly(
+def test_pin_without_a_taxdump_is_a_row_error(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    """If MetaMetro pinned no TAXDUMP and none is given, solve stops before build."""
+    """If MetaMetro pinned no TAXDUMP and none is given, that bench errors before build."""
     import importlib
 
     _phage_not_ready(monkeypatch, [], [])
@@ -374,9 +374,39 @@ def test_pin_without_a_taxdump_stops_before_assembly(
     module = importlib.import_module("metametro.bench.kraken_pin")
     monkeypatch.setattr(module, "pinned_taxdump", lambda _bench, **_kw: None)
     called = _stop_at_build(monkeypatch)
-    with pytest.raises(ValueError, match="pins no TAXDUMP"):
-        solve_benches(["phage_10"], tmp_path / "work")
+    summary = solve_benches(["phage_10"], tmp_path / "work")
+    row = summary["benches"][0]
+    assert row["build_status"] == "error"
+    assert "pins no TAXDUMP" in row["error"]
+    assert summary["ok"] is False
     assert called == []
+
+
+def test_broken_pin_fails_only_its_bench(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, taxdump: Path, bubble_kraken: Path
+) -> None:
+    """A pin that MetaMetro rejects gives an error row; the other benches keep their rows."""
+    import importlib
+
+    from metametro.errors import ContractError
+
+    module = importlib.import_module("metametro.bench.kraken_pin")
+    real = module.kraken_pin
+
+    def kraken_pin(bench, **kw):
+        if bench in ("phage_10", "phage_species_5_x10"):
+            raise ContractError(["nodes.kraken does not have the SHA-256 pinned in kraken2.yaml"])
+        return real(bench, **kw)
+
+    monkeypatch.setattr(module, "kraken_pin", kraken_pin)
+    summary = solve_benches(["bubble_strain_2", "phage_10", "synthetic_reads_2"], tmp_path / "work")
+    bubble, phage, synthetic = summary["benches"]
+    assert phage["build_status"] == "error"
+    assert "SHA-256" in phage["error"]
+    assert bubble["build_status"] == "skipped"
+    assert synthetic["build_status"] == "skipped"
+    assert summary["ok"] is False
+    assert summary["status"] == "incomplete"
 
 
 def test_ready_phage_without_any_kraken_input_is_skipped(

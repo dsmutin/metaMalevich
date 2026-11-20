@@ -31,6 +31,8 @@ NO_KRAKEN_REASON = (
     "and MetaMetro pins no Kraken2 output for this bench"
 )
 _PHAGE_PREFIX = "phage_species_5"
+# A broken MetaMetro pin (hash mismatch, missing file or key) fails only its own bench.
+_PIN_ERRORS = (ValueError, OSError, KeyError, TypeError)
 _PHAGE_PROGRAMS = ("samovar", "megahit", "megahit_toolkit")
 
 
@@ -105,7 +107,11 @@ def solve_benches(
         chosen, taxdump_source = None, None
     if has_kraken and chosen is None:
         for name in requested:
-            if _kraken_pin_index(name) is not None:
+            try:
+                has_pin = _kraken_pin_index(name) is not None
+            except _PIN_ERRORS:
+                has_pin = True
+            if has_pin:
                 raise ValueError(
                     f"explicit --kraken-output/--kraken-db disables the MetaMetro pin for "
                     f"{resolve(name).name}; pass --taxdump for your own index"
@@ -127,7 +133,11 @@ def solve_benches(
         destination = root / spec.name
         missing = _phage_preflight(spec)
         run_execute = bool(execute) or (spec.name.startswith(_PHAGE_PREFIX) and not missing)
-        pin_index = None if has_kraken else _kraken_pin_index(spec.name)
+        try:
+            pin_index = None if has_kraken else _kraken_pin_index(spec.name)
+        except _PIN_ERRORS as exc:
+            rows.append(_error_row(name, spec.name, f"MetaMetro Kraken2 pin: {exc}"))
+            continue
         pinned = pin_index is not None
         will_build = spec.kind == "inprocess" or run_execute
         if not (has_kraken or pinned) and will_build:
@@ -144,7 +154,11 @@ def solve_benches(
             continue
         bench_taxonomy, bench_source = taxonomy, taxdump_source
         if will_build and bench_taxonomy is None:
-            bench_taxonomy, bench_source = _pinned_taxonomy(spec.name), "pin"
+            try:
+                bench_taxonomy, bench_source = _pinned_taxonomy(spec.name), "pin"
+            except _PIN_ERRORS as exc:
+                rows.append(_error_row(name, spec.name, f"MetaMetro pinned TAXDUMP: {exc}"))
+                continue
         result = build(
             name,
             outdir=destination,
@@ -189,7 +203,8 @@ def solve_benches(
     unresolved_graph = [
         row["bench"] for row in rows if row["build_status"] == "built" and not row["solved"]
     ]
-    ok = not unresolved_graph and bool(solved or skipped_rows)
+    errors = [row for row in rows if row["build_status"] == "error"]
+    ok = not unresolved_graph and not errors and bool(solved or skipped_rows)
     if not ok:
         status = "incomplete"
     elif solved:
@@ -208,6 +223,17 @@ def solve_benches(
         summary["taxdump"] = taxonomy.version
         summary["taxdump_source"] = taxdump_source
     return summary
+
+
+def _error_row(bench: str, canonical_name: str, message: str) -> dict:
+    """Row for a bench that stopped before its build; other benches still run."""
+    return {
+        "bench": bench,
+        "canonical_name": canonical_name,
+        "build_status": "error",
+        "solved": False,
+        "error": message,
+    }
 
 
 def _load_taxdump(path: Path | str | None) -> Taxonomy:
