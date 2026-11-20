@@ -6,8 +6,9 @@ name: full tests
 # fetches the pinned phage_10 genomes with `metametro benchfetch`. phage_10
 # (phage_species_5_x10) is then assembled and solved with MetaMetro's pinned
 # Kraken2 output and TAXDUMP; the job checks that its row is built and
-# solved. In-process benches are skipped with a reason: they have toy
-# sequences and no pinned Kraken2 output.
+# solved, that its built identity matches MetaMetro's canonical identity,
+# and that species hits > 0 with genus >= species. In-process benches are
+# skipped with a reason: they have toy sequences and no pinned Kraken2 output.
 # Community runners (examples/*/run_example.py) download genomes and stay out.
 # A push of this file is included so Actions registers the workflow and the
 # status badge has a run. Ordinary commits do not start it.
@@ -116,6 +117,11 @@ jobs:
           assert phage["build_status"] == "built", phage
           assert phage["solved"] is True, phage
           assert not phage.get("colourings_skipped"), phage.get("colourings_skipped")
+          # The pinned default build must reproduce MetaMetro's canonical graph.
+          assert phage["identity_match"] is True, (phage["identity_as_built"], phage["identity_canonical"])
+          metrics = phage["metrics"]
+          assert metrics["species"]["hits"] > 0, metrics["species"]
+          assert metrics["genus"]["value"] >= metrics["species"]["value"], (metrics["genus"], metrics["species"])
           assert summary["ok"] is True, summary["status"]
           assert sys.argv[2] == "0", sys.argv[2]
           PY
