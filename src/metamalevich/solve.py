@@ -195,6 +195,10 @@ def solve_benches(
                 row["colourings_skipped"] = skipped
         elif result.status == "contract":
             row["missing"] = missing
+            # A contract row says which TAXDUMP would have been used; null when
+            # none was resolved before the build stopped.
+            row["taxdump"] = bench_taxonomy.version if bench_taxonomy is not None else None
+            row["taxdump_source"] = bench_source if bench_taxonomy is not None else None
         else:
             raise ValueError(f"{name} finished with status {result.status}")
         rows.append(row)
@@ -205,9 +209,17 @@ def solve_benches(
     ]
     errors = [row for row in rows if row["build_status"] == "error"]
     unbuilt = [row for row in rows if row["build_status"] not in {"built", "skipped"}]
-    # A requested bench that was not built (contract, error) is never masked by
-    # a skipped or solved neighbour.
-    ok = not unresolved_graph and not errors and not unbuilt and bool(solved or skipped_rows)
+    # A built bench that lost a requested colouring is not a full solve.
+    layer_gaps = [row for row in rows if row["build_status"] == "built" and row.get("colourings_skipped")]
+    # A requested bench that was not built (contract, error) or was built
+    # without a requested layer is never masked by a skipped or solved neighbour.
+    ok = (
+        not unresolved_graph
+        and not errors
+        and not unbuilt
+        and not layer_gaps
+        and bool(solved or skipped_rows)
+    )
     if not ok:
         status = "incomplete"
     elif solved:

@@ -585,3 +585,67 @@ def test_taxid_gold_is_scored(
     assert metrics["accuracy_any"] == pytest.approx(0.75)
     assert metrics["accuracy"] == pytest.approx(1.0)
     assert metrics["f1"] == pytest.approx(1.0)
+
+
+def test_contract_row_records_a_null_taxdump_source(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """A contract with no TAXDUMP resolved carries taxdump and taxdump_source as null."""
+    _phage_not_ready(monkeypatch, [], _PROGRAM_ERRORS)
+    monkeypatch.delenv("TAXDUMP", raising=False)
+    row = solve_benches(["phage_10"], tmp_path / "work")["benches"][0]
+    assert row["build_status"] == "contract"
+    assert row["taxdump"] is None
+    assert row["taxdump_source"] is None
+
+
+def test_contract_row_records_the_given_taxdump_source(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, taxdump: Path
+) -> None:
+    _phage_not_ready(monkeypatch, [], _PROGRAM_ERRORS)
+    monkeypatch.setenv("TAXDUMP", str(taxdump))
+    row = solve_benches(["phage_10"], tmp_path / "work")["benches"][0]
+    assert row["build_status"] == "contract"
+    assert row["taxdump"] == "taxdump_test"
+    assert row["taxdump_source"] == "env"
+
+
+def test_a_skipped_colouring_makes_the_solve_not_ok(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    taxdump: Path,
+    bubble_kraken: Path,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    """A built bench that MetaMetro painted without a requested layer is not ok, exit 1."""
+    import importlib
+    from types import SimpleNamespace
+
+    bench_build = importlib.import_module("metametro.bench.build")
+    real = bench_build.build
+
+    def build(name, **kwargs):
+        result = real(name, **kwargs)
+        kept = tuple(layer for layer in result.colourings if layer != "decaying")
+        return SimpleNamespace(spec=result.spec, status=result.status, colourings=kept, outdir=result.outdir)
+
+    monkeypatch.setattr(bench_build, "build", build)
+    code = main(
+        [
+            "solve",
+            "--bench",
+            "bubble_strain_2",
+            "--kraken-output",
+            str(bubble_kraken),
+            "--taxdump",
+            str(taxdump),
+            "--workdir",
+            str(tmp_path / "work"),
+        ]
+    )
+    summary = json.loads(capsys.readouterr().out)
+    row = summary["benches"][0]
+    assert row["build_status"] == "built"
+    assert row["solved"] is True
+    assert row["colourings_skipped"] == ["decaying"]
+    assert summary["ok"] is False
+    assert summary["status"] == "incomplete"
+    assert code == 1

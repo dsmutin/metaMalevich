@@ -98,19 +98,31 @@ jobs:
         timeout-minutes: 30
         run: |
           set -euo pipefail
+          solve_exit=0
           python -m metamalevich solve \
             --bench bubble_strain_2 \
             --bench synthetic_reads_2 \
             --bench phage_10 \
             --workdir "$RUNNER_TEMP/solve" \
-            -o "$RUNNER_TEMP/solve.json"
-          python - "$RUNNER_TEMP/solve.json" <<'PY'
+            -o "$RUNNER_TEMP/solve.json" || solve_exit=$?
+          # Print the phage_10 row and check it even when solve failed.
+          python - "$RUNNER_TEMP/solve.json" "$solve_exit" <<'PY'
           import json, sys
           summary = json.load(open(sys.argv[1]))
-          rows = {row["bench"]: row for row in summary["benches"]}
-          phage = rows["phage_10"]
+          rows = {row["canonical_name"]: row for row in summary["benches"]}
+          phage = rows["phage_species_5_x10"]
           print(json.dumps({k: v for k, v in phage.items() if k != "profile_fractions"}, indent=2))
+          print("solve exit:", sys.argv[2], "status:", summary["status"])
           assert phage["build_status"] == "built", phage
           assert phage["solved"] is True, phage
+          assert not phage.get("colourings_skipped"), phage.get("colourings_skipped")
           assert summary["ok"] is True, summary["status"]
+          assert sys.argv[2] == "0", sys.argv[2]
           PY
+      - name: Upload the solve summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: solve-summary
+          path: ${{ runner.temp }}/solve.json
+          if-no-files-found: warn
