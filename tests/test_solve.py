@@ -592,6 +592,7 @@ def test_taxid_gold_is_scored(
     assert metrics["species"] == {"hits": 2, "n": 4, "value": pytest.approx(0.5)}
     assert metrics["lineage"] == {"hits": 3, "n": 4, "value": pytest.approx(0.75)}
     assert metrics["lineage_descendant"] == {"hits": 0, "n": 4, "value": 0.0}
+    assert metrics["lineage_above_genus"] == {"hits": 0, "n": 4, "value": 0.0}
     assert metrics["unresolved"] == {"hits": 1, "n": 4, "value": pytest.approx(0.25)}
     exact = metrics["exact"]
     assert exact["accuracy_any"] == pytest.approx(0.75)
@@ -686,7 +687,8 @@ def _rank_taxonomy():
         (1, None, "R"),
         (2, 1, "D"),
         (1236, 2, "D1"),
-        (543, 1236, "F"),
+        (1235, 1236, "C"),
+        (543, 1235, "F"),
         (561, 543, "G"),
         (562, 561, "S"),
         (83333, 562, "S1"),
@@ -725,6 +727,7 @@ def test_rank_metrics_roll_up_to_genus_and_species() -> None:
     # K-12 under E. coli gold is a descendant; E. coli on K-12 gold is an ancestor.
     assert metrics["lineage"] == {"hits": 4, "n": 6, "value": pytest.approx(4 / 6)}
     assert metrics["lineage_descendant"] == {"hits": 1, "n": 6, "value": pytest.approx(1 / 6)}
+    assert metrics["lineage_above_genus"] == {"hits": 1, "n": 6, "value": pytest.approx(1 / 6)}
     assert metrics["unresolved"] == {"hits": 2, "n": 6, "value": pytest.approx(2 / 6)}
 
 
@@ -790,3 +793,20 @@ def test_a_descendant_call_is_a_lineage_hit_counted_as_descendant() -> None:
     )
     assert metrics["lineage"]["hits"] == 2
     assert metrics["lineage_descendant"] == {"hits": 1, "n": 3, "value": pytest.approx(1 / 3)}
+
+
+def test_root_and_class_calls_are_lineage_hits_above_genus() -> None:
+    """A call on the root or on a class above gold stays on the lineage but is
+    counted in lineage_above_genus and as unresolved, never as a genus hit."""
+    from metamalevich.evaluate import rank_metrics
+
+    taxonomy = _rank_taxonomy()
+    metrics = rank_metrics(
+        {"root": 1, "class": 1235, "genus": 561},
+        {"root": {562}, "class": {562}, "genus": {562}},
+        taxonomy,
+    )
+    assert metrics["lineage"]["hits"] == 3
+    assert metrics["lineage_above_genus"] == {"hits": 2, "n": 3, "value": pytest.approx(2 / 3)}
+    assert metrics["unresolved"]["hits"] == 2
+    assert metrics["genus"]["hits"] == 1
