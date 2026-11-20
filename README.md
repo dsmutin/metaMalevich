@@ -68,10 +68,10 @@ python -m metamalevich --version
 python -m metamalevich
 python examples/toy/run.py
 python -m metamalevich bench --data-root . --benchmark benchmark
-python -m metamalevich solve --bench bubble_strain_2 --bench phage_10
+python -m metamalevich solve --bench bubble_strain_2 --kraken-output kraken.tsv --taxdump "$TAXDUMP"
 ```
 
-`solve` builds the named MetaMetro benches and runs `gated_neighbour` on `composition_kmeans` and `decaying`. It does not read `ground_truth/`. `phage_10` is the five-phage bench at 10× read depth (`phage_species_5_x10`). That assembly runs when samovar, MEGAHIT, and the five genome FASTA files are already present. Otherwise the command records the MetaMetro contract for that bench.
+`solve` builds the named MetaMetro benches with the `kraken2`, `composition_kmeans`, and `decaying` colourings and runs `gated_neighbour` on the `kraken2` taxa. `kraken2` is the required taxonomic layer: its colour values are NCBI taxon ids, and each one must be in the NCBI TAXDUMP given by `--taxdump` or `TAXDUMP`. `--kraken-output`, `--kraken-db`, `--kaiju-output`, and `--kaiju-db` go to MetaMetro `build()` for every bench in the call; the ids in a Kraken2 output are CFA node ids. A bench without a Kraken2 input is skipped with a reason until MetaMetro ships pinned Kraken2 outputs. It does not read `ground_truth/`. `phage_10` is the five-phage bench at 10× read depth (`phage_species_5_x10`). That assembly runs when samovar, MEGAHIT, and the five genome FASTA files are already present. Otherwise the command records the MetaMetro contract for that bench.
 
 With no command, the CLI runs a three-node toy and prints JSON. `bench` reads Kraken2 output already stored for `samovar10`, builds the 4-mer graph, colours nodes and edges, and writes each hypothesis under `benchmark/{hypothesis}/{dataset}/`. Reusable counts and edges go to `./intermediate`. `samovar10_ont1b` repeats the same FASTA, Kraken2 output, and ground truth, so it is not a second dataset. On `samovar10`, `genome_abundance` matches the base share, so the benchmark scores how bases are classified.
 

@@ -1,13 +1,14 @@
-"""Taxon records parsed from a Kraken-style report.
+"""Taxon records parsed from a Kraken-style report or an NCBI TAXDUMP.
 
 Identifiers are integers. Names are display text. A parent link is taken from
-report indentation, and the report file name is the taxonomy version unless
-the caller sets one.
+report indentation, or from ``nodes.dmp``. The caller names the taxonomy
+version.
 """
 
 from __future__ import annotations
 
 from dataclasses import dataclass
+from pathlib import Path
 
 
 RANK_LADDER = ("R", "D", "K", "P", "C", "O", "F", "G", "S")
@@ -162,3 +163,109 @@ def parse_kraken_report(text: str, *, source: str = "kraken2", version: str) -> 
     if not records:
         raise ValueError("taxonomy report is empty")
     return Taxonomy(records, source=source, version=version)
+
+
+NCBI_RANK_CODES = {
+    "superkingdom": "D",
+    "domain": "D",
+    "realm": "D",
+    "kingdom": "K",
+    "phylum": "P",
+    "class": "C",
+    "order": "O",
+    "family": "F",
+    "genus": "G",
+    "species": "S",
+}
+
+
+def _dmp_fields(line: str) -> list[str]:
+    """Split one ``*.dmp`` row on its tab, pipe, tab separator."""
+    text = line.rstrip("\n")
+    if text.endswith("\t|"):
+        text = text[:-2]
+    return [field.strip() for field in text.split("\t|\t")]
+
+
+def parse_taxdump(directory: Path, *, version: str | None = None) -> Taxonomy:
+    """Parse NCBI ``nodes.dmp`` and ``names.dmp`` from a TAXDUMP directory.
+
+    Ranks get Kraken codes. A rank outside the standard ladder takes the code
+    of its nearest standard ancestor plus the number of steps to it (a strain
+    under a species is ``S1``), as in a Kraken2 report. Taxon 1 is ``R``.
+    ``version`` defaults to the directory name.
+    """
+    root = Path(directory)
+    nodes_path = root / "nodes.dmp"
+    names_path = root / "names.dmp"
+    missing = [str(path) for path in (nodes_path, names_path) if not path.is_file()]
+    if missing:
+        raise FileNotFoundError(f"TAXDUMP is missing {', '.join(missing)}")
+    label = version if version is not None else root.resolve().name
+    if not label.strip():
+        raise ValueError("taxonomy version is required")
+    parents: dict[int, int | None] = {}
+    ranks: dict[int, str] = {}
+    with nodes_path.open(encoding="utf-8") as handle:
+        for line_number, line in enumerate(handle, start=1):
+            if not line.strip():
+                continue
+            fields = _dmp_fields(line)
+            if len(fields) < 3:
+                raise ValueError(f"nodes.dmp line {line_number} has fewer than 3 fields")
+            try:
+                taxon_id, parent_id = int(fields[0]), int(fields[1])
+            except ValueError as exc:
+                raise ValueError(f"nodes.dmp line {line_number} has a non-integer taxon id") from exc
+            if taxon_id in parents:
+                raise ValueError(f"nodes.dmp repeats taxon_id {taxon_id}")
+            parents[taxon_id] = None if parent_id == taxon_id else parent_id
+            ranks[taxon_id] = fields[2]
+    if not parents:
+        raise ValueError(f"{nodes_path} is empty")
+    names: dict[int, str] = {}
+    with names_path.open(encoding="utf-8") as handle:
+        for line_number, line in enumerate(handle, start=1):
+            if not line.strip():
+                continue
+            fields = _dmp_fields(line)
+            if len(fields) < 4:
+                raise ValueError(f"names.dmp line {line_number} has fewer than 4 fields")
+            if fields[3] == "scientific name":
+                names[int(fields[0])] = fields[1]
+    codes: dict[int, str] = {}
+    for start in parents:
+        chain: list[int] = []
+        current: int | None = start
+        while current is not None and current not in codes:
+            if current in chain:
+                raise ValueError(f"taxonomy cycle at {current}")
+            chain.append(current)
+            current = parents.get(current)
+        for taxon_id in reversed(chain):
+            codes[taxon_id] = _rank_code(taxon_id, ranks[taxon_id], codes.get(parents[taxon_id] or -1))
+    records = [
+        Taxon(
+            taxon_id=taxon_id,
+            parent_taxon_id=parent,
+            rank=codes[taxon_id],
+            name=names.get(taxon_id, f"taxon:{taxon_id}"),
+            taxonomy_source="ncbi_taxdump",
+            taxonomy_version=label,
+        )
+        for taxon_id, parent in parents.items()
+    ]
+    return Taxonomy(records, source="ncbi_taxdump", version=label)
+
+
+def _rank_code(taxon_id: int, rank: str, parent_code: str | None) -> str:
+    """Kraken rank code for one node, given its parent's code."""
+    if taxon_id == 1:
+        return "R"
+    if rank in NCBI_RANK_CODES:
+        return NCBI_RANK_CODES[rank]
+    if parent_code is None:
+        return "R1"
+    base = parent_code.rstrip("0123456789") or parent_code
+    suffix = parent_code[len(base) :]
+    return f"{base}{int(suffix) + 1 if suffix else 1}"

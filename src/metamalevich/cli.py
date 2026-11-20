@@ -63,6 +63,19 @@ def main(argv: list[str] | None = None) -> int:
         default=None,
         help="Directory for solve benchbuild output. Default: a temporary directory",
     )
+    for flag, what in (
+        ("--kraken-db", "Kraken2 database"),
+        ("--kraken-output", "Kraken2 per-sequence output whose ids are CFA node ids"),
+        ("--kaiju-db", "Kaiju database"),
+        ("--kaiju-output", "Kaiju per-sequence output whose ids are CFA node ids"),
+    ):
+        parser.add_argument(flag, type=Path, default=None, help=f"solve: {what}, passed to MetaMetro build()")
+    parser.add_argument(
+        "--taxdump",
+        type=Path,
+        default=None,
+        help="solve: NCBI TAXDUMP directory (nodes.dmp, names.dmp). Default: $TAXDUMP",
+    )
     args = parser.parse_args(argv)
     if args.version:
         print(__version__)
@@ -112,17 +125,21 @@ def _solve(args: argparse.Namespace) -> int:
     if not args.benches:
         print("solve requires at least one --bench name", file=sys.stderr)
         return 2
+    options = {
+        "execute": args.execute,
+        "kraken_db": args.kraken_db,
+        "kraken_output": args.kraken_output,
+        "kaiju_db": args.kaiju_db,
+        "kaiju_output": args.kaiju_output,
+        "taxdump": args.taxdump,
+    }
     try:
         if args.workdir is None:
             with tempfile.TemporaryDirectory(prefix="metamalevich-solve-") as tmp:
-                summary = solve_benches(
-                    args.benches, Path(tmp), args.colourings, execute=args.execute
-                )
+                summary = solve_benches(args.benches, Path(tmp), args.colourings, **options)
         else:
-            summary = solve_benches(
-                args.benches, args.workdir, args.colourings, execute=args.execute
-            )
-    except (ValueError, ContractError) as exc:
+            summary = solve_benches(args.benches, args.workdir, args.colourings, **options)
+    except (ValueError, FileNotFoundError, ContractError) as exc:
         print(exc, file=sys.stderr)
         return 1
     _emit(json.dumps(summary, indent=2), args.output)

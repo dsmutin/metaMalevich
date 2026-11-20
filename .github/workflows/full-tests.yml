@@ -70,6 +70,4 @@ jobs:
           python -m metamalevich solve \
             --bench bubble_strain_2 \
             --bench synthetic_reads_2 \
-            --bench phage_10 \
-            --colouring composition_kmeans \
-            --colouring decaying
+            --bench phage_10
