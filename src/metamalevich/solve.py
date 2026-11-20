@@ -432,18 +432,20 @@ def _gold_metrics(
         gold = load_bench_gold(outdir, GOLD_NAMESPACE)
     except ContractError as exc:
         return None, f"no gold {GOLD_NAMESPACE} labels on this bench: {exc}"
-    names = [value for value in gold.values if not value.isdigit()]
+    # Judge the labels on this graph's nodes, not the declared vocabulary
+    # (taxon_values.tsv), so one stale vocabulary entry cannot null the metrics.
+    observed = {
+        unitig.unitig_id: {value for member in unitig.members for value in gold.nodes.get(member, ())}
+        for unitig in graph.unitigs
+    }
+    names = sorted({value for labels in observed.values() for value in labels if not value.isdigit()})
     if names:
         shown = ", ".join(names[:5])
         return None, (
             f"gold {GOLD_NAMESPACE} labels are bench names ({shown}), not NCBI taxon ids, "
             "and ground_truth has no mapping from them to taxon ids"
         )
-    by_unitig: dict[str, set[int]] = {}
-    for unitig in graph.unitigs:
-        labels = {int(value) for member in unitig.members for value in gold.nodes.get(member, ())}
-        if labels:
-            by_unitig[unitig.unitig_id] = labels
+    by_unitig = {unitig_id: {int(value) for value in labels} for unitig_id, labels in observed.items() if labels}
     if not by_unitig:
         return None, f"no unitig carries a gold {GOLD_NAMESPACE} label"
     single = {unitig_id: next(iter(labels)) for unitig_id, labels in by_unitig.items() if len(labels) == 1}

@@ -485,7 +485,9 @@ def test_skipped_benches_do_not_mask_a_phage_contract(
     assert [row["build_status"] for row in summary["benches"]] == ["skipped", "skipped", "contract"]
 
 
-def _patch_gold(monkeypatch: pytest.MonkeyPatch, nodes: dict[str, str] | None) -> None:
+def _patch_gold(
+    monkeypatch: pytest.MonkeyPatch, nodes: dict[str, str] | None, extra_values: tuple[str, ...] = ()
+) -> None:
     """After MetaMetro builds, replace (or drop) the bench gold. Test-only gold."""
     import importlib
 
@@ -507,6 +509,7 @@ def _patch_gold(monkeypatch: pytest.MonkeyPatch, nodes: dict[str, str] | None) -
             (gold / "taxon_edges.tsv").write_text("edge_id\ttaxon\n", encoding="utf-8")
             # MetaMetro >= 0.23 lists the gold vocabulary in taxon_values.tsv.
             values = sorted({value for labels in nodes.values() for value in labels.split(",")})
+            values += list(extra_values)
             (gold / "taxon_values.tsv").write_text(
                 "taxon\n" + "".join(f"{value}\n" for value in values), encoding="utf-8"
             )
@@ -593,6 +596,18 @@ def test_taxid_gold_is_scored(
     assert exact["accuracy_any"] == pytest.approx(0.75)
     assert exact["accuracy"] == pytest.approx(1.0)
     assert exact["f1"] == pytest.approx(1.0)
+
+
+def test_a_stale_gold_vocabulary_entry_does_not_null_the_metrics(
+    tmp_path: Path, taxdump: Path, bubble_kraken: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """taxon_values.tsv lists a name no node carries; the node labels are taxon ids, so metrics run."""
+    _patch_gold(monkeypatch, {"S": "562", "A": "562", "B": "561", "T": "561,562"}, extra_values=("taxon_stale",))
+    summary = solve_benches(["bubble_strain_2"], tmp_path / "work", kraken_output=bubble_kraken, taxdump=taxdump)
+    metrics = summary["benches"][0]["metrics"]
+    assert metrics is not None
+    assert metrics["n_labelled_unitigs"] == 4
+    assert metrics["genus"]["hits"] == 3
 
 
 def test_contract_row_records_a_null_taxdump_source(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
