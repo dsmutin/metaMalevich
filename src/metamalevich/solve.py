@@ -26,10 +26,6 @@ SOLVE_COLOURINGS = (TAXONOMIC_COLOURING, "composition_kmeans", "decaying")
 RESOLVERS = ("genus_plurality", "gated_neighbour", "probability_sum", "hard")
 RESOLVER = RESOLVERS[0]
 GOLD_NAMESPACE = "taxon"
-NO_KRAKEN_REASON = (
-    "no kraken2 input: no kraken_output or kraken_db (--kraken-output, --kraken-db) was given, "
-    "and MetaMetro pins no Kraken2 output for this bench"
-)
 _PHAGE_PREFIX = "phage_species_5"
 # A broken MetaMetro pin (hash mismatch, missing file or key) fails only its own bench.
 _PIN_ERRORS = (ValueError, OSError, KeyError, TypeError)
@@ -146,7 +142,11 @@ def solve_benches(
                 "canonical_name": spec.name,
                 "build_status": "skipped",
                 "solved": False,
-                "skipped": NO_KRAKEN_REASON,
+                "skipped": (
+                    f"no kraken2 input for {spec.name}: no kraken_output or kraken_db "
+                    "(--kraken-output, --kraken-db) was given, and MetaMetro pins no Kraken2 "
+                    "output for this bench"
+                ),
             }
             if missing:
                 row["missing"] = missing
