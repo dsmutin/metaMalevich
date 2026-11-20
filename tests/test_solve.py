@@ -146,24 +146,84 @@ def test_cli_solve_skip_exits_zero(tmp_path: Path, capsys: pytest.CaptureFixture
     assert summary["status"] == "skipped"
 
 
+def _phage_not_ready(monkeypatch: pytest.MonkeyPatch, genome_errors: list[str], program_errors: list[str]) -> None:
+    """Make MetaMetro's phage preflight checks raise these errors. No network, no programs."""
+    import importlib
+
+    from metametro.errors import ContractError
+
+    genomes = importlib.import_module("metametro.bench.genomes")
+    catalog = importlib.import_module("metametro.bench.data.universal.catalog")
+
+    def check_genomes(_bench, _genome_dir):
+        if genome_errors:
+            raise ContractError(genome_errors)
+
+    def require_programs(_spec, _names):
+        if program_errors:
+            raise ContractError(program_errors)
+
+    monkeypatch.setattr(genomes, "check_genomes", check_genomes)
+    monkeypatch.setattr(catalog, "require_programs", require_programs)
+
+
+_GENOME_ERRORS = [
+    "phage_species_5_x10 is missing pinned genome FASTA under data/raw/genomes: T1 (NC_005833.1)",
+    "fetch them with: metametro benchfetch phage_species_5_x10",
+]
+_PROGRAM_ERRORS = ["phage_species_5_x10 needs these programs on PATH before a build can start: megahit"]
+
+
 def test_phage_10_contract_does_not_count_as_a_solve(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """phage_10 is phage_species_5_x10. Without an assembly the batch is incomplete."""
-    monkeypatch.setattr("metamalevich.solve._phage_ready", lambda _name, _root: False)
+    _phage_not_ready(monkeypatch, _GENOME_ERRORS, _PROGRAM_ERRORS)
     summary = solve_benches(["phage_10"], tmp_path / "work")
     assert summary["ok"] is False
+    assert summary["status"] == "incomplete"
     row = summary["benches"][0]
     assert row["canonical_name"] == "phage_species_5_x10"
     assert row["build_status"] == "contract"
     assert row["solved"] is False
 
 
+def test_phage_missing_comes_from_metametro_errors(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """The missing list is what MetaMetro raised: genomes with the fetch command, then programs."""
+    _phage_not_ready(monkeypatch, _GENOME_ERRORS, _PROGRAM_ERRORS)
+    row = solve_benches(["phage_10"], tmp_path / "work")["benches"][0]
+    assert row["missing"] == _GENOME_ERRORS + _PROGRAM_ERRORS
+
+
+def test_phage_missing_genomes_name_benchfetch(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """MetaMetro's real genome check on an empty checkout names the benchfetch command."""
+    import importlib
+
+    paths = importlib.import_module("metametro.bench.paths")
+    monkeypatch.setattr(paths, "repo_root", lambda: tmp_path / "empty_checkout")
+    row = solve_benches(["phage_10"], tmp_path / "work")["benches"][0]
+    assert row["build_status"] == "contract"
+    assert any("metametro benchfetch phage_species_5_x10" in error for error in row["missing"])
+
+
+def test_ready_phage_without_kraken_is_skipped_not_assembled(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """When MetaMetro's checks pass, phage_10 would assemble, so without kraken2 it is skipped."""
+    _phage_not_ready(monkeypatch, [], [])
+    row = solve_benches(["phage_10"], tmp_path / "work")["benches"][0]
+    assert row["build_status"] == "skipped"
+    assert "missing" not in row
+    assert not (tmp_path / "work" / "phage_species_5_x10").exists()
+
+
 def test_inprocess_solve_stands_beside_a_phage_contract(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch, taxdump: Path, bubble_kraken: Path
 ) -> None:
     """A built in-process graph can be solved while phage_10 stays a contract."""
-    monkeypatch.setattr("metamalevich.solve._phage_ready", lambda _name, _root: False)
+    _phage_not_ready(monkeypatch, _GENOME_ERRORS, [])
     summary = solve_benches(
         ["bubble_strain_2", "phage_10"],
         tmp_path / "work",
@@ -175,6 +235,7 @@ def test_inprocess_solve_stands_beside_a_phage_contract(
     assert built["solved"] is True
     assert phage["canonical_name"] == "phage_species_5_x10"
     assert phage["solved"] is False
+    assert phage["missing"] == _GENOME_ERRORS
 
 
 def _patch_gold(monkeypatch: pytest.MonkeyPatch, nodes: dict[str, str] | None) -> None:

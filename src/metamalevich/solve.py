@@ -11,7 +11,6 @@ from __future__ import annotations
 
 import csv
 import os
-import shutil
 from pathlib import Path
 from typing import Sequence
 
@@ -31,7 +30,7 @@ NO_KRAKEN_REASON = (
     "no kraken2 input: pass kraken_output or kraken_db (--kraken-output, --kraken-db). "
     "Pinned kraken2 outputs for the MetaMetro benches are not released yet (MetaMetro #1163)"
 )
-_PHAGE_GENOMES = ("T1", "T3", "T4", "T5", "T7")
+_PHAGE_PREFIX = "phage_species_5"
 _PHAGE_PROGRAMS = ("samovar", "megahit", "megahit_toolkit")
 
 
@@ -60,9 +59,11 @@ def solve_benches(
 
     Without ``kraken_output`` or ``kraken_db`` an in-process bench, or an
     external bench that would be assembled, is skipped with a reason. An
-    external bench such as ``phage_10`` is assembled only when ``execute`` is
-    set, or when the phage programs and genome FASTA files are already on this
-    machine. Otherwise the bench records its contract and ``solved`` is false.
+    external bench such as ``phage_10`` is assembled when ``execute`` is set,
+    or when MetaMetro's own checks find its pinned genomes and programs.
+    Otherwise the bench records its contract, ``missing`` lists the errors
+    MetaMetro raised (with the ``metametro benchfetch`` command for missing
+    genomes), and ``solved`` is false.
 
     ``resolver`` is one of ``RESOLVERS`` (default ``genus_plurality``). A
     solved bench writes ``assignments.tsv`` and ``profile.tsv`` under
@@ -71,7 +72,6 @@ def solve_benches(
     ids; otherwise ``metrics`` is null and ``metrics_reason`` says why.
     """
     from metametro.bench.build import build
-    from metametro.bench.paths import repo_root
     from metametro.bench.registry import resolve
 
     if resolver not in RESOLVERS:
@@ -103,7 +103,8 @@ def solve_benches(
     for name in requested:
         spec = resolve(name)
         destination = root / spec.name
-        run_execute = bool(execute) or _phage_ready(spec.name, repo_root())
+        missing = _phage_preflight(spec)
+        run_execute = bool(execute) or (spec.name.startswith(_PHAGE_PREFIX) and not missing)
         if not has_kraken and (spec.kind == "inprocess" or run_execute):
             row = {
                 "bench": name,
@@ -112,7 +113,6 @@ def solve_benches(
                 "solved": False,
                 "skipped": NO_KRAKEN_REASON,
             }
-            missing = _phage_missing(spec.name, repo_root())
             if missing:
                 row["missing"] = missing
             rows.append(row)
@@ -142,7 +142,7 @@ def solve_benches(
             if skipped:
                 row["colourings_skipped"] = skipped
         elif result.status == "contract":
-            row["missing"] = _phage_missing(result.spec.name, repo_root())
+            row["missing"] = missing
         else:
             raise ValueError(f"{name} finished with status {result.status}")
         rows.append(row)
@@ -363,19 +363,27 @@ def _colour_distributions(graph) -> dict[str, dict[int, float]]:
     return distributions
 
 
-def _phage_ready(canonical_name: str, root: Path) -> bool:
-    """True when this machine can assemble the five-phage bench."""
-    return canonical_name.startswith("phage_species_5") and not _phage_missing(canonical_name, root)
+def _phage_preflight(spec) -> list[str]:
+    """Errors MetaMetro raises before it would assemble a phage bench. Empty when ready.
 
-
-def _phage_missing(canonical_name: str, root: Path) -> list[str]:
-    """Programs and FASTA files the phage bench still needs. Empty for other benches."""
-    if not canonical_name.startswith("phage_species_5"):
+    These are the checks ``build(..., execute=True)`` runs before writing:
+    the pinned genome FASTA files (``check_genomes``) and the programs on PATH.
+    Other benches return an empty list.
+    """
+    if not spec.name.startswith(_PHAGE_PREFIX):
         return []
-    missing = [program for program in _PHAGE_PROGRAMS if shutil.which(program) is None]
-    genomes = root / "data" / "raw" / "genomes"
-    for name in _PHAGE_GENOMES:
-        path = genomes / f"{name}.fna"
-        if not path.is_file() or path.stat().st_size == 0:
-            missing.append(f"data/raw/genomes/{name}.fna")
-    return missing
+    from metametro.bench.data.universal.catalog import require_programs
+    from metametro.bench.genomes import check_genomes
+    from metametro.bench.paths import repo_root
+    from metametro.errors import ContractError
+
+    errors: list[str] = []
+    try:
+        check_genomes(spec.name, repo_root() / "data" / "raw" / "genomes")
+    except ContractError as exc:
+        errors.extend(exc.errors)
+    try:
+        require_programs(spec, _PHAGE_PROGRAMS)
+    except ContractError as exc:
+        errors.extend(exc.errors)
+    return errors

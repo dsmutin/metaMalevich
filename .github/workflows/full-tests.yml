@@ -1,10 +1,12 @@
 name: full tests
 
 # All pytest, light examples, then a solve on MetaMetro benches.
-# In-process benches always materialise a ToCUMG. phage_10
-# (phage_species_5_x10) is assembled only when samovar, MEGAHIT, and
-# data/raw/genomes/T{1,3,4,5,7}.fna are already present. The GitHub runner
-# does not have those inputs, so that bench records its contract.
+# The pinned phage_10 genomes are fetched with `metametro benchfetch` first.
+# In-process benches are skipped with a reason until MetaMetro pins their
+# Kraken2 outputs. phage_10 (phage_species_5_x10) is assembled only when
+# MetaMetro's checks pass (pinned genomes, samovar, MEGAHIT). The GitHub
+# runner has no samovar or MEGAHIT, so that bench records its contract and
+# the errors MetaMetro raised.
 # Community runners (examples/*/run_example.py) download genomes and stay out.
 # A push of this file is included so Actions registers the workflow and the
 # status badge has a run. Ordinary commits do not start it.
@@ -64,6 +66,9 @@ jobs:
             echo "no light integrative example found" >&2
             exit 1
           fi
+      - name: Fetch pinned phage genomes
+        timeout-minutes: 10
+        run: metametro benchfetch phage_10
       - name: Solve simple MetaMetro benches
         timeout-minutes: 30
         run: |
