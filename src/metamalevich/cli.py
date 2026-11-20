@@ -71,6 +71,12 @@ def main(argv: list[str] | None = None) -> int:
     ):
         parser.add_argument(flag, type=Path, default=None, help=f"solve: {what}, passed to MetaMetro build()")
     parser.add_argument(
+        "--resolver",
+        default="genus_plurality",
+        choices=["genus_plurality", "gated_neighbour", "probability_sum", "hard"],
+        help="solve: resolver run on the kraken2 taxa. Default: genus_plurality",
+    )
+    parser.add_argument(
         "--taxdump",
         type=Path,
         default=None,
@@ -132,6 +138,7 @@ def _solve(args: argparse.Namespace) -> int:
         "kaiju_db": args.kaiju_db,
         "kaiju_output": args.kaiju_output,
         "taxdump": args.taxdump,
+        "resolver": args.resolver,
     }
     try:
         if args.workdir is None:

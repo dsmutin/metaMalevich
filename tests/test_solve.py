@@ -89,7 +89,7 @@ def test_solve_bubble_reads_taxa_from_kraken2(tmp_path: Path, taxdump: Path, bub
     )
     assert summary["ok"] is True
     assert summary["status"] == "ok"
-    assert summary["resolver"] == "gated_neighbour"
+    assert summary["resolver"] == "genus_plurality"
     assert summary["colourings"] == ["kraken2", "composition_kmeans", "decaying"]
     assert summary["taxdump"] == "taxdump_test"
     row = summary["benches"][0]
@@ -175,3 +175,100 @@ def test_inprocess_solve_stands_beside_a_phage_contract(
     assert built["solved"] is True
     assert phage["canonical_name"] == "phage_species_5_x10"
     assert phage["solved"] is False
+
+
+def _patch_gold(monkeypatch: pytest.MonkeyPatch, nodes: dict[str, str] | None) -> None:
+    """After MetaMetro builds, replace (or drop) the bench gold. Test-only gold."""
+    import importlib
+
+    bench_build = importlib.import_module("metametro.bench.build")
+
+    real = bench_build.build
+
+    def build(name, **kwargs):
+        result = real(name, **kwargs)
+        gold = Path(result.outdir) / "ground_truth"
+        if nodes is None:
+            for path in gold.glob("taxon_*.tsv"):
+                path.unlink()
+        else:
+            (gold / "taxon_nodes.tsv").write_text(
+                "node_id\ttaxon\n" + "".join(f"{node}\t{value}\n" for node, value in nodes.items()),
+                encoding="utf-8",
+            )
+            (gold / "taxon_edges.tsv").write_text("edge_id\ttaxon\n", encoding="utf-8")
+        return result
+
+    monkeypatch.setattr(bench_build, "build", build)
+
+
+@pytest.mark.parametrize("resolver", ["genus_plurality", "gated_neighbour", "probability_sum", "hard"])
+def test_solve_runs_the_chosen_resolver(
+    tmp_path: Path, taxdump: Path, bubble_kraken: Path, resolver: str
+) -> None:
+    summary = solve_benches(
+        ["bubble_strain_2"], tmp_path / "work", kraken_output=bubble_kraken, taxdump=taxdump, resolver=resolver
+    )
+    assert summary["resolver"] == resolver
+    assert summary["benches"][0]["solved"] is True
+
+
+def test_solve_rejects_an_unknown_resolver(tmp_path: Path, taxdump: Path, bubble_kraken: Path) -> None:
+    with pytest.raises(ValueError, match="unknown resolver"):
+        solve_benches(
+            ["bubble_strain_2"], tmp_path / "work", kraken_output=bubble_kraken, taxdump=taxdump, resolver="lca"
+        )
+
+
+def test_solve_writes_assignments_and_a_length_weighted_profile(
+    tmp_path: Path, taxdump: Path, bubble_kraken: Path
+) -> None:
+    """bubble_strain_2: S (8 bp) and A (6 bp) are 562, B (6 bp) is 561, T (8 bp) is unclassified."""
+    summary = solve_benches(["bubble_strain_2"], tmp_path / "work", kraken_output=bubble_kraken, taxdump=taxdump)
+    row = summary["benches"][0]
+    out = tmp_path / "work" / "solve" / "bubble_strain_2"
+    assert row["assignments"] == str(out / "assignments.tsv")
+    lines = (out / "assignments.tsv").read_text(encoding="utf-8").splitlines()
+    assert lines[0].split("\t") == ["unitig_id", "length", "taxon_id", "name", "rank", "probability", "distribution"]
+    by_taxon = sorted(line.split("\t")[2] for line in lines[1:])
+    assert by_taxon == ["0", "561", "562", "562"]
+    profile = {
+        line.split("\t")[0]: float(line.split("\t")[3])
+        for line in (out / "profile.tsv").read_text(encoding="utf-8").splitlines()[1:]
+    }
+    assert profile == pytest.approx({"562": 14 / 28, "561": 6 / 28, "0": 8 / 28}, rel=1e-5)
+    assert row["profile_fractions"] == pytest.approx({"562": 0.5, "561": 6 / 28, "0": 8 / 28})
+
+
+def test_bubble_gold_names_give_null_metrics_with_a_reason(
+    tmp_path: Path, taxdump: Path, bubble_kraken: Path
+) -> None:
+    """bubble gold is taxon_1/taxon_2, not taxon ids, so nothing is mapped or scored."""
+    summary = solve_benches(["bubble_strain_2"], tmp_path / "work", kraken_output=bubble_kraken, taxdump=taxdump)
+    row = summary["benches"][0]
+    assert row["metrics"] is None
+    assert "not NCBI taxon ids" in row["metrics_reason"]
+
+
+def test_missing_gold_gives_null_metrics_with_a_reason(
+    tmp_path: Path, taxdump: Path, bubble_kraken: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    _patch_gold(monkeypatch, None)
+    summary = solve_benches(["bubble_strain_2"], tmp_path / "work", kraken_output=bubble_kraken, taxdump=taxdump)
+    row = summary["benches"][0]
+    assert row["metrics"] is None
+    assert "no gold taxon labels" in row["metrics_reason"]
+
+
+def test_taxid_gold_is_scored(
+    tmp_path: Path, taxdump: Path, bubble_kraken: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """With taxon-id gold, metrics compare the resolved argmax with each unitig's gold set."""
+    _patch_gold(monkeypatch, {"S": "562", "A": "562", "B": "561", "T": "561,562"})
+    summary = solve_benches(["bubble_strain_2"], tmp_path / "work", kraken_output=bubble_kraken, taxdump=taxdump)
+    metrics = summary["benches"][0]["metrics"]
+    assert metrics["n_labelled_unitigs"] == 4
+    assert metrics["n_single_label_unitigs"] == 3
+    assert metrics["accuracy_any"] == pytest.approx(0.75)
+    assert metrics["accuracy"] == pytest.approx(1.0)
+    assert metrics["f1"] == pytest.approx(1.0)

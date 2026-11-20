@@ -1,25 +1,32 @@
 """Build a MetaMetro bench and run one resolver on its taxonomic colour layer.
 
 The resolver reads taxa only from the ``kraken2`` namespace, whose colour
-values are NCBI taxon ids, checked against an NCBI TAXDUMP. It does not read
-``ground_truth/`` and it does not score a simulation label.
+values are NCBI taxon ids, checked against an NCBI TAXDUMP. Each solved bench
+gets per-unitig assignments and a length-weighted profile. Gold labels are
+read from ``ground_truth/`` with MetaMetro ``load_bench_gold`` only after the
+resolver has run, and only to score it.
 """
 
 from __future__ import annotations
 
+import csv
 import os
 import shutil
 from pathlib import Path
 from typing import Sequence
 
-from metamalevich.resolve import gated_neighbour
+from metamalevich.evaluate import classification_scores
+from metamalevich.genus_plurality import genus_plurality
+from metamalevich.resolve import argmax_taxon, resolve
 from metamalevich.taxonomy import Taxonomy, parse_taxdump
 from metamalevich.tocumg import load_selected
 
 TAXONOMIC_COLOURING = "kraken2"
 TAXONOMIC_NAMESPACE = "kraken2"
 SOLVE_COLOURINGS = (TAXONOMIC_COLOURING, "composition_kmeans", "decaying")
-RESOLVER = "gated_neighbour"
+RESOLVERS = ("genus_plurality", "gated_neighbour", "probability_sum", "hard")
+RESOLVER = RESOLVERS[0]
+GOLD_NAMESPACE = "taxon"
 NO_KRAKEN_REASON = (
     "no kraken2 input: pass kraken_output or kraken_db (--kraken-output, --kraken-db). "
     "Pinned kraken2 outputs for the MetaMetro benches are not released yet (MetaMetro #1163)"
@@ -39,6 +46,7 @@ def solve_benches(
     kaiju_db: Path | None = None,
     kaiju_output: Path | None = None,
     taxdump: Path | None = None,
+    resolver: str = RESOLVER,
 ) -> dict:
     """Build each bench name and resolve the ones that have a ToCUMG.
 
@@ -55,11 +63,19 @@ def solve_benches(
     external bench such as ``phage_10`` is assembled only when ``execute`` is
     set, or when the phage programs and genome FASTA files are already on this
     machine. Otherwise the bench records its contract and ``solved`` is false.
+
+    ``resolver`` is one of ``RESOLVERS`` (default ``genus_plurality``). A
+    solved bench writes ``assignments.tsv`` and ``profile.tsv`` under
+    ``<workdir>/solve/<bench>/``. ``metrics`` scores the resolved argmax
+    against the bench gold ``taxon`` labels when those labels are NCBI taxon
+    ids; otherwise ``metrics`` is null and ``metrics_reason`` says why.
     """
     from metametro.bench.build import build
     from metametro.bench.paths import repo_root
     from metametro.bench.registry import resolve
 
+    if resolver not in RESOLVERS:
+        raise ValueError(f"unknown resolver {resolver}; choose one of {', '.join(RESOLVERS)}")
     requested = [str(name) for name in names]
     if not requested:
         raise ValueError("solve requires at least one bench name")
@@ -118,7 +134,9 @@ def solve_benches(
         if result.status == "built":
             if taxonomy is None:
                 raise ValueError(f"{name} was built without a kraken2 input")
-            row.update(_resolve_built(result.outdir, layers, taxonomy))
+            row.update(
+                _resolve_built(result.outdir, layers, taxonomy, resolver, root / "solve" / spec.name)
+            )
             applied = set(result.colourings)
             skipped = [name for name in layers if name not in applied]
             if skipped:
@@ -143,7 +161,7 @@ def solve_benches(
     summary = {
         "status": status,
         "ok": ok,
-        "resolver": RESOLVER,
+        "resolver": resolver,
         "taxonomic_layer": TAXONOMIC_COLOURING,
         "colourings": list(layers),
         "benches": rows,
@@ -164,8 +182,10 @@ def _load_taxdump(taxdump: Path | None) -> Taxonomy:
     return parse_taxdump(Path(path))
 
 
-def _resolve_built(outdir: Path, colourings: Sequence[str], taxonomy: Taxonomy) -> dict:
-    """Run gated neighbour smoothing on the kraken2 taxa of one built ToCUMG."""
+def _resolve_built(
+    outdir: Path, colourings: Sequence[str], taxonomy: Taxonomy, resolver: str, destination: Path
+) -> dict:
+    """Run ``resolver`` on the kraken2 taxa of one built ToCUMG and write its outputs."""
     graph = load_selected(outdir, colourings)
     namespaces = sorted({str(row["namespace"]) for row in graph.colors or []})
     if TAXONOMIC_NAMESPACE not in namespaces:
@@ -192,15 +212,125 @@ def _resolve_built(outdir: Path, colourings: Sequence[str], taxonomy: Taxonomy) 
         }
         for link in graph.links
     ]
-    gated_neighbour(distributions, edges)
-    return {
+    lengths = {unitig.unitig_id: len(unitig.sequence) for unitig in graph.unitigs}
+    if resolver == "genus_plurality":
+        resolved = genus_plurality(distributions, edges, taxonomy, lengths=lengths)
+    else:
+        resolved = resolve(distributions, edges, resolver)
+    profile = _length_profile(resolved, lengths)
+    destination.mkdir(parents=True, exist_ok=True)
+    assignments_path = destination / "assignments.tsv"
+    profile_path = destination / "profile.tsv"
+    _write_assignments(assignments_path, resolved, lengths, taxonomy)
+    _write_profile(profile_path, profile, taxonomy)
+    metrics, reason = _gold_metrics(outdir, graph, resolved)
+    row = {
         "solved": True,
         "n_unitigs": len(graph.unitigs),
         "n_links": len(graph.links),
         "n_coloured_unitigs": coloured,
         "n_taxa": len(taxa),
         "namespaces": namespaces,
+        "assignments": str(assignments_path),
+        "profile": str(profile_path),
+        "profile_fractions": {str(taxon): fraction for taxon, fraction in profile.items()},
+        "metrics": metrics,
     }
+    if metrics is None:
+        row["metrics_reason"] = reason
+    return row
+
+
+def _length_profile(
+    resolved: dict[str, dict[int, float]], lengths: dict[str, int]
+) -> dict[int, float]:
+    """Length-weighted sum of resolved distributions. Unresolved length is taxon 0."""
+    mass: dict[int, float] = {}
+    for unitig_id, length in lengths.items():
+        weights = resolved.get(unitig_id) or {}
+        total = sum(value for value in weights.values() if value > 0)
+        if total <= 0:
+            mass[0] = mass.get(0, 0.0) + length
+            continue
+        for taxon, value in weights.items():
+            if value > 0:
+                mass[taxon] = mass.get(taxon, 0.0) + length * value / total
+    grand = sum(mass.values())
+    if grand <= 0:
+        return {}
+    return {taxon: mass[taxon] / grand for taxon in sorted(mass, key=lambda key: (-mass[key], key))}
+
+
+def _write_assignments(
+    path: Path, resolved: dict[str, dict[int, float]], lengths: dict[str, int], taxonomy: Taxonomy
+) -> None:
+    with path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.writer(handle, delimiter="\t", lineterminator="\n")
+        writer.writerow(["unitig_id", "length", "taxon_id", "name", "rank", "probability", "distribution"])
+        for unitig_id, length in lengths.items():
+            weights = resolved.get(unitig_id) or {}
+            taxon, probability = argmax_taxon(weights)
+            distribution = ",".join(
+                f"{key}:{weights[key]:.6g}" for key in sorted(weights, key=lambda key: (-weights[key], key))
+            )
+            writer.writerow(
+                [unitig_id, length, taxon, taxonomy.name(taxon), taxonomy.rank(taxon), f"{probability:.6g}", distribution]
+            )
+
+
+def _write_profile(path: Path, profile: dict[int, float], taxonomy: Taxonomy) -> None:
+    with path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.writer(handle, delimiter="\t", lineterminator="\n")
+        writer.writerow(["taxon_id", "name", "rank", "fraction"])
+        for taxon, fraction in profile.items():
+            writer.writerow([taxon, taxonomy.name(taxon), taxonomy.rank(taxon), f"{fraction:.6g}"])
+
+
+def _gold_metrics(
+    outdir: Path, graph, resolved: dict[str, dict[int, float]]
+) -> tuple[dict | None, str | None]:
+    """Score resolved argmax taxa against gold taxon ids, or say why not.
+
+    Gold is MetaMetro ``ground_truth/taxon_nodes.tsv``. A unitig's gold is the
+    union over its CFA members. Gold values must be NCBI taxon ids; bench
+    label names such as ``taxon_1`` are not mapped to taxa.
+    """
+    from metametro.bench import load_bench_gold
+    from metametro.errors import ContractError
+
+    try:
+        gold = load_bench_gold(outdir, GOLD_NAMESPACE)
+    except ContractError as exc:
+        return None, f"no gold {GOLD_NAMESPACE} labels on this bench: {exc}"
+    names = [value for value in gold.values if not value.isdigit()]
+    if names:
+        shown = ", ".join(names[:5])
+        return None, (
+            f"gold {GOLD_NAMESPACE} labels are bench names ({shown}), not NCBI taxon ids, "
+            "and ground_truth has no mapping from them to taxon ids"
+        )
+    by_unitig: dict[str, set[int]] = {}
+    for unitig in graph.unitigs:
+        labels = {int(value) for member in unitig.members for value in gold.nodes.get(member, ())}
+        if labels:
+            by_unitig[unitig.unitig_id] = labels
+    if not by_unitig:
+        return None, f"no unitig carries a gold {GOLD_NAMESPACE} label"
+    single = {unitig_id: next(iter(labels)) for unitig_id, labels in by_unitig.items() if len(labels) == 1}
+    hits = sum(
+        1 for unitig_id, labels in by_unitig.items() if argmax_taxon(resolved.get(unitig_id) or {})[0] in labels
+    )
+    scores = classification_scores(resolved, single) if single else {}
+    return {
+        "gold_namespace": GOLD_NAMESPACE,
+        "n_labelled_unitigs": len(by_unitig),
+        "n_single_label_unitigs": len(single),
+        "accuracy_any": hits / len(by_unitig),
+        "accuracy": scores.get("accuracy"),
+        "precision": scores.get("precision"),
+        "recall": scores.get("recall"),
+        "f1": scores.get("f1"),
+    }, None
 
 
 def _colour_distributions(graph) -> dict[str, dict[int, float]]:
