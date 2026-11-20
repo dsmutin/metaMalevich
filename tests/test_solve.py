@@ -241,15 +241,78 @@ def test_pinned_phage_contract_is_not_skipped_for_kraken(
     assert "skipped" not in row
 
 
-def test_ready_pinned_phage_needs_taxdump_before_assembly(
+def _stop_at_build(monkeypatch: pytest.MonkeyPatch) -> list[str]:
+    """Replace MetaMetro build() so a test stops right before any assembly."""
+    import importlib
+
+    called: list[str] = []
+    bench_build = importlib.import_module("metametro.bench.build")
+
+    def build(name, **_kwargs):
+        called.append(name)
+        raise RuntimeError("stop before build")
+
+    monkeypatch.setattr(bench_build, "build", build)
+    return called
+
+
+def test_pinned_taxdump_is_the_phage_10_taxonomy() -> None:
+    """MetaMetro v0.22.1 pins a trimmed TAXDUMP beside the phage_10 Kraken2 output."""
+    from metamalevich.solve import _pinned_taxonomy
+
+    taxonomy = _pinned_taxonomy("phage_10")
+    assert taxonomy.version == "k2_viral_20261022-phage_species_5_x10"
+    assert taxonomy.name(10665) == "Tequatrovirus T4"
+    assert taxonomy.rank(10665) == "S"
+
+
+def test_ready_pinned_phage_uses_the_pinned_taxdump(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    """A ready phage_10 would assemble and be painted from the pin, so TAXDUMP is checked first."""
+    """Without --taxdump or TAXDUMP, a ready phage_10 loads the pinned TAXDUMP before build."""
     _phage_not_ready(monkeypatch, [], [])
     monkeypatch.delenv("TAXDUMP", raising=False)
-    with pytest.raises(ValueError, match="pinned Kraken2 output.*TAXDUMP"):
+    loaded: list[str] = []
+    real = __import__("metamalevich.solve", fromlist=["_pinned_taxonomy"])._pinned_taxonomy
+    monkeypatch.setattr(
+        "metamalevich.solve._pinned_taxonomy", lambda bench: loaded.append(bench) or real(bench)
+    )
+    called = _stop_at_build(monkeypatch)
+    with pytest.raises(RuntimeError, match="stop before build"):
         solve_benches(["phage_10"], tmp_path / "work")
-    assert not (tmp_path / "work" / "phage_species_5_x10").exists()
+    assert loaded == ["phage_species_5_x10"]
+    assert called == ["phage_10"]
+
+
+def test_explicit_taxdump_wins_over_the_pinned_one(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, taxdump: Path
+) -> None:
+    _phage_not_ready(monkeypatch, [], [])
+
+    def no_pin(_bench):
+        raise AssertionError("pinned TAXDUMP must not be read when --taxdump is given")
+
+    monkeypatch.setattr("metamalevich.solve._pinned_taxonomy", no_pin)
+    called = _stop_at_build(monkeypatch)
+    with pytest.raises(RuntimeError, match="stop before build"):
+        solve_benches(["phage_10"], tmp_path / "work", taxdump=taxdump)
+    assert called == ["phage_10"]
+
+
+def test_pin_without_a_taxdump_stops_before_assembly(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """If MetaMetro pinned no TAXDUMP and none is given, solve stops before build."""
+    import importlib
+
+    _phage_not_ready(monkeypatch, [], [])
+    monkeypatch.delenv("TAXDUMP", raising=False)
+    module = importlib.import_module("metametro.bench.kraken_pin")
+    monkeypatch.setattr(module, "pinned_taxdump", lambda _bench, **_kw: None)
+    called = _stop_at_build(monkeypatch)
+    with pytest.raises(ValueError, match="pins no TAXDUMP"):
+        solve_benches(["phage_10"], tmp_path / "work")
+    assert called == []
 
 
 def test_ready_phage_without_any_kraken_input_is_skipped(
