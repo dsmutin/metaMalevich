@@ -505,6 +505,11 @@ def _patch_gold(monkeypatch: pytest.MonkeyPatch, nodes: dict[str, str] | None) -
                 encoding="utf-8",
             )
             (gold / "taxon_edges.tsv").write_text("edge_id\ttaxon\n", encoding="utf-8")
+            # MetaMetro >= 0.23 lists the gold vocabulary in taxon_values.tsv.
+            values = sorted({value for labels in nodes.values() for value in labels.split(",")})
+            (gold / "taxon_values.tsv").write_text(
+                "taxon\n" + "".join(f"{value}\n" for value in values), encoding="utf-8"
+            )
         return result
 
     monkeypatch.setattr(bench_build, "build", build)
