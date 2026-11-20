@@ -166,15 +166,18 @@ def _share(hits: int, n: int) -> dict:
 def _rank_share(hits: int, resolved: int, n: int) -> dict:
     """A rank metric: ``value`` and ``recall`` are hits / n, ``precision`` is
     hits / calls resolved at or below the rank, and ``f1`` combines both;
-    ``f1`` is null when precision and recall are both 0 or either is undefined."""
+    ``f1`` is 0 when precision and recall are both 0, and null only when
+    either is undefined (no resolved call, or n is 0)."""
     recall = hits / n if n else None
     precision = hits / resolved if resolved else None
-    # F1 is undefined (null) when there is no resolved call or no hit at all.
-    f1 = (
-        2 * precision * recall / (precision + recall)
-        if precision is not None and recall is not None and precision + recall > 0
-        else None
-    )
+    # F1 is null only when precision or recall is undefined (no resolved call,
+    # or no labelled unitig); resolved calls with no hit give P = R = F1 = 0.
+    if precision is None or recall is None:
+        f1 = None
+    elif precision + recall == 0:
+        f1 = 0.0
+    else:
+        f1 = 2 * precision * recall / (precision + recall)
     return {
         **_share(hits, n),
         "resolved": resolved,

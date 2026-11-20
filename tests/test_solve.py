@@ -997,8 +997,8 @@ def test_metametro_version_reads_package_metadata(monkeypatch: pytest.MonkeyPatc
     assert _metametro_version() == "metametro-from-metadata"
 
 
-def test_rank_f1_is_null_when_resolved_calls_have_no_hit() -> None:
-    """A Shigella call on E. coli gold is resolved at genus and species but wrong: P = R = 0, F1 null."""
+def test_rank_f1_is_zero_when_resolved_calls_have_no_hit() -> None:
+    """A Shigella call on E. coli gold is resolved at genus and species but wrong: P = R = F1 = 0."""
     from metamalevich.evaluate import rank_metrics
 
     metrics = rank_metrics({"u": 622}, {"u": {562}}, _rank_taxonomy())
@@ -1007,5 +1007,16 @@ def test_rank_f1_is_null_when_resolved_calls_have_no_hit() -> None:
         assert metrics[rank]["hits"] == 0
         assert metrics[rank]["precision"] == 0.0
         assert metrics[rank]["recall"] == 0.0
-        assert metrics[rank]["f1"] is None
+        assert metrics[rank]["f1"] == 0.0
 
+
+
+def test_rank_f1_is_null_without_labelled_unitigs() -> None:
+    """With n == 0 recall is undefined, so precision, recall and F1 are all null."""
+    from metamalevich.evaluate import rank_metrics
+
+    metrics = rank_metrics({}, {}, _rank_taxonomy())
+    for rank in ("genus", "species"):
+        assert metrics[rank]["n"] == 0
+        assert metrics[rank]["recall"] is None
+        assert metrics[rank]["f1"] is None
