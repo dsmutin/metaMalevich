@@ -261,7 +261,7 @@ def _stop_at_build(monkeypatch: pytest.MonkeyPatch) -> list[str]:
 
 
 def test_pinned_taxdump_is_the_phage_10_taxonomy() -> None:
-    """MetaMetro v0.22.1 pins a trimmed TAXDUMP beside the phage_10 Kraken2 output."""
+    """MetaMetro pins a trimmed TAXDUMP beside the phage_10 Kraken2 output (since v0.22.1)."""
     from metamalevich.solve import _pinned_taxonomy
 
     taxonomy = _pinned_taxonomy("phage_10")
