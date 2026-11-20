@@ -591,6 +591,7 @@ def test_taxid_gold_is_scored(
     assert metrics["genus"] == {"hits": 3, "n": 4, "value": pytest.approx(0.75)}
     assert metrics["species"] == {"hits": 2, "n": 4, "value": pytest.approx(0.5)}
     assert metrics["lineage"] == {"hits": 3, "n": 4, "value": pytest.approx(0.75)}
+    assert metrics["lineage_descendant"] == {"hits": 0, "n": 4, "value": 0.0}
     assert metrics["unresolved"] == {"hits": 1, "n": 4, "value": pytest.approx(0.25)}
     exact = metrics["exact"]
     assert exact["accuracy_any"] == pytest.approx(0.75)
@@ -720,9 +721,10 @@ def test_rank_metrics_roll_up_to_genus_and_species() -> None:
     assert metrics["primary_rank"] == "genus"
     assert metrics["genus"] == {"hits": 3, "n": 6, "value": pytest.approx(0.5)}
     assert metrics["species"] == {"hits": 2, "n": 6, "value": pytest.approx(2 / 6)}
-    # Lineage: the call is gold or an ancestor of gold. K-12 under E. coli gold is
-    # below gold, not on its lineage; E. coli on K-12 gold is an ancestor.
-    assert metrics["lineage"] == {"hits": 3, "n": 6, "value": pytest.approx(0.5)}
+    # Lineage: the call is gold, an ancestor of gold, or a descendant of gold.
+    # K-12 under E. coli gold is a descendant; E. coli on K-12 gold is an ancestor.
+    assert metrics["lineage"] == {"hits": 4, "n": 6, "value": pytest.approx(4 / 6)}
+    assert metrics["lineage_descendant"] == {"hits": 1, "n": 6, "value": pytest.approx(1 / 6)}
     assert metrics["unresolved"] == {"hits": 2, "n": 6, "value": pytest.approx(2 / 6)}
 
 
@@ -773,3 +775,18 @@ def test_contract_row_carries_the_canonical_identity(tmp_path: Path, monkeypatch
     assert row["build_status"] == "contract"
     assert row["identity_canonical"] == canonical_identity("phage_species_5_x10")
     assert "identity_as_built" not in row
+
+
+def test_a_descendant_call_is_a_lineage_hit_counted_as_descendant() -> None:
+    """A strain call on species gold is on the lineage and counted in lineage_descendant;
+    a sibling species is neither."""
+    from metamalevich.evaluate import rank_metrics
+
+    taxonomy = _rank_taxonomy()
+    metrics = rank_metrics(
+        {"strain": 83333, "same": 562, "sibling": 622},
+        {"strain": {562}, "same": {562}, "sibling": {562}},
+        taxonomy,
+    )
+    assert metrics["lineage"]["hits"] == 2
+    assert metrics["lineage_descendant"] == {"hits": 1, "n": 3, "value": pytest.approx(1 / 3)}

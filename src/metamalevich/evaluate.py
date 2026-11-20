@@ -174,12 +174,14 @@ def rank_metrics(calls: dict[str, int], gold: dict[str, set[int]], taxonomy: Tax
     - ``genus`` (primary): the call and the gold roll up to the same genus.
     - ``species``: the call rolls up to a gold species. A genus call never
       does; a strain or other node below species rolls up to its species.
-    - ``lineage``: the call is a gold taxon or one of its ancestors.
+    - ``lineage``: the call is a gold taxon, one of its ancestors, or one of
+      its descendants. ``lineage_descendant`` counts the lineage hits that
+      are descendants only (for example a strain call on species gold).
     - ``unresolved``: no call, a call outside the TAXDUMP, or a call with no
       genus at or above it (ranked above genus, or unranked without a genus).
     """
     n = len(gold)
-    genus = species = lineage = unresolved = 0
+    genus = species = lineage = descendant = unresolved = 0
     for unitig_id, labels in gold.items():
         call = int(calls.get(unitig_id, 0) or 0)
         call_genus = taxonomy.ancestor_at_rank(call, PRIMARY_RANK)
@@ -194,10 +196,14 @@ def rank_metrics(calls: dict[str, int], gold: dict[str, set[int]], taxonomy: Tax
             species += 1
         if call != 0 and any(call in taxonomy.ancestors(label) for label in labels):
             lineage += 1
+        elif call != 0 and any(label in taxonomy.ancestors(call) for label in labels):
+            lineage += 1
+            descendant += 1
     return {
         "primary_rank": "genus",
         "genus": _share(genus, n),
         "species": _share(species, n),
         "lineage": _share(lineage, n),
+        "lineage_descendant": _share(descendant, n),
         "unresolved": _share(unresolved, n),
     }
