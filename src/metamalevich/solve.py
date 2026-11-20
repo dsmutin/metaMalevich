@@ -56,8 +56,11 @@ def solve_benches(
     NCBI TAXDUMP directory (``nodes.dmp``, ``names.dmp``); it defaults to the
     ``TAXDUMP`` environment variable. Without either, a bench whose kraken2
     layer comes from a MetaMetro pin uses the trimmed TAXDUMP pinned beside it
-    (``metametro.bench.kraken_pin.pinned_taxdump``); any other bench with a
-    kraken2 input stops before it is built.
+    (``metametro.bench.kraken_pin.pinned_taxdump``). Explicit ``kraken_output``
+    or ``kraken_db`` disables the pin, so a TAXDUMP must then be given. Each
+    bench row records ``kraken2_input`` (``given`` or ``metametro_pin``),
+    ``kraken_pin_index`` for a pin, and, for a bench that is built,
+    ``taxdump`` with ``taxdump_source`` (``cli``, ``env``, or ``pin``).
 
     A bench has a kraken2 input when ``kraken_output`` or ``kraken_db`` is
     given, or when MetaMetro pins a Kraken2 output for it
@@ -94,7 +97,19 @@ def solve_benches(
             f"got {', '.join(layers)}"
         )
     has_kraken = kraken_output is not None or kraken_db is not None
-    chosen = taxdump if taxdump is not None else os.environ.get("TAXDUMP") or None
+    if taxdump is not None:
+        chosen, taxdump_source = taxdump, "cli"
+    elif os.environ.get("TAXDUMP"):
+        chosen, taxdump_source = os.environ["TAXDUMP"], "env"
+    else:
+        chosen, taxdump_source = None, None
+    if has_kraken and chosen is None:
+        for name in requested:
+            if _kraken_pin_index(name) is not None:
+                raise ValueError(
+                    f"explicit --kraken-output/--kraken-db disables the MetaMetro pin for "
+                    f"{resolve(name).name}; pass --taxdump for your own index"
+                )
     taxonomy: Taxonomy | None = None
     if has_kraken or chosen is not None:
         taxonomy = _load_taxdump(chosen)
@@ -112,7 +127,8 @@ def solve_benches(
         destination = root / spec.name
         missing = _phage_preflight(spec)
         run_execute = bool(execute) or (spec.name.startswith(_PHAGE_PREFIX) and not missing)
-        pinned = not has_kraken and _has_kraken_pin(spec.name)
+        pin_index = None if has_kraken else _kraken_pin_index(spec.name)
+        pinned = pin_index is not None
         will_build = spec.kind == "inprocess" or run_execute
         if not (has_kraken or pinned) and will_build:
             row = {
@@ -126,9 +142,9 @@ def solve_benches(
                 row["missing"] = missing
             rows.append(row)
             continue
-        bench_taxonomy = taxonomy
+        bench_taxonomy, bench_source = taxonomy, taxdump_source
         if will_build and bench_taxonomy is None:
-            bench_taxonomy = _pinned_taxonomy(spec.name)
+            bench_taxonomy, bench_source = _pinned_taxonomy(spec.name), "pin"
         result = build(
             name,
             outdir=destination,
@@ -143,12 +159,17 @@ def solve_benches(
             "solved": False,
             "colourings": list(result.colourings),
         }
-        if pinned:
+        if has_kraken:
+            row["kraken2_input"] = "given"
+        elif pinned:
             row["kraken2_input"] = "metametro_pin"
+            row["kraken_pin_index"] = pin_index
+        if will_build and bench_taxonomy is not None:
+            row["taxdump"] = bench_taxonomy.version
+            row["taxdump_source"] = bench_source
         if result.status == "built":
             if bench_taxonomy is None:
                 raise ValueError(f"{name} was built without a TAXDUMP")
-            row["taxdump"] = bench_taxonomy.version
             row.update(
                 _resolve_built(
                     result.outdir, layers, bench_taxonomy, resolver, root / "solve" / spec.name
@@ -185,6 +206,7 @@ def solve_benches(
     }
     if taxonomy is not None:
         summary["taxdump"] = taxonomy.version
+        summary["taxdump_source"] = taxdump_source
     return summary
 
 
@@ -217,11 +239,17 @@ def _pinned_taxonomy(bench: str) -> Taxonomy:
     return parse_taxdump(Path(directory), version=f"{index}-{found[1].get('bench', bench)}")
 
 
-def _has_kraken_pin(bench: str) -> bool:
-    """True when MetaMetro pins a Kraken2 output for ``bench`` (checked against its SHA-256)."""
+def _kraken_pin_index(bench: str) -> str | None:
+    """Kraken2 index name of the output MetaMetro pins for ``bench``, or None without a pin.
+
+    ``kraken_pin`` checks the pinned output against its SHA-256.
+    """
     from metametro.bench.kraken_pin import kraken_pin
 
-    return kraken_pin(bench) is not None
+    found = kraken_pin(bench)
+    if found is None:
+        return None
+    return str((found[1].get("index") or {}).get("name") or "unknown")
 
 
 def _resolve_built(

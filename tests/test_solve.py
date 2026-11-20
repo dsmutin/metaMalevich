@@ -92,7 +92,11 @@ def test_solve_bubble_reads_taxa_from_kraken2(tmp_path: Path, taxdump: Path, bub
     assert summary["resolver"] == "genus_plurality"
     assert summary["colourings"] == ["kraken2", "composition_kmeans", "decaying"]
     assert summary["taxdump"] == "taxdump_test"
+    assert summary["taxdump_source"] == "cli"
     row = summary["benches"][0]
+    assert row["kraken2_input"] == "given"
+    assert row["taxdump_source"] == "cli"
+    assert "kraken_pin_index" not in row
     assert row["solved"] is True
     assert row["canonical_name"] == "bubble_strain_2"
     assert "kraken2" in row["namespaces"]
@@ -297,6 +301,66 @@ def test_explicit_taxdump_wins_over_the_pinned_one(
     with pytest.raises(RuntimeError, match="stop before build"):
         solve_benches(["phage_10"], tmp_path / "work", taxdump=taxdump)
     assert called == ["phage_10"]
+
+
+def _contract_build(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Replace MetaMetro build() by one that returns a contract without assembling."""
+    import importlib
+    from types import SimpleNamespace
+
+    from metametro.bench.registry import resolve
+
+    bench_build = importlib.import_module("metametro.bench.build")
+    monkeypatch.setattr(
+        bench_build,
+        "build",
+        lambda name, **_kw: SimpleNamespace(spec=resolve(name), status="contract", colourings=(), outdir=None),
+    )
+
+
+def test_explicit_kraken_disables_the_pin_without_taxdump(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, bubble_kraken: Path
+) -> None:
+    monkeypatch.delenv("TAXDUMP", raising=False)
+    called = _stop_at_build(monkeypatch)
+    with pytest.raises(
+        ValueError,
+        match=r"explicit --kraken-output/--kraken-db disables the MetaMetro pin for phage_species_5_x10; "
+        r"pass --taxdump for your own index",
+    ):
+        solve_benches(["phage_10"], tmp_path / "work", kraken_output=bubble_kraken)
+    assert called == []
+
+
+def test_env_taxdump_beats_the_pin_and_is_recorded(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, taxdump: Path
+) -> None:
+    """$TAXDUMP wins over the pinned TAXDUMP; the row shows the pin index and the TAXDUMP source."""
+    _phage_not_ready(monkeypatch, [], [])
+    monkeypatch.setenv("TAXDUMP", str(taxdump))
+
+    def no_pin(_bench):
+        raise AssertionError("pinned TAXDUMP must not be read when TAXDUMP is set")
+
+    monkeypatch.setattr("metamalevich.solve._pinned_taxonomy", no_pin)
+    _contract_build(monkeypatch)
+    summary = solve_benches(["phage_10"], tmp_path / "work")
+    row = summary["benches"][0]
+    assert row["kraken2_input"] == "metametro_pin"
+    assert row["kraken_pin_index"] == "k2_viral_20261022"
+    assert row["taxdump"] == "taxdump_test"
+    assert row["taxdump_source"] == "env"
+    assert summary["taxdump_source"] == "env"
+
+
+def test_pinned_taxdump_is_recorded_on_the_row(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    _phage_not_ready(monkeypatch, [], [])
+    monkeypatch.delenv("TAXDUMP", raising=False)
+    _contract_build(monkeypatch)
+    row = solve_benches(["phage_10"], tmp_path / "work")["benches"][0]
+    assert row["kraken_pin_index"] == "k2_viral_20261022"
+    assert row["taxdump"] == "k2_viral_20261022-phage_species_5_x10"
+    assert row["taxdump_source"] == "pin"
 
 
 def test_pin_without_a_taxdump_stops_before_assembly(
