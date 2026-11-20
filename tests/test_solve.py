@@ -582,9 +582,17 @@ def test_taxid_gold_is_scored(
     metrics = summary["benches"][0]["metrics"]
     assert metrics["n_labelled_unitigs"] == 4
     assert metrics["n_single_label_unitigs"] == 3
-    assert metrics["accuracy_any"] == pytest.approx(0.75)
-    assert metrics["accuracy"] == pytest.approx(1.0)
-    assert metrics["f1"] == pytest.approx(1.0)
+    assert metrics["primary_rank"] == "genus"
+    # S, A (E. coli on E. coli) and B (Escherichia on Escherichia) agree at genus;
+    # T stays unclassified.
+    assert metrics["genus"] == {"hits": 3, "n": 4, "value": pytest.approx(0.75)}
+    assert metrics["species"] == {"hits": 2, "n": 4, "value": pytest.approx(0.5)}
+    assert metrics["lineage"] == {"hits": 3, "n": 4, "value": pytest.approx(0.75)}
+    assert metrics["unresolved"] == {"hits": 1, "n": 4, "value": pytest.approx(0.25)}
+    exact = metrics["exact"]
+    assert exact["accuracy_any"] == pytest.approx(0.75)
+    assert exact["accuracy"] == pytest.approx(1.0)
+    assert exact["f1"] == pytest.approx(1.0)
 
 
 def test_contract_row_records_a_null_taxdump_source(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
@@ -625,7 +633,9 @@ def test_a_skipped_colouring_makes_the_solve_not_ok(
     def build(name, **kwargs):
         result = real(name, **kwargs)
         kept = tuple(layer for layer in result.colourings if layer != "decaying")
-        return SimpleNamespace(spec=result.spec, status=result.status, colourings=kept, outdir=result.outdir)
+        return SimpleNamespace(
+            spec=result.spec, status=result.status, colourings=kept, outdir=result.outdir, identity=result.identity
+        )
 
     monkeypatch.setattr(bench_build, "build", build)
     code = main(
@@ -649,3 +659,102 @@ def test_a_skipped_colouring_makes_the_solve_not_ok(
     assert summary["ok"] is False
     assert summary["status"] == "incomplete"
     assert code == 1
+
+
+def _rank_taxonomy():
+    """root > Bacteria > Enterobacteriaceae > Escherichia > E. coli > K-12, plus
+    Shigella as a sibling genus and an unranked clade above the family."""
+    from metamalevich.taxonomy import Taxon, Taxonomy
+
+    rows = [
+        (1, None, "R"),
+        (2, 1, "D"),
+        (1236, 2, "D1"),
+        (543, 1236, "F"),
+        (561, 543, "G"),
+        (562, 561, "S"),
+        (83333, 562, "S1"),
+        (620, 543, "G"),
+        (622, 620, "S"),
+    ]
+    records = [Taxon(taxon, parent, rank, str(taxon), "test", "t") for taxon, parent, rank in rows]
+    return Taxonomy(records, source="test", version="t")
+
+
+def test_rank_metrics_roll_up_to_genus_and_species() -> None:
+    from metamalevich.evaluate import rank_metrics
+
+    taxonomy = _rank_taxonomy()
+    gold = {
+        "strain_call": {562},  # K-12 call rolls up to E. coli and Escherichia
+        "genus_call": {562},  # Escherichia call: genus hit, no species, on the lineage
+        "species_call": {83333},  # E. coli call on K-12 gold: species and genus hit
+        "family_call": {562},  # above genus: unresolved, but an ancestor of gold
+        "wrong_genus": {562},  # Shigella dysenteriae: none
+        "no_call": {562},
+    }
+    calls = {
+        "strain_call": 83333,
+        "genus_call": 561,
+        "species_call": 562,
+        "family_call": 543,
+        "wrong_genus": 622,
+        "no_call": 0,
+    }
+    metrics = rank_metrics(calls, gold, taxonomy)
+    assert metrics["primary_rank"] == "genus"
+    assert metrics["genus"] == {"hits": 3, "n": 6, "value": pytest.approx(0.5)}
+    assert metrics["species"] == {"hits": 2, "n": 6, "value": pytest.approx(2 / 6)}
+    # Lineage: the call is gold or an ancestor of gold. K-12 under E. coli gold is
+    # below gold, not on its lineage; E. coli on K-12 gold is an ancestor.
+    assert metrics["lineage"] == {"hits": 3, "n": 6, "value": pytest.approx(0.5)}
+    assert metrics["unresolved"] == {"hits": 2, "n": 6, "value": pytest.approx(2 / 6)}
+
+
+def test_a_call_above_genus_off_the_gold_lineage_is_unresolved_and_no_lineage_hit() -> None:
+    from metamalevich.evaluate import rank_metrics
+
+    taxonomy = _rank_taxonomy()
+    metrics = rank_metrics({"u": 1236, "v": 999999}, {"u": {622}, "v": {562}}, taxonomy)
+    # 1236 is an ancestor of Shigella, so it is on the lineage; 999999 is not in the TAXDUMP.
+    assert metrics["unresolved"]["hits"] == 2
+    assert metrics["lineage"]["hits"] == 1
+    assert metrics["genus"]["hits"] == 0
+
+
+def test_solve_builds_the_default_colouring_set_and_records_identities(
+    tmp_path: Path, taxdump: Path, bubble_kraken: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """build() gets colourings=None; the row has the built and the canonical identity."""
+    import importlib
+
+    from metametro.bench import canonical_identity
+
+    bench_build = importlib.import_module("metametro.bench.build")
+    real = bench_build.build
+    seen: list[object] = []
+
+    def build(name, **kwargs):
+        seen.append(kwargs.get("colourings", "absent"))
+        return real(name, **kwargs)
+
+    monkeypatch.setattr(bench_build, "build", build)
+    row = solve_benches(
+        ["bubble_strain_2"], tmp_path / "work", kraken_output=bubble_kraken, taxdump=taxdump
+    )["benches"][0]
+    assert seen == [None]
+    assert row["build_options"]["colourings"] is None
+    assert row["identity_canonical"] == canonical_identity("bubble_strain_2")
+    built = (tmp_path / "work" / "bubble_strain_2" / "identity.sha256").read_text(encoding="utf-8").split()[0]
+    assert row["identity_as_built"] == built
+    assert "kraken2" in row["colourings"]
+
+
+def test_contract_row_carries_the_canonical_identity(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    from metametro.bench import canonical_identity
+
+    _phage_not_ready(monkeypatch, [], _PROGRAM_ERRORS)
+    row = solve_benches(["phage_10"], tmp_path / "work")["benches"][0]
+    assert row["build_status"] == "contract"
+    assert row["identity_canonical"] == canonical_identity("phage_species_5_x10")
+    assert "identity_as_built" not in row

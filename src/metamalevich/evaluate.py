@@ -5,6 +5,10 @@ from __future__ import annotations
 import math
 
 from metamalevich.resolve import argmax_taxon
+from metamalevich.taxonomy import Taxonomy
+
+PRIMARY_RANK = "G"
+SECOND_RANK = "S"
 
 
 def _l1(left: dict[int, float], right: dict[int, float]) -> float:
@@ -152,3 +156,48 @@ def neighbour_agreement(edges: list[dict], predicted: dict[str, dict[int, float]
     if used == 0:
         return None
     return same / used
+
+
+def _share(hits: int, n: int) -> dict:
+    """A metric with its denominator."""
+    return {"hits": hits, "n": n, "value": hits / n if n else None}
+
+
+def rank_metrics(calls: dict[str, int], gold: dict[str, set[int]], taxonomy: Taxonomy) -> dict:
+    """Score argmax calls against gold taxa after rolling both up to a rank.
+
+    ``calls`` maps a unitig to its argmax taxon (0 when unresolved); ``gold``
+    maps each labelled unitig to its gold taxa. Every metric uses the labelled
+    unitigs as its denominator. A unitig with several gold taxa is a hit when
+    any of them matches.
+
+    - ``genus`` (primary): the call and the gold roll up to the same genus.
+    - ``species``: the call rolls up to a gold species. A genus call never
+      does; a strain or other node below species rolls up to its species.
+    - ``lineage``: the call is a gold taxon or one of its ancestors.
+    - ``unresolved``: no call, a call outside the TAXDUMP, or a call with no
+      genus at or above it (ranked above genus, or unranked without a genus).
+    """
+    n = len(gold)
+    genus = species = lineage = unresolved = 0
+    for unitig_id, labels in gold.items():
+        call = int(calls.get(unitig_id, 0) or 0)
+        call_genus = taxonomy.ancestor_at_rank(call, PRIMARY_RANK)
+        call_species = taxonomy.ancestor_at_rank(call, SECOND_RANK)
+        if call_genus is None:
+            unresolved += 1
+        gold_genera = {taxonomy.ancestor_at_rank(label, PRIMARY_RANK) for label in labels} - {None}
+        gold_species = {taxonomy.ancestor_at_rank(label, SECOND_RANK) for label in labels} - {None}
+        if call_genus is not None and call_genus in gold_genera:
+            genus += 1
+        if call_species is not None and call_species in gold_species:
+            species += 1
+        if call != 0 and any(call in taxonomy.ancestors(label) for label in labels):
+            lineage += 1
+    return {
+        "primary_rank": "genus",
+        "genus": _share(genus, n),
+        "species": _share(species, n),
+        "lineage": _share(lineage, n),
+        "unresolved": _share(unresolved, n),
+    }

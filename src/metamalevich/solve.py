@@ -14,7 +14,7 @@ import os
 from pathlib import Path
 from typing import Sequence
 
-from metamalevich.evaluate import classification_scores
+from metamalevich.evaluate import classification_scores, rank_metrics
 from metamalevich.genus_plurality import genus_plurality
 from metamalevich.resolve import argmax_taxon, resolve
 from metamalevich.taxonomy import Taxonomy, parse_taxdump
@@ -47,7 +47,11 @@ def solve_benches(
 ) -> dict:
     """Build each bench name and resolve the ones that have a ToCUMG.
 
-    ``colourings`` defaults to ``kraken2``, composition k-means, and the
+    MetaMetro builds every bench with its default colouring set
+    (``colourings=None``), so a default build can match
+    ``canonical_identity``; each built row records ``identity_as_built`` and
+    ``identity_canonical``. ``colourings`` picks the layers loaded for the
+    resolver and defaults to ``kraken2``, composition k-means, and the
     decaying neighbour signal. ``kraken2`` is the taxonomic layer and is
     required. The classifier paths go to MetaMetro ``build()`` unchanged, so
     one ``kraken_output`` serves every bench in the call. ``taxdump`` is an
@@ -159,10 +163,12 @@ def solve_benches(
             except _PIN_ERRORS as exc:
                 rows.append(_error_row(name, spec.name, f"MetaMetro pinned TAXDUMP: {exc}"))
                 continue
+        # MetaMetro's default colouring set, so a default build can match its
+        # canonical identity; the requested layers are picked at load time.
         result = build(
             name,
             outdir=destination,
-            colourings=layers,
+            colourings=None,
             execute=run_execute,
             **classifiers,
         )
@@ -172,7 +178,11 @@ def solve_benches(
             "build_status": result.status,
             "solved": False,
             "colourings": list(result.colourings),
+            "build_options": {"colourings": None, "execute": run_execute},
+            "identity_canonical": _canonical_identity(result.spec.name),
         }
+        if result.status == "built":
+            row["identity_as_built"] = result.identity
         if has_kraken:
             row["kraken2_input"] = "given"
         elif pinned:
@@ -334,7 +344,7 @@ def _resolve_built(
     profile_path = destination / "profile.tsv"
     _write_assignments(assignments_path, resolved, lengths, taxonomy)
     _write_profile(profile_path, profile, taxonomy)
-    metrics, reason = _gold_metrics(outdir, graph, resolved)
+    metrics, reason = _gold_metrics(outdir, graph, resolved, taxonomy)
     row = {
         "solved": True,
         "n_unitigs": len(graph.unitigs),
@@ -397,14 +407,23 @@ def _write_profile(path: Path, profile: dict[int, float], taxonomy: Taxonomy) ->
             writer.writerow([taxon, taxonomy.name(taxon), taxonomy.rank(taxon), f"{fraction:.6g}"])
 
 
+def _canonical_identity(bench: str) -> str | None:
+    """MetaMetro's expected identity of a default build of ``bench``; None when not pinned."""
+    from metametro.bench import canonical_identity
+
+    return canonical_identity(bench)
+
+
 def _gold_metrics(
-    outdir: Path, graph, resolved: dict[str, dict[int, float]]
+    outdir: Path, graph, resolved: dict[str, dict[int, float]], taxonomy: Taxonomy
 ) -> tuple[dict | None, str | None]:
     """Score resolved argmax taxa against gold taxon ids, or say why not.
 
     Gold is MetaMetro ``ground_truth/taxon_nodes.tsv``. A unitig's gold is the
     union over its CFA members. Gold values must be NCBI taxon ids; bench
-    label names such as ``taxon_1`` are not mapped to taxa.
+    label names such as ``taxon_1`` are not mapped to taxa. The primary score
+    is at genus rank, then species, lineage, and unresolved calls
+    (``rank_metrics``); ``exact`` keeps the exact-taxid scores.
     """
     from metametro.bench import load_bench_gold
     from metametro.errors import ContractError
@@ -428,19 +447,21 @@ def _gold_metrics(
     if not by_unitig:
         return None, f"no unitig carries a gold {GOLD_NAMESPACE} label"
     single = {unitig_id: next(iter(labels)) for unitig_id, labels in by_unitig.items() if len(labels) == 1}
-    hits = sum(
-        1 for unitig_id, labels in by_unitig.items() if argmax_taxon(resolved.get(unitig_id) or {})[0] in labels
-    )
+    calls = {unitig_id: argmax_taxon(resolved.get(unitig_id) or {})[0] for unitig_id in by_unitig}
+    hits = sum(1 for unitig_id, labels in by_unitig.items() if calls[unitig_id] in labels)
     scores = classification_scores(resolved, single) if single else {}
     return {
         "gold_namespace": GOLD_NAMESPACE,
         "n_labelled_unitigs": len(by_unitig),
         "n_single_label_unitigs": len(single),
-        "accuracy_any": hits / len(by_unitig),
-        "accuracy": scores.get("accuracy"),
-        "precision": scores.get("precision"),
-        "recall": scores.get("recall"),
-        "f1": scores.get("f1"),
+        **rank_metrics(calls, by_unitig, taxonomy),
+        "exact": {
+            "accuracy_any": hits / len(by_unitig),
+            "accuracy": scores.get("accuracy"),
+            "precision": scores.get("precision"),
+            "recall": scores.get("recall"),
+            "f1": scores.get("f1"),
+        },
     }, None
 
 
