@@ -1,10 +1,13 @@
 ---
-description: Do not git push unless the human explicitly asks
+description: Push only after the related pytest passes; never force-push
 alwaysApply: true
 ---
 
-# No push
+# Push after pytest
 
-Do not run `git push`, `git push --force`, or any command that publishes commits to a remote.
+The human allows `git push` to `origin` when convenient, under these conditions:
 
-Adding a remote, committing locally, and opening a PR URL for the human is allowed. Push only when the user explicitly asks to push.
+- Run the pytest tests related to the change first (`pytest -m "not full"` at minimum; the full suite when the change touches solve, benches, or CI). Push only if they pass.
+- Never run `git push --force`, rewrite pushed history, or delete remote branches unless the human explicitly asks.
+- Each fix is its own commit with its own version bump (see `CONTRIBUTING.md`).
+- After pushing, check the GitHub CI run and fix a red job in a new commit.

@@ -6,4 +6,4 @@ This repository is IDE-agnostic. **Source of truth:** `agents/`.
 - Skills: `agents/skills/`
 - Human process: `CONTRIBUTING.md`
 
-Always: English documentation; fail-early validation; no fabricated results; **do not git push**.
+Always: English documentation; fail-early validation; no fabricated results; **push only after the related pytest passes; never force-push**.

@@ -76,7 +76,7 @@ conda activate metamalevich
 
 ## GitHub
 
-Never `git push` unless the human explicitly asks. CI runs on GitHub after they push.
+Push to `origin` only after the related pytest passes. Never force-push or rewrite pushed history unless the human explicitly asks. CI runs on GitHub after the push; fix a red job in a new commit.
 
 ## Benchmarks
 
