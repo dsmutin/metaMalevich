@@ -588,8 +588,24 @@ def test_taxid_gold_is_scored(
     assert metrics["primary_rank"] == "genus"
     # S, A (E. coli on E. coli) and B (Escherichia on Escherichia) agree at genus;
     # T stays unclassified.
-    assert metrics["genus"] == {"hits": 3, "n": 4, "value": pytest.approx(0.75)}
-    assert metrics["species"] == {"hits": 2, "n": 4, "value": pytest.approx(0.5)}
+    assert metrics["genus"] == {
+        "hits": 3,
+        "n": 4,
+        "value": pytest.approx(0.75),
+        "resolved": 3,
+        "precision": pytest.approx(1.0),
+        "recall": pytest.approx(0.75),
+        "f1": pytest.approx(6 / 7),
+    }
+    assert metrics["species"] == {
+        "hits": 2,
+        "n": 4,
+        "value": pytest.approx(0.5),
+        "resolved": 2,
+        "precision": pytest.approx(1.0),
+        "recall": pytest.approx(0.5),
+        "f1": pytest.approx(2 / 3),
+    }
     assert metrics["lineage"] == {"hits": 3, "n": 4, "value": pytest.approx(0.75)}
     assert metrics["lineage_descendant"] == {"hits": 0, "n": 4, "value": 0.0}
     assert metrics["lineage_above_genus"] == {"hits": 0, "n": 4, "value": 0.0}
@@ -721,8 +737,26 @@ def test_rank_metrics_roll_up_to_genus_and_species() -> None:
     }
     metrics = rank_metrics(calls, gold, taxonomy)
     assert metrics["primary_rank"] == "genus"
-    assert metrics["genus"] == {"hits": 3, "n": 6, "value": pytest.approx(0.5)}
-    assert metrics["species"] == {"hits": 2, "n": 6, "value": pytest.approx(2 / 6)}
+    # Genus: resolved are the strain, genus, species and wrong-genus calls (4);
+    # species: resolved are the strain, species and Shigella dysenteriae calls (3).
+    assert metrics["genus"] == {
+        "hits": 3,
+        "n": 6,
+        "value": pytest.approx(0.5),
+        "resolved": 4,
+        "precision": pytest.approx(0.75),
+        "recall": pytest.approx(0.5),
+        "f1": pytest.approx(0.6),
+    }
+    assert metrics["species"] == {
+        "hits": 2,
+        "n": 6,
+        "value": pytest.approx(2 / 6),
+        "resolved": 3,
+        "precision": pytest.approx(2 / 3),
+        "recall": pytest.approx(1 / 3),
+        "f1": pytest.approx(4 / 9),
+    }
     # Lineage: the call is gold, an ancestor of gold, or a descendant of gold.
     # K-12 under E. coli gold is a descendant; E. coli on K-12 gold is an ancestor.
     assert metrics["lineage"] == {"hits": 4, "n": 6, "value": pytest.approx(4 / 6)}
@@ -810,3 +844,15 @@ def test_root_and_class_calls_are_lineage_hits_above_genus() -> None:
     assert metrics["lineage_above_genus"] == {"hits": 2, "n": 3, "value": pytest.approx(2 / 3)}
     assert metrics["unresolved"]["hits"] == 2
     assert metrics["genus"]["hits"] == 1
+
+
+def test_rank_precision_has_no_value_without_resolved_calls() -> None:
+    """With no call at or below a rank, precision and F1 are null, recall is 0."""
+    from metamalevich.evaluate import rank_metrics
+
+    metrics = rank_metrics({"u": 0, "v": 543}, {"u": {562}, "v": {562}}, _rank_taxonomy())
+    for rank in ("genus", "species"):
+        assert metrics[rank]["resolved"] == 0
+        assert metrics[rank]["precision"] is None
+        assert metrics[rank]["recall"] == 0.0
+        assert metrics[rank]["f1"] is None

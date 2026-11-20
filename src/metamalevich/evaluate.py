@@ -163,6 +163,25 @@ def _share(hits: int, n: int) -> dict:
     return {"hits": hits, "n": n, "value": hits / n if n else None}
 
 
+def _rank_share(hits: int, resolved: int, n: int) -> dict:
+    """A rank metric: ``value`` and ``recall`` are hits / n, ``precision`` is
+    hits / calls resolved at or below the rank, and ``f1`` combines both."""
+    recall = hits / n if n else None
+    precision = hits / resolved if resolved else None
+    f1 = (
+        2 * precision * recall / (precision + recall)
+        if precision is not None and recall is not None and precision + recall > 0
+        else (0.0 if precision is not None and recall is not None else None)
+    )
+    return {
+        **_share(hits, n),
+        "resolved": resolved,
+        "precision": precision,
+        "recall": recall,
+        "f1": f1,
+    }
+
+
 def rank_metrics(calls: dict[str, int], gold: dict[str, set[int]], taxonomy: Taxonomy) -> dict:
     """Score argmax calls against gold taxa after rolling both up to a rank.
 
@@ -173,6 +192,9 @@ def rank_metrics(calls: dict[str, int], gold: dict[str, set[int]], taxonomy: Tax
     MetaMetro's proposal for #1173, pending Daniil's decision.
 
     - ``genus`` (primary): the call and the gold roll up to the same genus.
+      ``genus`` and ``species`` also carry ``resolved`` (calls at or below
+      that rank), ``precision`` (hits / resolved), ``recall`` (hits / n,
+      the same as ``value``), and ``f1``.
     - ``species``: the call rolls up to a gold species. A genus call never
       does; a strain or other node below species rolls up to its species.
     - ``lineage``: the call is a gold taxon, one of its ancestors, or one of
@@ -186,12 +208,17 @@ def rank_metrics(calls: dict[str, int], gold: dict[str, set[int]], taxonomy: Tax
     """
     n = len(gold)
     genus = species = lineage = descendant = above_genus = unresolved = 0
+    genus_resolved = species_resolved = 0
     for unitig_id, labels in gold.items():
         call = int(calls.get(unitig_id, 0) or 0)
         call_genus = taxonomy.ancestor_at_rank(call, PRIMARY_RANK)
         call_species = taxonomy.ancestor_at_rank(call, SECOND_RANK)
         if call_genus is None:
             unresolved += 1
+        else:
+            genus_resolved += 1
+        if call_species is not None:
+            species_resolved += 1
         gold_genera = {taxonomy.ancestor_at_rank(label, PRIMARY_RANK) for label in labels} - {None}
         gold_species = {taxonomy.ancestor_at_rank(label, SECOND_RANK) for label in labels} - {None}
         if call_genus is not None and call_genus in gold_genera:
@@ -207,8 +234,8 @@ def rank_metrics(calls: dict[str, int], gold: dict[str, set[int]], taxonomy: Tax
             descendant += 1
     return {
         "primary_rank": "genus",
-        "genus": _share(genus, n),
-        "species": _share(species, n),
+        "genus": _rank_share(genus, genus_resolved, n),
+        "species": _rank_share(species, species_resolved, n),
         "lineage": _share(lineage, n),
         "lineage_descendant": _share(descendant, n),
         "lineage_above_genus": _share(above_genus, n),
