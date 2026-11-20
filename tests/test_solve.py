@@ -781,6 +781,7 @@ def test_solve_builds_the_default_colouring_set_and_records_identities(
 ) -> None:
     """build() gets colourings=None; the row has the built and the canonical identity."""
     import importlib
+    import importlib.metadata
 
     from metametro.bench import canonical_identity
 
@@ -801,6 +802,11 @@ def test_solve_builds_the_default_colouring_set_and_records_identities(
     assert row["identity_canonical"] == canonical_identity("bubble_strain_2")
     built = (tmp_path / "work" / "bubble_strain_2" / "identity.sha256").read_text(encoding="utf-8").split()[0]
     assert row["identity_as_built"] == built
+    # An explicit Kraken2 output changes the graph, so it differs from the default build.
+    assert row["identity_match"] is (built == row["identity_canonical"])
+    assert row["identity_match"] is False
+    assert row["build_options"]["execute"] is False
+    assert row["metametro_version"] == importlib.metadata.version("metametro")
     assert "kraken2" in row["colourings"]
 
 
@@ -856,3 +862,83 @@ def test_rank_precision_has_no_value_without_resolved_calls() -> None:
         assert metrics[rank]["precision"] is None
         assert metrics[rank]["recall"] == 0.0
         assert metrics[rank]["f1"] is None
+
+
+def test_rank_metrics_hit_any_of_several_gold_taxa() -> None:
+    """A unitig with E. coli and Shigella dysenteriae gold is a genus hit for a Shigella call."""
+    from metamalevich.evaluate import rank_metrics
+
+    metrics = rank_metrics({"u": 620}, {"u": {562, 622}}, _rank_taxonomy())
+    assert metrics["genus"]["hits"] == 1
+    assert metrics["lineage"]["hits"] == 1
+    assert metrics["species"]["hits"] == 0
+
+
+def test_unlabelled_unitigs_are_not_in_the_metric_denominator(
+    tmp_path: Path, taxdump: Path, bubble_kraken: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """T carries no gold label, so n is 3 of the 4 unitigs."""
+    _patch_gold(monkeypatch, {"S": "562", "A": "562", "B": "561"})
+    row = solve_benches(["bubble_strain_2"], tmp_path / "work", kraken_output=bubble_kraken, taxdump=taxdump)[
+        "benches"
+    ][0]
+    assert row["n_unitigs"] == 4
+    metrics = row["metrics"]
+    assert metrics["n_labelled_unitigs"] == 3
+    assert metrics["genus"]["n"] == 3
+    assert metrics["unresolved"] == {"hits": 0, "n": 3, "value": 0.0}
+
+
+def test_build_options_record_the_execute_flag_used(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """A phage bench whose MetaMetro checks pass is built with execute=True, and the row says so."""
+    import importlib
+    from types import SimpleNamespace
+
+    from metametro.bench.registry import resolve as resolve_bench
+
+    _phage_not_ready(monkeypatch, [], [])
+    seen: list[bool] = []
+
+    def build(name, **kwargs):
+        seen.append(kwargs["execute"])
+        return SimpleNamespace(spec=resolve_bench(name), status="contract", colourings=(), outdir=None, identity="x")
+
+    monkeypatch.setattr(importlib.import_module("metametro.bench.build"), "build", build)
+    row = solve_benches(["phage_10"], tmp_path / "work")["benches"][0]
+    assert seen == [True]
+    assert row["build_options"] == {"colourings": None, "execute": True}
+    assert "identity_match" not in row
+
+
+def test_a_colouring_outside_the_default_set_is_skipped_with_a_reason(
+    tmp_path: Path,
+    taxdump: Path,
+    bubble_kraken: Path,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    """kaiju cannot run without its input, so the default build lacks it: not ok, exit 1, with a reason."""
+    code = main(
+        [
+            "solve",
+            "--bench",
+            "bubble_strain_2",
+            "--colouring",
+            "kraken2",
+            "--colouring",
+            "kaiju",
+            "--kraken-output",
+            str(bubble_kraken),
+            "--taxdump",
+            str(taxdump),
+            "--workdir",
+            str(tmp_path / "work"),
+        ]
+    )
+    summary = json.loads(capsys.readouterr().out)
+    row = summary["benches"][0]
+    assert row["build_status"] == "built"
+    assert row["colourings_skipped"] == ["kaiju"]
+    assert "did not apply kaiju" in row["colourings_skipped_reason"]
+    assert "colourings=None" in row["colourings_skipped_reason"]
+    assert summary["ok"] is False
+    assert code == 1

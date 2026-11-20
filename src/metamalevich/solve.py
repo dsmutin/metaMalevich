@@ -183,6 +183,9 @@ def solve_benches(
         }
         if result.status == "built":
             row["identity_as_built"] = result.identity
+            canonical = row["identity_canonical"]
+            # None when MetaMetro pins no canonical identity for this bench.
+            row["identity_match"] = None if canonical is None else result.identity == canonical
         if has_kraken:
             row["kraken2_input"] = "given"
         elif pinned:
@@ -194,15 +197,24 @@ def solve_benches(
         if result.status == "built":
             if bench_taxonomy is None:
                 raise ValueError(f"{name} was built without a TAXDUMP")
+            applied = set(result.colourings)
+            skipped = [layer for layer in layers if layer not in applied]
             row.update(
                 _resolve_built(
-                    result.outdir, layers, bench_taxonomy, resolver, root / "solve" / spec.name
+                    result.outdir,
+                    [layer for layer in layers if layer in applied],
+                    bench_taxonomy,
+                    resolver,
+                    root / "solve" / spec.name,
                 )
             )
-            applied = set(result.colourings)
-            skipped = [name for name in layers if name not in applied]
             if skipped:
                 row["colourings_skipped"] = skipped
+                row["colourings_skipped_reason"] = (
+                    f"MetaMetro's default build of {spec.name} did not apply {', '.join(skipped)}; "
+                    "solve builds with colourings=None, so a layer outside the default set, or one "
+                    "that cannot run on this bench, is never built"
+                )
         elif result.status == "contract":
             row["missing"] = missing
             # A contract row says which TAXDUMP would have been used; null when
@@ -212,6 +224,9 @@ def solve_benches(
         else:
             raise ValueError(f"{name} finished with status {result.status}")
         rows.append(row)
+    version = _metametro_version()
+    for row in rows:
+        row["metametro_version"] = version
     solved = [row for row in rows if row["solved"]]
     skipped_rows = [row for row in rows if row["build_status"] == "skipped"]
     unresolved_graph = [
@@ -405,6 +420,13 @@ def _write_profile(path: Path, profile: dict[int, float], taxonomy: Taxonomy) ->
         writer.writerow(["taxon_id", "name", "rank", "fraction"])
         for taxon, fraction in profile.items():
             writer.writerow([taxon, taxonomy.name(taxon), taxonomy.rank(taxon), f"{fraction:.6g}"])
+
+
+def _metametro_version() -> str:
+    """Installed MetaMetro version, recorded on every row."""
+    from importlib.metadata import version
+
+    return version("metametro")
 
 
 def _canonical_identity(bench: str) -> str | None:
