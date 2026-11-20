@@ -169,7 +169,8 @@ def rank_metrics(calls: dict[str, int], gold: dict[str, set[int]], taxonomy: Tax
     ``calls`` maps a unitig to its argmax taxon (0 when unresolved); ``gold``
     maps each labelled unitig to its gold taxa. Every metric uses the labelled
     unitigs as its denominator. A unitig with several gold taxa is a hit when
-    any of them matches.
+    any of them matches. Genus as the primary rank and the lineage rule are
+    MetaMetro's proposal for #1173, pending Daniil's decision.
 
     - ``genus`` (primary): the call and the gold roll up to the same genus.
     - ``species``: the call rolls up to a gold species. A genus call never
