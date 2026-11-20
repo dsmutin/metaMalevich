@@ -2,8 +2,8 @@ name: full tests
 
 # All pytest, light examples, then a solve on MetaMetro benches.
 # The pinned phage_10 genomes are fetched with `metametro benchfetch` first.
-# In-process benches are skipped with a reason until MetaMetro pins their
-# Kraken2 outputs. phage_10 (phage_species_5_x10) is assembled only when
+# In-process benches are skipped with a reason: they have toy sequences and
+# no pinned Kraken2 output. phage_10 uses MetaMetro's pinned Kraken2 output. phage_10 (phage_species_5_x10) is assembled only when
 # MetaMetro's checks pass (pinned genomes, samovar, MEGAHIT). The GitHub
 # runner has no samovar or MEGAHIT, so that bench records its contract and
 # the errors MetaMetro raised.

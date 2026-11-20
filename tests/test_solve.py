@@ -136,6 +136,8 @@ def test_solve_skips_a_bench_without_kraken_input(tmp_path: Path) -> None:
         assert row["build_status"] == "skipped"
         assert row["solved"] is False
         assert "kraken2" in row["skipped"]
+        assert "MetaMetro pins no Kraken2 output" in row["skipped"]
+        assert "#1163" not in row["skipped"]
     assert not (tmp_path / "work" / "bubble_strain_2").exists()
 
 
@@ -208,15 +210,79 @@ def test_phage_missing_genomes_name_benchfetch(tmp_path: Path, monkeypatch: pyte
     assert any("metametro benchfetch phage_species_5_x10" in error for error in row["missing"])
 
 
-def test_ready_phage_without_kraken_is_skipped_not_assembled(
+def _kraken_pin(monkeypatch: pytest.MonkeyPatch, present: bool) -> None:
+    """Make MetaMetro report a Kraken2 pin (or none) for every bench."""
+    import importlib
+
+    module = importlib.import_module("metametro.bench.kraken_pin")
+    monkeypatch.setattr(
+        module, "kraken_pin", lambda _bench, **_kw: (Path("nodes.kraken"), {}) if present else None
+    )
+
+
+def test_phage_10_has_a_metametro_kraken_pin() -> None:
+    """MetaMetro v0.22.0 pins Kraken2 output for phage_10 only among these benches."""
+    from metametro.bench.kraken_pin import kraken_pin
+
+    assert kraken_pin("phage_10") is not None
+    assert kraken_pin("bubble_strain_2") is None
+    assert kraken_pin("synthetic_reads_2") is None
+
+
+def test_pinned_phage_contract_is_not_skipped_for_kraken(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    """When MetaMetro's checks pass, phage_10 would assemble, so without kraken2 it is skipped."""
+    """With the pin, phage_10 is not a missing-kraken skip; unready, it stays a contract."""
+    _phage_not_ready(monkeypatch, [], _PROGRAM_ERRORS)
+    monkeypatch.delenv("TAXDUMP", raising=False)
+    row = solve_benches(["phage_10"], tmp_path / "work")["benches"][0]
+    assert row["build_status"] == "contract"
+    assert row["kraken2_input"] == "metametro_pin"
+    assert "skipped" not in row
+
+
+def test_ready_pinned_phage_needs_taxdump_before_assembly(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """A ready phage_10 would assemble and be painted from the pin, so TAXDUMP is checked first."""
     _phage_not_ready(monkeypatch, [], [])
+    monkeypatch.delenv("TAXDUMP", raising=False)
+    with pytest.raises(ValueError, match="pinned Kraken2 output.*TAXDUMP"):
+        solve_benches(["phage_10"], tmp_path / "work")
+    assert not (tmp_path / "work" / "phage_species_5_x10").exists()
+
+
+def test_ready_phage_without_any_kraken_input_is_skipped(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Without a pin or a given input, a ready phage bench is skipped, not assembled."""
+    _phage_not_ready(monkeypatch, [], [])
+    _kraken_pin(monkeypatch, False)
     row = solve_benches(["phage_10"], tmp_path / "work")["benches"][0]
     assert row["build_status"] == "skipped"
+    assert "MetaMetro pins no Kraken2 output" in row["skipped"]
     assert "missing" not in row
     assert not (tmp_path / "work" / "phage_species_5_x10").exists()
+
+
+def test_inprocess_bench_with_a_pin_is_built(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, taxdump: Path
+) -> None:
+    """A pin is a kraken2 input: the bench is built instead of skipped."""
+    _kraken_pin(monkeypatch, True)
+    built = []
+    import importlib
+
+    bench_build = importlib.import_module("metametro.bench.build")
+
+    def build(name, **kwargs):
+        built.append(name)
+        raise RuntimeError("stop after the skip decision")
+
+    monkeypatch.setattr(bench_build, "build", build)
+    with pytest.raises(RuntimeError, match="stop after the skip decision"):
+        solve_benches(["bubble_strain_2"], tmp_path / "work", taxdump=taxdump)
+    assert built == ["bubble_strain_2"]
 
 
 def test_inprocess_solve_stands_beside_a_phage_contract(

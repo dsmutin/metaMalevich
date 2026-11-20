@@ -27,8 +27,8 @@ RESOLVERS = ("genus_plurality", "gated_neighbour", "probability_sum", "hard")
 RESOLVER = RESOLVERS[0]
 GOLD_NAMESPACE = "taxon"
 NO_KRAKEN_REASON = (
-    "no kraken2 input: pass kraken_output or kraken_db (--kraken-output, --kraken-db). "
-    "Pinned kraken2 outputs for the MetaMetro benches are not released yet (MetaMetro #1163)"
+    "no kraken2 input: no kraken_output or kraken_db (--kraken-output, --kraken-db) was given, "
+    "and MetaMetro pins no Kraken2 output for this bench"
 )
 _PHAGE_PREFIX = "phage_species_5"
 _PHAGE_PROGRAMS = ("samovar", "megahit", "megahit_toolkit")
@@ -54,11 +54,15 @@ def solve_benches(
     required. The classifier paths go to MetaMetro ``build()`` unchanged, so
     one ``kraken_output`` serves every bench in the call. ``taxdump`` is an
     NCBI TAXDUMP directory (``nodes.dmp``, ``names.dmp``); it defaults to the
-    ``TAXDUMP`` environment variable and is required once a bench has a
-    kraken2 input.
+    ``TAXDUMP`` environment variable and is required before a bench with a
+    kraken2 input is built.
 
-    Without ``kraken_output`` or ``kraken_db`` an in-process bench, or an
-    external bench that would be assembled, is skipped with a reason. An
+    A bench has a kraken2 input when ``kraken_output`` or ``kraken_db`` is
+    given, or when MetaMetro pins a Kraken2 output for it
+    (``metametro.bench.kraken_pin.kraken_pin``, as for ``phage_10``); MetaMetro
+    then paints the layer from the pin itself. Without either, an in-process
+    bench, or an external bench that would be assembled, is skipped with a
+    reason. An
     external bench such as ``phage_10`` is assembled when ``execute`` is set,
     or when MetaMetro's own checks find its pinned genomes and programs.
     Otherwise the bench records its contract, ``missing`` lists the errors
@@ -90,7 +94,7 @@ def solve_benches(
     has_kraken = kraken_output is not None or kraken_db is not None
     taxonomy: Taxonomy | None = None
     if has_kraken:
-        taxonomy = _load_taxdump(taxdump)
+        taxonomy = _load_taxdump(taxdump, None)
     classifiers = {
         "kraken_db": kraken_db,
         "kraken_output": kraken_output,
@@ -105,7 +109,9 @@ def solve_benches(
         destination = root / spec.name
         missing = _phage_preflight(spec)
         run_execute = bool(execute) or (spec.name.startswith(_PHAGE_PREFIX) and not missing)
-        if not has_kraken and (spec.kind == "inprocess" or run_execute):
+        pinned = not has_kraken and _has_kraken_pin(spec.name)
+        will_build = spec.kind == "inprocess" or run_execute
+        if not (has_kraken or pinned) and will_build:
             row = {
                 "bench": name,
                 "canonical_name": spec.name,
@@ -117,6 +123,8 @@ def solve_benches(
                 row["missing"] = missing
             rows.append(row)
             continue
+        if will_build and taxonomy is None:
+            taxonomy = _load_taxdump(taxdump, spec.name if pinned else None)
         result = build(
             name,
             outdir=destination,
@@ -131,9 +139,11 @@ def solve_benches(
             "solved": False,
             "colourings": list(result.colourings),
         }
+        if pinned:
+            row["kraken2_input"] = "metametro_pin"
         if result.status == "built":
             if taxonomy is None:
-                raise ValueError(f"{name} was built without a kraken2 input")
+                raise ValueError(f"{name} was built without a TAXDUMP")
             row.update(
                 _resolve_built(result.outdir, layers, taxonomy, resolver, root / "solve" / spec.name)
             )
@@ -171,15 +181,32 @@ def solve_benches(
     return summary
 
 
-def _load_taxdump(taxdump: Path | None) -> Taxonomy:
-    """NCBI TAXDUMP from the argument or ``TAXDUMP``. Stop if neither is set."""
+def _load_taxdump(taxdump: Path | None, pinned_bench: str | None) -> Taxonomy:
+    """NCBI TAXDUMP from the argument or ``TAXDUMP``. Stop if neither is set.
+
+    ``pinned_bench`` names a bench whose kraken2 layer comes from MetaMetro's
+    pinned Kraken2 output, so the message can say where the taxon ids come from.
+    """
     path = taxdump if taxdump is not None else os.environ.get("TAXDUMP")
     if not path:
+        if pinned_bench is not None:
+            raise ValueError(
+                f"{pinned_bench} uses MetaMetro's pinned Kraken2 output, and its taxon ids need an "
+                "NCBI TAXDUMP directory: pass taxdump (--taxdump) or set TAXDUMP. "
+                "MetaMetro does not ship a TAXDUMP beside the pin"
+            )
         raise ValueError(
             "solve needs an NCBI TAXDUMP directory for the kraken2 layer: "
             "pass taxdump (--taxdump) or set TAXDUMP"
         )
     return parse_taxdump(Path(path))
+
+
+def _has_kraken_pin(bench: str) -> bool:
+    """True when MetaMetro pins a Kraken2 output for ``bench`` (checked against its SHA-256)."""
+    from metametro.bench.kraken_pin import kraken_pin
+
+    return kraken_pin(bench) is not None
 
 
 def _resolve_built(
