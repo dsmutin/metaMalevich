@@ -942,3 +942,21 @@ def test_a_colouring_outside_the_default_set_is_skipped_with_a_reason(
     assert "colourings=None" in row["colourings_skipped_reason"]
     assert summary["ok"] is False
     assert code == 1
+
+
+def test_identity_match_is_null_without_a_canonical_identity(
+    tmp_path: Path, taxdump: Path, bubble_kraken: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """A built bench for which MetaMetro pins no canonical identity gets identity_match null, not false.
+
+    Every in-process bench has a canonical identity in MetaMetro 0.24.0 and the
+    benches without one are external (no pin), so the lookup is stubbed here.
+    """
+    monkeypatch.setattr("metamalevich.solve._canonical_identity", lambda _bench: None)
+    row = solve_benches(["bubble_strain_2"], tmp_path / "work", kraken_output=bubble_kraken, taxdump=taxdump)[
+        "benches"
+    ][0]
+    assert row["build_status"] == "built"
+    assert row["identity_canonical"] is None
+    assert row["identity_as_built"]
+    assert row["identity_match"] is None
