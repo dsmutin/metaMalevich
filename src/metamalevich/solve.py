@@ -225,8 +225,10 @@ def solve_benches(
             raise ValueError(f"{name} finished with status {result.status}")
         rows.append(row)
     version = _metametro_version()
+    commit = _metametro_commit()
     for row in rows:
         row["metametro_version"] = version
+        row["metametro_commit"] = commit
     solved = [row for row in rows if row["solved"]]
     skipped_rows = [row for row in rows if row["build_status"] == "skipped"]
     unresolved_graph = [
@@ -427,6 +429,43 @@ def _metametro_version() -> str:
     from importlib.metadata import version
 
     return version("metametro")
+
+
+def _metametro_commit() -> str | None:
+    """Commit of the installed MetaMetro, or None when it cannot be told.
+
+    pip's ``direct_url.json`` gives the commit for a git install; for an
+    editable install from a local checkout (the ``external/MetaMetro``
+    submodule) the checkout's ``HEAD`` is read with git.
+    """
+    import json
+    import subprocess
+    from importlib.metadata import PackageNotFoundError, distribution
+    from urllib.parse import unquote, urlparse
+
+    try:
+        text = distribution("metametro").read_text("direct_url.json")
+    except PackageNotFoundError:
+        return None
+    if not text:
+        return None
+    info = json.loads(text)
+    commit = (info.get("vcs_info") or {}).get("commit_id")
+    if commit:
+        return str(commit)
+    url = urlparse(str(info.get("url", "")))
+    if url.scheme != "file":
+        return None
+    try:
+        found = subprocess.run(
+            ["git", "-C", unquote(url.path), "rev-parse", "HEAD"],
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+    except (OSError, subprocess.CalledProcessError):
+        return None
+    return found.stdout.strip() or None
 
 
 def _canonical_identity(bench: str) -> str | None:

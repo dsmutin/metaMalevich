@@ -960,3 +960,39 @@ def test_identity_match_is_null_without_a_canonical_identity(
     assert row["identity_canonical"] is None
     assert row["identity_as_built"]
     assert row["identity_match"] is None
+
+
+def test_metametro_version_and_commit_come_from_the_installed_package(
+    tmp_path: Path, taxdump: Path, bubble_kraken: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """The row reports what the installed-package lookups return, not a constant."""
+    monkeypatch.setattr("metamalevich.solve._metametro_version", lambda: "9.9.9-test")
+    monkeypatch.setattr("metamalevich.solve._metametro_commit", lambda: "c0ffee")
+    row = solve_benches(["bubble_strain_2"], tmp_path / "work", kraken_output=bubble_kraken, taxdump=taxdump)[
+        "benches"
+    ][0]
+    assert row["metametro_version"] == "9.9.9-test"
+    assert row["metametro_commit"] == "c0ffee"
+
+
+def test_metametro_commit_reads_the_installed_checkout() -> None:
+    """The editable install points at external/MetaMetro, so its HEAD is the commit."""
+    import subprocess
+
+    from metamalevich.solve import _metametro_commit
+
+    submodule = Path(__file__).resolve().parents[1] / "external" / "MetaMetro"
+    head = subprocess.run(
+        ["git", "-C", str(submodule), "rev-parse", "HEAD"], capture_output=True, text=True, check=True
+    ).stdout.strip()
+    assert _metametro_commit() == head
+
+
+def test_metametro_version_reads_package_metadata(monkeypatch: pytest.MonkeyPatch) -> None:
+    import importlib.metadata
+
+    from metamalevich.solve import _metametro_version
+
+    monkeypatch.setattr(importlib.metadata, "version", lambda name: f"{name}-from-metadata")
+    assert _metametro_version() == "metametro-from-metadata"
+
